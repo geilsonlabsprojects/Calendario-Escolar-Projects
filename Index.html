@@ -1,1 +1,970 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Horário Escolar 2026</title>
+    
+    <!-- Meta Tags PWA iOS/Android -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Horário">
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel para JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
+        .animate-scaleIn { animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+
+        @keyframes bounce-gentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-bounce-gentle { animation: bounce-gentle 2s infinite; }
+
+        /* --- 0. DICIONÁRIO DE IMAGENS DOS LIVROS --- */
+        /* Instruções de Uso:
+           1. Coloque o link direto da imagem (jpg, png, webp, etc).
+           2. Para imagem GERAL (todas as turmas): Use apenas o nome da matéria. Ex: "Matemática"
+           3. Para imagem ESPECÍFICA (só uma turma): Use "ID_DA_TURMA-Matéria". Ex: "2D-Redação"
+        */
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- CONFIGURAÇÃO DE IMAGENS ---
+        const BOOK_IMAGES = {
+            // === IMAGENS GERAIS (Padrão para todas as turmas) ===
+            "2D-Matemática": "https://i.ibb.co/HTs2ytgz/20260211-212011.jpg",
+            "2D-Líng. Port.": "https://i.ibb.co/SknW6Jj/20260211-211950.jpg",
+            "2E-Matemática": "https://i.ibb.co/HTs2ytgz/20260211-212011.jpg",
+            "2E-Líng. Port.": "https://i.ibb.co/SknW6Jj/20260211-211950.jpg",
+            "2F-Matemática": "https://i.ibb.co/HTs2ytgz/20260211-212011.jpg",
+            "2F-Líng. Port.": "https://i.ibb.co/SknW6Jj/20260211-211950.jpg",
+            "Física": "",
+            
+            // === IMAGENS ESPECÍFICAS (Substituem a geral na turma indicada) ===
+            // Formato: "TURMA-MATÉRIA": "LINK"
+            "Redação": "https://i.ibb.co/fVx9yVk0/20260211-211719.jpg", // Exemplo: Redação específica do 2D
+            "Física": "",  // Exemplo: Física específica do 3F
+
+            // Outras matérias (vazias usarão placeholder automático)
+            "Biologia": "", 
+            "Química": "",
+            "História": "https://i.ibb.co/XfnXHsgf/20260211-211447.jpg",
+            "Geografia": "",
+            "Inglês": "",
+            "Espanhol": "",
+            "Filosofia": "https://i.ibb.co/Fk7GXYm4/20260211-211035.jpg",
+            "Sociologia": "",
+            "Arte": "https://i.ibb.co/7xdFf287/20260211-211220.jpg",
+            "Ed. Física": "https://i.ibb.co/ksHq5THH/20260211-210830.jpg", // Adicionado aqui!
+            "Redação": "https://i.ibb.co/fVx9yVk0/20260211-211719.jpg" 
+        };
+
+        // --- MANIFESTO EMBUTIDO (Data URI) ---
+        const manifestData = {
+            "name": "Horário Escolar",
+            "short_name": "Horário",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#ffffff",
+            "theme_color": "#2563eb",
+            "icons": [
+                {
+                    "src": "https://i.ibb.co/1tYqXGVQ/Gemini-Generated-Image-f75l3of75l3of75l-removebg-preview.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                },
+                {
+                    "src": "https://i.ibb.co/1tYqXGVQ/Gemini-Generated-Image-f75l3of75l3of75l-removebg-preview.png",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                }
+            ]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestURL;
+        document.head.appendChild(link);
+
+
+        // --- 1. CONFIGURAÇÃO DE HORÁRIOS (TIME SLOTS) ---
+        const TIME_SLOTS_CONFIG = {
+            tarde: {
+                T1: "13h00 - 13h50",
+                T2: "13h50 - 14h40",
+                T3: "14h40 - 15h25",
+                INT: "15h25 - 15h40", // Intervalo Tarde
+                T4: "15h45 - 16h25",
+                T5: "16h25 - 17h10"
+            },
+            manha: {
+                T1: "07h00 - 07h50",
+                T2: "07h50 - 08h40",
+                T3: "08h40 - 09h25",
+                INT: "09h25 - 09h40",
+                T4: "09h45 - 10h25",
+                T5: "10h25 - 11h10"
+            }
+        };
+
+        // --- 2. DADOS DA ESCOLA ---
+        const SCHOOL_DATA = {
+            schools: [
+                { id: 'danisio', name: 'EEFM Danísio Dalton da Rocha Corrêa' }
+            ],
+            shifts: [
+                { id: 'manha', label: 'Manhã' },
+                { id: 'tarde', label: 'Tarde' }
+            ],
+            classesByShift: {
+                manha: [],
+                tarde: [
+                    { id: '1D', label: '1ª Série D' },
+                    { id: '1E', label: '1ª Série E' },
+                    { id: '1F', label: '1ª Série F' },
+                    { id: '2D', label: '2ª Série D' },
+                    { id: '2E', label: '2ª Série E' },
+                    { id: '2F', label: '2ª Série F' },
+                    { id: '3E', label: '3ª Série E' },
+                    { id: '3F', label: '3ª Série F' }
+                ]
+            }
+        };
+
+        // Cores auxiliares para matérias
+        const COLORS = {
+            soc: 'bg-purple-100 text-purple-800 border-purple-200',
+            mat: 'bg-blue-100 text-blue-800 border-blue-200',
+            ef: 'bg-green-100 text-green-800 border-green-200',
+            arte: 'bg-pink-100 text-pink-800 border-pink-200',
+            ifa: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+            fis: 'bg-red-100 text-red-800 border-red-200',
+            hist: 'bg-orange-100 text-orange-800 border-orange-200',
+            bio: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+            red: 'bg-rose-100 text-rose-800 border-rose-200',
+            fc: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+            esp: 'bg-red-50 text-red-700 border-red-200',
+            lp: 'bg-teal-100 text-teal-800 border-teal-200',
+            ing: 'bg-sky-100 text-sky-800 border-sky-200',
+            filo: 'bg-cyan-100 text-cyan-800 border-cyan-200',
+            qui: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+            geo: 'bg-lime-100 text-lime-800 border-lime-200'
+        };
+
+        // --- 3. CRONOGRAMA DE AULAS COMPLETO ---
+        const SCHEDULE_DB = {
+            'tarde': {
+                '1D': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
+                        { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
+                        { type: 'l', tc: 'T2', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
+                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Ana Glauciane', col: COLORS.red },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
+                        { type: 'l', tc: 'T5', sub: 'História', tea: 'João Lucas', col: COLORS.hist }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Anglaine', col: COLORS.fc },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
+                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan/Anglaine', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: '---', tea: '---', col: COLORS.ifa } 
+                    ]
+                },
+                '1E': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Leones', col: COLORS.red },
+                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
+                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Natanael/Batista', col: COLORS.ifa }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
+                        { type: 'l', tc: 'T5', sub: 'História', tea: 'João Lucas', col: COLORS.hist }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
+                        { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Lucas', col: COLORS.fc },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'l', tc: 'T3', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
+                        { type: 'l', tc: 'T5', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }
+                    ]
+                },
+                '1F': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
+                        { type: 'l', tc: 'T2', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
+                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red },
+                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Hélia', col: COLORS.ifa }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Carlos Antonio', col: COLORS.geo },
+                        { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
+                        { type: 'l', tc: 'T3', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Natanael', col: COLORS.fc },
+                        { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
+                        { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'História', tea: 'Natanael', col: COLORS.hist },
+                        { type: 'l', tc: 'T5', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T5', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Natanael/Batista', col: COLORS.ifa }
+                    ]
+                },
+                '2D': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T2', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
+                        { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Redação', tea: 'Ana Glauciane', col: COLORS.red },
+                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Ana Glauciane', col: COLORS.fc },
+                        { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T5', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
+                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
+                        { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }
+                    ]
+                },
+                '2E': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat },
+                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat },
+                        { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.fc },
+                        { type: 'l', tc: 'T3', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa },
+                        { type: 'l', tc: 'T5', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
+                        { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte },
+                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa },
+                        { type: 'l', tc: 'T5', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
+                        { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
+                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
+                        { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }
+                    ]
+                },
+                '2F': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
+                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Carlos Antonio', col: COLORS.geo },
+                        { type: 'l', tc: 'T3', sub: 'Filosofia', tea: 'Carlos Antonio', col: COLORS.filo },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
+                        { type: 'l', tc: 'T5', sub: 'Física', tea: 'Benedito', col: COLORS.fis }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
+                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Linda', col: COLORS.fc },
+                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Aline', col: COLORS.red },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte },
+                        { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T2', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'l', tc: 'T3', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
+                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }
+                    ]
+                },
+                '3E': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
+                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
+                        { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'Mat P/Enem', tea: 'Carlos Alberto', col: COLORS.ifa },
+                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
+                        { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'l', tc: 'T3', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'História', tea: 'Marcelo', col: COLORS.hist },
+                        { type: 'l', tc: 'T5', sub: 'Hum P/Enem', tea: 'Marcelo', col: COLORS.ifa }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Lgg P/Enem', tea: 'Ana Glauciane', col: COLORS.ifa },
+                        { type: 'l', tc: 'T2', sub: 'Nat P/Enem', tea: 'Benedito', col: COLORS.ifa },
+                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Redação', tea: 'Verônica', col: COLORS.red },
+                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.fc },
+                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.fc },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }
+                    ]
+                },
+                '3F': {
+                    segunda: [
+                        { type: 'l', tc: 'T1', sub: 'Mat P/Enem', tea: 'Airan', col: COLORS.ifa },
+                        { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
+                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Leones', col: COLORS.red },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.fc },
+                        { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.fc }
+                    ],
+                    terca: [
+                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
+                        { type: 'l', tc: 'T2', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
+                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
+                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }
+                    ],
+                    quarta: [
+                        { type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
+                        { type: 'l', tc: 'T2', sub: 'História', tea: 'Marcelo', col: COLORS.hist },
+                        { type: 'l', tc: 'T3', sub: 'Hum P/Enem', tea: 'Marcelo', col: COLORS.ifa },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }
+                    ],
+                    quinta: [
+                        { type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
+                        { type: 'l', tc: 'T2', sub: 'Lgg P/Enem', tea: 'Ana Glauciane', col: COLORS.ifa },
+                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
+                        { type: 'l', tc: 'T5', sub: 'Nat P/Enem', tea: 'Benedito', col: COLORS.ifa }
+                    ],
+                    sexta: [
+                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
+                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
+                        { type: 'b', tc: 'INT', label: 'Intervalo' },
+                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
+                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }
+                    ]
+                }
+            }
+        };
+
+        // --- ÍCONES ---
+        const IconBase = ({ children, className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{children}</svg>
+        );
+        const BookOpen = (p) => <IconBase {...p}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 1-4 4v14a3 3 0 0 1 3-3h7z"></path></IconBase>;
+        const User = (p) => <IconBase {...p}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></IconBase>;
+        const Clock = (p) => <IconBase {...p}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></IconBase>;
+        const Coffee = (p) => <IconBase {...p}><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></IconBase>;
+        const GraduationCap = (p) => <IconBase {...p}><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></IconBase>;
+        const ImagePlus = (p) => <IconBase {...p}><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></IconBase>;
+        const ChevronRight = (p) => <IconBase {...p}><path d="m9 18 6-6-6-6"/></IconBase>;
+        const XIcon = (p) => <IconBase {...p}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>;
+        const Download = (p) => <IconBase {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></IconBase>;
+        const ShareIcon = (p) => <IconBase {...p}><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></IconBase>;
+        const MoreVertical = (p) => <IconBase {...p}><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></IconBase>;
+
+        // --- COMPONENTE: BOTÃO DE INSTALAÇÃO PWA ---
+        function InstallPWA() {
+            const [deferredPrompt, setDeferredPrompt] = useState(null);
+            const [isInstalled, setIsInstalled] = useState(false);
+            const [isIOS, setIsIOS] = useState(false);
+            const [showInstructions, setShowInstructions] = useState(false);
+
+            useEffect(() => {
+                const checkStandalone = () => {
+                    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                        setIsInstalled(true);
+                    }
+                };
+                checkStandalone();
+                window.matchMedia('(display-mode: standalone)').addEventListener('change', checkStandalone);
+
+                const isIosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                setIsIOS(isIosDevice);
+
+                const handleBeforeInstallPrompt = (e) => {
+                    e.preventDefault();
+                    setDeferredPrompt(e);
+                };
+
+                window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+                return () => {
+                    window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+                };
+            }, []);
+
+            const handleInstallClick = () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            setDeferredPrompt(null);
+                        }
+                    });
+                } else {
+                    setShowInstructions(true);
+                }
+            };
+
+            if (isInstalled) return null;
+
+            return (
+                <>
+                    <button 
+                        onClick={handleInstallClick}
+                        className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 animate-bounce-gentle flex items-center gap-2 font-bold pr-6"
+                    >
+                        <Download className="w-6 h-6" />
+                        <span className="text-sm">Baixar App</span>
+                    </button>
+
+                    {showInstructions && (
+                        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 animate-fadeIn">
+                            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowInstructions(false)}></div>
+                            <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-sm relative z-10 overflow-hidden animate-scaleIn p-6 pb-10 sm:pb-6">
+                                <div className="flex justify-between items-start mb-4">
+                                    <h3 className="font-bold text-lg text-slate-800">
+                                        {isIOS ? 'Instalar no iPhone' : 'Instalar no Android'}
+                                    </h3>
+                                    <button onClick={() => setShowInstructions(false)}><XIcon className="w-6 h-6 text-slate-400" /></button>
+                                </div>
+                                
+                                <div className="space-y-4 text-slate-600 text-sm">
+                                    <p>Para instalar este aplicativo no seu dispositivo, siga os passos:</p>
+                                    
+                                    {isIOS ? (
+                                        <>
+                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><ShareIcon className="w-5 h-5 text-blue-500" /></div>
+                                                <span>1. Toque no botão <strong>Compartilhar</strong> na barra inferior.</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><span className="text-xl leading-none">⊞</span></div>
+                                                <span>2. Role e toque em <strong>Adicionar à Tela de Início</strong>.</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><MoreVertical className="w-5 h-5 text-slate-500" /></div>
+                                                <span>1. Toque nos <strong>3 pontinhos</strong> no canto superior do navegador.</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><Download className="w-5 h-5 text-blue-500" /></div>
+                                                <span>2. Toque em <strong>Instalar aplicativo</strong> ou <strong>Adicionar à tela inicial</strong>.</span>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                                <button onClick={() => setShowInstructions(false)} className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl font-bold">Entendi</button>
+                            </div>
+                        </div>
+                    )}
+                </>
+            );
+        }
+
+        // --- COMPONENTE: MODAL DO LIVRO (Atualizado para lógica específica) ---
+        function BookModal({ isOpen, onClose, subject, classId }) {
+            if (!isOpen) return null;
+            
+            // 1. Tenta achar imagem específica da turma (Ex: "2D-Redação")
+            const specificKey = classId ? `${classId}-${subject}` : null;
+            
+            // 2. Busca no dicionário (Primeiro a específica, depois a geral)
+            const imageSrc = (specificKey && BOOK_IMAGES[specificKey]) || BOOK_IMAGES[subject];
+            
+            // 3. Fallback se não tiver nada
+            const finalImage = imageSrc ? imageSrc : `https://placehold.co/400x600/e2e8f0/1e293b?text=Livro+de+${encodeURIComponent(subject)}`;
+
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fadeIn">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose}></div>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm relative z-10 overflow-hidden animate-scaleIn">
+                        <div className="p-4 border-b flex justify-between items-center bg-blue-50">
+                            <h3 className="font-bold text-lg text-blue-900 flex items-center gap-2">
+                                <BookOpen className="w-5 h-5" />
+                                Material Didático
+                            </h3>
+                            <button onClick={onClose} className="p-1 hover:bg-blue-200 rounded-full transition-colors">
+                                <XIcon className="w-6 h-6 text-slate-500" />
+                            </button>
+                        </div>
+                        <div className="p-6 flex flex-col items-center">
+                            <div className="aspect-[2/3] w-48 bg-slate-200 rounded-lg shadow-md mb-4 overflow-hidden relative group">
+                                <img src={finalImage} alt={`Livro de ${subject}`} className="w-full h-full object-cover" />
+                            </div>
+                            <div className="text-center">
+                                <p className="font-medium text-slate-700">{subject}</p>
+                                {specificKey && BOOK_IMAGES[specificKey] && (
+                                    <span className="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-bold mt-1 inline-block">
+                                        Específico da {classId}
+                                    </span>
+                                )}
+                            </div>
+                            <button onClick={onClose} className="mt-4 w-full bg-slate-100 py-2 rounded-lg text-slate-600 font-medium">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- COMPONENTE: TELA DE CONFIGURAÇÃO ---
+        function SetupScreen({ onComplete }) {
+            const [school, setSchool] = useState('danisio');
+            const [shift, setShift] = useState('tarde'); // Padrão: Tarde
+            const [classId, setClassId] = useState('');
+
+            useEffect(() => {
+                const classesForShift = SCHOOL_DATA.classesByShift[shift] || [];
+                const currentClassValid = classesForShift.find(c => c.id === classId);
+                if (!currentClassValid) {
+                    setClassId('');
+                }
+            }, [shift]);
+
+            const handleSubmit = () => {
+                if (school && shift && classId) {
+                    onComplete({ school, shift, classId });
+                } else {
+                    alert("Por favor, selecione todas as opções.");
+                }
+            };
+
+            const availableClasses = SCHOOL_DATA.classesByShift[shift] || [];
+
+            return (
+                <div className="min-h-screen bg-slate-50 p-6 flex flex-col justify-center max-w-md mx-auto">
+                    <div className="text-center mb-8">
+                        <div className="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-200">
+                            <GraduationCap className="w-8 h-8 text-white" />
+                        </div>
+                        <h1 className="text-2xl font-extrabold text-slate-800">Bem-vindo(a)</h1>
+                        <p className="text-slate-500">Configure seu app escolar</p>
+                    </div>
+
+                    <div className="space-y-5 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <div>
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Escola</label>
+                            <select 
+                                value={school} 
+                                onChange={(e) => setSchool(e.target.value)}
+                                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                            >
+                                {SCHOOL_DATA.schools.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Turno</label>
+                            <div className="grid grid-cols-2 gap-3">
+                                {SCHOOL_DATA.shifts.map(s => (
+                                    <button
+                                        key={s.id}
+                                        onClick={() => setShift(s.id)}
+                                        className={`p-3.5 rounded-xl border font-medium transition-all ${shift === s.id ? 'bg-blue-600 text-white border-blue-600 shadow-md transform scale-[1.02]' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}
+                                    >
+                                        {s.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className={`transition-all duration-300 ${!shift ? 'opacity-50 pointer-events-none' : ''}`}>
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Turma</label>
+                            <select 
+                                value={classId} 
+                                onChange={(e) => setClassId(e.target.value)}
+                                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                disabled={availableClasses.length === 0}
+                            >
+                                <option value="" disabled>{availableClasses.length === 0 ? 'Sem turmas para este turno' : 'Selecione sua turma'}</option>
+                                {availableClasses.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
+                            </select>
+                        </div>
+
+                        <button 
+                            onClick={handleSubmit}
+                            disabled={!school || !shift || !classId}
+                            className="w-full mt-4 bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 disabled:opacity-50 disabled:shadow-none transition-all flex items-center justify-center gap-2"
+                        >
+                            Confirmar
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- APP PRINCIPAL ---
+        function App() {
+            const [preferences, setPreferences] = useState(null);
+            const [activeDay, setActiveDay] = useState('segunda');
+            const [modalBook, setModalBook] = useState(null);
+
+            useEffect(() => {
+                const saved = localStorage.getItem('schoolAppPrefs_v2');
+                if (saved) setPreferences(JSON.parse(saved));
+                
+                const dayOfWeek = new Date().getDay();
+                const dayMap = { 1: 'segunda', 2: 'terca', 3: 'quarta', 4: 'quinta', 5: 'sexta' };
+                if (dayMap[dayOfWeek]) setActiveDay(dayMap[dayOfWeek]);
+            }, []);
+
+            const savePreferences = (prefs) => {
+                localStorage.setItem('schoolAppPrefs_v2', JSON.stringify(prefs));
+                setPreferences(prefs);
+            };
+
+            const resetPreferences = () => {
+                localStorage.removeItem('schoolAppPrefs_v2');
+                setPreferences(null);
+            };
+
+            if (!preferences) return (
+                <>
+                    <SetupScreen onComplete={savePreferences} />
+                    <InstallPWA />
+                </>
+            );
+
+            const getClassName = () => {
+                const allClasses = [...SCHOOL_DATA.classesByShift.manha, ...SCHOOL_DATA.classesByShift.tarde];
+                const cls = allClasses.find(c => c.id === preferences.classId);
+                return cls ? cls.label : preferences.classId;
+            };
+
+            const currentTimes = TIME_SLOTS_CONFIG[preferences.shift] || TIME_SLOTS_CONFIG['tarde'];
+            
+            const daySchedule = SCHEDULE_DB[preferences.shift]?.[preferences.classId]?.[activeDay] || [];
+            const hasData = daySchedule.length > 0;
+
+            const days = [
+                { key: 'segunda', label: 'Segunda' }, { key: 'terca', label: 'Terça' },
+                { key: 'quarta', label: 'Quarta' }, { key: 'quinta', label: 'Quinta' },
+                { key: 'sexta', label: 'Sexta' }
+            ];
+
+            return (
+                <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-10 select-none">
+                    <header className="bg-blue-600 text-white p-6 shadow-lg rounded-b-[2.5rem] mb-6 relative overflow-hidden transition-all">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+
+                        <div className="max-w-md mx-auto relative z-10">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <p className="text-blue-100 text-xs font-bold tracking-widest mb-1 uppercase opacity-80">Danísio Dalton</p>
+                                    <h1 className="text-3xl font-extrabold flex items-center gap-3">
+                                        <GraduationCap className="w-9 h-9 text-blue-200" />
+                                        <span>{getClassName()}</span>
+                                    </h1>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <span className="bg-blue-500/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold border border-blue-400/30 uppercase tracking-wide">
+                                            {preferences.shift === 'manha' ? 'Turno Manhã' : 'Turno Tarde'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <button onClick={resetPreferences} className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition" aria-label="Alterar Turma">
+                                    <svg className="w-5 h-5 text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main className="max-w-md mx-auto px-4">
+                        <div className="flex overflow-x-auto pb-4 gap-2 no-scrollbar mb-2">
+                            {days.map((day) => (
+                                <button
+                                    key={day.key}
+                                    onClick={() => setActiveDay(day.key)}
+                                    className={`flex-shrink-0 px-5 py-2.5 rounded-full font-medium transition-all duration-300 whitespace-nowrap shadow-sm border
+                                        ${activeDay === day.key 
+                                            ? 'bg-blue-600 text-white border-blue-600 shadow-blue-200 shadow-lg scale-105' 
+                                            : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
+                                        }`}
+                                >
+                                    {day.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {!hasData ? (
+                            <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 shadow-sm mx-2 mt-4">
+                                <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                                    <Clock className="w-10 h-10 text-slate-300" />
+                                </div>
+                                <h3 className="text-lg font-bold text-slate-600">Sem Aulas Cadastradas</h3>
+                                <p className="text-slate-400 text-sm px-8 mt-2 leading-relaxed">
+                                    Não há cronograma disponível para esta turma neste dia ou para o turno selecionado.
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="space-y-3 pb-10">
+                                {daySchedule.map((item, index) => {
+                                    if (item.type === 'b') {
+                                        return (
+                                            <div key={index} className="flex items-center gap-4 py-3 px-2">
+                                                <div className="h-px bg-slate-300 flex-1 border-t border-dashed"></div>
+                                                <div className="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-widest bg-slate-100 px-4 py-1.5 rounded-full border border-slate-200">
+                                                    <Coffee className="w-3.5 h-3.5" />
+                                                    {item.label} • {currentTimes[item.tc]?.split(' - ')[0] || ''}
+                                                </div>
+                                                <div className="h-px bg-slate-300 flex-1 border-t border-dashed"></div>
+                                            </div>
+                                        );
+                                    }
+
+                                    return (
+                                        <div 
+                                            key={index}
+                                            className={`group relative p-4 rounded-2xl border bg-white shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-2 overflow-hidden border-slate-100`}
+                                        >
+                                            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${item.col?.split(' ')[0] || 'bg-slate-300'}`}></div>
+
+                                            <div className="flex justify-between items-start pl-3">
+                                                <div className="flex-1">
+                                                    <div className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold mb-2 tracking-wide ${item.col || 'bg-slate-100 text-slate-600'}`}>
+                                                        <BookOpen className="w-3 h-3 mr-1.5" />
+                                                        {item.sub}
+                                                    </div>
+                                                    
+                                                    <div className="flex items-center text-slate-500 text-sm mb-1">
+                                                        <User className="w-4 h-4 mr-2 text-slate-400" />
+                                                        <span className="font-semibold text-slate-700">{item.tea}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-col items-end gap-2">
+                                                    <div className="flex items-center text-xs font-bold text-slate-500 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-100">
+                                                        <Clock className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
+                                                        {currentTimes[item.tc] || "Horário Indefinido"}
+                                                    </div>
+
+                                                    <button 
+                                                        onClick={() => setModalBook({ isOpen: true, subject: item.sub, classId: preferences.classId })}
+                                                        className="p-2 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors active:scale-95"
+                                                        aria-label="Ver Livro"
+                                                    >
+                                                        <ImagePlus className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        <footer className="mt-8 pb-10 px-6 text-center">
+                            <p className="text-xs text-slate-500 leading-relaxed">
+                                Este site é um projeto estudantil independente.
+                            </p>
+                            <p className="text-xs text-slate-400 leading-relaxed mt-1">
+                                Os horários são baseados no mural físico da escola. <br />
+                                Sempre confira as informações oficiais no portal <strong><a href="https://aluno.seduc.ce.gov.br/">Aluno Online</a></strong> assim que disponíveis.
+                            </p>
+                        </footer>
+                        
+                    </main>
+
+                    <InstallPWA />
+
+                    <BookModal 
+                        isOpen={modalBook?.isOpen} 
+                        subject={modalBook?.subject} 
+                        classId={modalBook?.classId}
+                        onClose={() => setModalBook(null)} 
+                    />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
