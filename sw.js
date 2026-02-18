@@ -1,8 +1,12 @@
-const CACHE_NAME = 'horario-escolar-v2-offline'; // Atualizei a versão
-const ASSETS = [
+/**
+ * Service Worker - Horário Escolar 2026
+ * Estratégia: Cache First (Prioridade Total ao Offline)
+ */
+
+const CACHE_NAME = 'horario-permanente-v1';
+const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  // Bibliotecas Externas (Essenciais para funcionar offline)
   'https://cdn.tailwindcss.com',
   'https://unpkg.com/react@18/umd/react.development.js',
   'https://unpkg.com/react-dom@18/umd/react-dom.development.js',
@@ -10,59 +14,60 @@ const ASSETS = [
   'https://unpkg.com/lucide@latest'
 ];
 
-// 1. Instalação: Baixa e guarda TUDO o que é necessário
+// Instalação: Salva todos os ficheiros críticos imediatamente
 self.addEventListener('install', (event) => {
-  self.skipWaiting(); // Força o SW a ativar imediatamente
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Caching all assets');
-      return cache.addAll(ASSETS);
+      console.log('Cache prioritário criado com sucesso.');
+      return cache.addAll(ASSETS_TO_CACHE);
     })
   );
 });
 
-// 2. Ativação: Limpa caches antigos para não acumular lixo
+// Ativação: Remove caches antigos de versões anteriores
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(keyList.map((key) => {
-        if (key !== CACHE_NAME) {
-          console.log('[Service Worker] Removing old cache', key);
-          return caches.delete(key);
-        }
-      }));
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            console.log('Removendo cache antigo:', cache);
+            return caches.delete(cache);
+          }
+        })
+      );
     })
   );
-  self.clients.claim();
+  return self.clients.claim();
 });
 
-// 3. Interceptação de Requisições (Estratégia Híbrida)
+// Interceção de Pedidos: A lógica infalível para o Offline
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      // Se encontrou no cache, retorna o cache (velocidade/offline)
+      // 1. Se estiver no cache, entrega IMEDIATAMENTE (super rápido)
       if (cachedResponse) {
         return cachedResponse;
       }
 
-      // Se não, tenta buscar na rede
+      // 2. Se não estiver no cache, tenta buscar na rede
       return fetch(event.request).then((networkResponse) => {
-        // Verifica se a resposta é válida
+        // Valida se a resposta é válida antes de guardar
         if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-            // Nota: Para recursos de terceiros (CORS), type pode ser 'cors' ou 'opaque'.
-            // Vamos permitir cachear recursos externos se a requisição foi bem sucedida.
-            if (!networkResponse || networkResponse.status !== 200) {
-                return networkResponse;
-            }
+          return networkResponse;
         }
 
-        // Se baixou da rede com sucesso, salva uma cópia no cache para a próxima vez
+        // Guarda uma cópia do novo ficheiro no cache para uso futuro
         const responseToCache = networkResponse.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseToCache);
         });
 
         return networkResponse;
+      }).catch(() => {
+        // 3. Se falhar rede e não houver cache (ex: imagens externas), retorna erro silencioso
+        console.error('Falha de rede e ficheiro não disponível em cache.');
       });
     })
   );
