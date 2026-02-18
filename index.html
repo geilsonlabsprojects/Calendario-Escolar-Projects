@@ -48,13 +48,6 @@
             50% { transform: translateY(-5px); }
         }
         .animate-bounce-gentle { animation: bounce-gentle 2s infinite; }
-
-        /* --- 0. DICIONÁRIO DE IMAGENS DOS LIVROS --- */
-        /* Instruções de Uso:
-           1. Coloque o link direto da imagem (jpg, png, webp, etc).
-           2. Para imagem GERAL (todas as turmas): Use apenas o nome da matéria. Ex: "Matemática"
-           3. Para imagem ESPECÍFICA (só uma turma): Use "ID_DA_TURMA-Matéria". Ex: "2D-Redação"
-        */
     </style>
 </head>
 <body class="bg-slate-50">
@@ -65,7 +58,6 @@
 
         // --- CONFIGURAÇÃO DE IMAGENS ---
         const BOOK_IMAGES = {
-            // === IMAGENS GERAIS (Padrão para todas as turmas) ===
             "2D-Matemática": "https://i.ibb.co/HTs2ytgz/20260211-212011.jpg",
             "2D-Líng. Port.": "https://i.ibb.co/SknW6Jj/20260211-211950.jpg",
             "2E-Matemática": "https://i.ibb.co/HTs2ytgz/20260211-212011.jpg",
@@ -73,13 +65,7 @@
             "2F-Matemática": "https://i.ibb.co/HTs2ytgz/20260211-212011.jpg",
             "2F-Líng. Port.": "https://i.ibb.co/SknW6Jj/20260211-211950.jpg",
             "Física": "",
-            
-            // === IMAGENS ESPECÍFICAS (Substituem a geral na turma indicada) ===
-            // Formato: "TURMA-MATÉRIA": "LINK"
-            "Redação": "https://i.ibb.co/fVx9yVk0/20260211-211719.jpg", // Exemplo: Redação específica do 2D
-            "Física": "",  // Exemplo: Física específica do 3F
-
-            // Outras matérias (vazias usarão placeholder automático)
+            "Redação": "https://i.ibb.co/fVx9yVk0/20260211-211719.jpg",
             "Biologia": "", 
             "Química": "",
             "História": "https://i.ibb.co/XfnXHsgf/20260211-211447.jpg",
@@ -89,11 +75,9 @@
             "Filosofia": "https://i.ibb.co/Fk7GXYm4/20260211-211035.jpg",
             "Sociologia": "",
             "Arte": "https://i.ibb.co/7xdFf287/20260211-211220.jpg",
-            "Ed. Física": "https://i.ibb.co/ksHq5THH/20260211-210830.jpg", // Adicionado aqui!
-            "Redação": "https://i.ibb.co/fVx9yVk0/20260211-211719.jpg" 
+            "Ed. Física": "https://i.ibb.co/ksHq5THH/20260211-210830.jpg"
         };
 
-        // --- MANIFESTO EMBUTIDO (Data URI) ---
         const manifestData = {
             "name": "Horário Escolar",
             "short_name": "Horário",
@@ -116,69 +100,42 @@
         };
         const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
         const manifestURL = URL.createObjectURL(manifestBlob);
-        
         const link = document.createElement('link');
         link.rel = 'manifest';
         link.href = manifestURL;
         document.head.appendChild(link);
 
-
-        // --- 1. CONFIGURAÇÃO DE HORÁRIOS (TIME SLOTS) ---
         const TIME_SLOTS_CONFIG = {
             tarde: {
-                T1: "13h00 - 13h50",
-                T2: "13h50 - 14h40",
-                T3: "14h40 - 15h25",
-                INT: "15h25 - 15h40", // Intervalo Tarde
-                T4: "15h45 - 16h25",
-                T5: "16h25 - 17h10"
+                T1: "13h00 - 13h50", T2: "13h50 - 14h40", T3: "14h40 - 15h25",
+                INT: "15h25 - 15h40", T4: "15h45 - 16h25", T5: "16h25 - 17h10"
             },
             manha: {
-                T1: "07h00 - 07h50",
-                T2: "07h50 - 08h40",
-                T3: "08h40 - 09h25",
-                INT: "09h25 - 09h40",
-                T4: "09h45 - 10h25",
-                T5: "10h25 - 11h10"
+                T1: "07h00 - 07h50", T2: "07h50 - 08h40", T3: "08h40 - 09h25",
+                INT: "09h25 - 09h40", T4: "09h45 - 10h25", T5: "10h25 - 11h10"
             }
         };
 
-        // --- 2. DADOS DA ESCOLA ---
         const SCHOOL_DATA = {
-            schools: [
-                { id: 'danisio', name: 'EEFM Danísio Dalton da Rocha Corrêa' }
-            ],
-            shifts: [
-                { id: 'manha', label: 'Manhã' },
-                { id: 'tarde', label: 'Tarde' }
-            ],
+            schools: [{ id: 'danisio', name: 'EEFM Danísio Dalton da Rocha Corrêa' }],
+            shifts: [{ id: 'manha', label: 'Manhã' }, { id: 'tarde', label: 'Tarde' }],
             classesByShift: {
                 manha: [
-                    { id: '1A', label: '1ª Série A' },
-                    { id: '1B', label: '1ª Série B' },
-                    { id: '1C', label: '1ª Série C' },
-                    { id: '2A', label: '2ª Série A' },
-                    { id: '2B', label: '2ª Série B' },
-                    { id: '2C', label: '2ª Série C' },
-                    { id: '3A', label: '3ª Série A' },
-                    { id: '3B', label: '3ª Série B' },
-                    { id: '3C', label: '3ª Série C' },
-                    { id: '3D', label: '3ª Série D' }
+                    { id: '1A', label: '1ª Série A' }, { id: '1B', label: '1ª Série B' },
+                    { id: '1C', label: '1ª Série C' }, { id: '2A', label: '2ª Série A' },
+                    { id: '2B', label: '2ª Série B' }, { id: '2C', label: '2ª Série C' },
+                    { id: '3A', label: '3ª Série A' }, { id: '3B', label: '3ª Série B' },
+                    { id: '3C', label: '3ª Série C' }, { id: '3D', label: '3ª Série D' }
                 ],
                 tarde: [
-                    { id: '1D', label: '1ª Série D' },
-                    { id: '1E', label: '1ª Série E' },
-                    { id: '1F', label: '1ª Série F' },
-                    { id: '2D', label: '2ª Série D' },
-                    { id: '2E', label: '2ª Série E' },
-                    { id: '2F', label: '2ª Série F' },
-                    { id: '3E', label: '3ª Série E' },
-                    { id: '3F', label: '3ª Série F' }
+                    { id: '1D', label: '1ª Série D' }, { id: '1E', label: '1ª Série E' },
+                    { id: '1F', label: '1ª Série F' }, { id: '2D', label: '2ª Série D' },
+                    { id: '2E', label: '2ª Série E' }, { id: '2F', label: '2ª Série F' },
+                    { id: '3E', label: '3ª Série E' }, { id: '3F', label: '3ª Série F' }
                 ]
             }
         };
 
-        // Cores auxiliares para matérias
         const COLORS = {
             soc: 'bg-purple-100 text-purple-800 border-purple-200',
             mat: 'bg-blue-100 text-blue-800 border-blue-200',
@@ -190,7 +147,7 @@
             bio: 'bg-emerald-100 text-emerald-800 border-emerald-200',
             red: 'bg-rose-100 text-rose-800 border-rose-200',
             fc: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-            form: 'bg-yellow-100 text-yellow-800 border-yellow-200', // Alias para FC
+            form: 'bg-yellow-100 text-yellow-800 border-yellow-200',
             esp: 'bg-red-50 text-red-700 border-red-200',
             lp: 'bg-teal-100 text-teal-800 border-teal-200',
             ing: 'bg-sky-100 text-sky-800 border-sky-200',
@@ -199,784 +156,139 @@
             geo: 'bg-lime-100 text-lime-800 border-lime-200'
         };
 
-        // --- 3. CRONOGRAMA DE AULAS COMPLETO ---
         const SCHEDULE_DB = {
             'manha': {
-                // --- 1ª SÉRIES ---
                 '1A': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T2', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Aloísio', col: COLORS.ifa }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'l', tc: 'T2', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Anglaine', col: COLORS.form },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T5', sub: 'Redação', tea: 'Leones', col: COLORS.red }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Rodrigo', col: COLORS.ifa }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T2', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Aloísio', col: COLORS.ifa }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'l', tc: 'T2', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Anglaine', col: COLORS.form }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T5', sub: 'Redação', tea: 'Leones', col: COLORS.red }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Rodrigo', col: COLORS.ifa }]
                 },
-
                 '1B': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Vitória/Batista', col: COLORS.ifa }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'Rodrigo', col: COLORS.form },
-                        { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'l', tc: 'T2', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Vitória/Batista', col: COLORS.ifa }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'Rodrigo', col: COLORS.form }, { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'l', tc: 'T2', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }]
                 },
-
                 '1C': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Santiago', col: COLORS.ifa }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Rafaella', col: COLORS.form },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T2', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Vitória/Batista', col: COLORS.ifa }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Santiago', col: COLORS.ifa }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Rafaella', col: COLORS.form }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Huthysonn', col: COLORS.lp }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T2', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Vitória/Batista', col: COLORS.ifa }]
                 },
-
-                // --- 2ª SÉRIES ---
                 '2A': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Linda', col: COLORS.form },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T2', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Aloísio', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Aloísio', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Vitória', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Linda', col: COLORS.form }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T2', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Aloísio', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Aloísio', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA LGG', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Vitória', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }]
                 },
-
                 '2B': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T2', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Vitória', col: COLORS.fis },
-                        { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Besanildo', col: COLORS.form }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA MAT', tea: 'Aloísio', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T2', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Física', tea: 'Vitória', col: COLORS.fis }, { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Besanildo', col: COLORS.form }]
                 },
-
                 '2C': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.form }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'História', tea: 'Iracelma', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T3', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa },
-                        { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.form }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'História', tea: 'Iracelma', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T3', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa }, { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA CN', tea: 'Vitória', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }]
                 },
-
-                // --- 3ª SÉRIES ---
                 '3A': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.form },
-                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.form },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Aline', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T5', sub: 'História', tea: 'Iracelma', col: COLORS.hist }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Hum. p/ ENEM', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Mat p/ ENEM', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T5', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.form }, { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.form }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Aline', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T5', sub: 'História', tea: 'Iracelma', col: COLORS.hist }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Hum. p/ ENEM', tea: 'João Lucas', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Mat p/ ENEM', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T5', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis }]
                 },
-
                 '3B': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Hum. p/ ENEM', tea: 'Natanael', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Hum. p/ ENEM', tea: 'Natanael', col: COLORS.hist }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Mat p/ ENEM', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'l', tc: 'T5', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Florêncio', col: COLORS.form },
-                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Florêncio', col: COLORS.form },
-                        { type: 'l', tc: 'T3', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Verônica', col: COLORS.red },
-                        { type: 'l', tc: 'T3', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Hum. p/ ENEM', tea: 'Natanael', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Hum. p/ ENEM', tea: 'Natanael', col: COLORS.hist }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Mat p/ ENEM', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'História', tea: 'João Lucas', col: COLORS.hist }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'l', tc: 'T5', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Florêncio', col: COLORS.form }, { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Florêncio', col: COLORS.form }, { type: 'l', tc: 'T3', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Verônica', col: COLORS.red }, { type: 'l', tc: 'T3', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }]
                 },
-
                 '3C': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Hum. p/ ENEM', tea: 'Natanael', col: COLORS.hist }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'l', tc: 'T3', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.form },
-                        { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.form }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Mat p/ ENEM', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T3', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Redação', tea: 'Verônica', col: COLORS.red },
-                        { type: 'l', tc: 'T2', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Hum. p/ ENEM', tea: 'Natanael', col: COLORS.hist }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'l', tc: 'T3', sub: 'História', tea: 'João Lucas', col: COLORS.hist }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.form }, { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.form }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Mat p/ ENEM', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T3', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Redação', tea: 'Verônica', col: COLORS.red }, { type: 'l', tc: 'T2', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }]
                 },
-
                 '3D': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Verônica', col: COLORS.red },
-                        { type: 'l', tc: 'T3', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Vitória', col: COLORS.fis },
-                        { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T5', sub: 'Hum. p/ ENEM', tea: 'João Lucas', col: COLORS.hist }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Carlos Henrique', col: COLORS.form }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Carlos Henrique', col: COLORS.form },
-                        { type: 'l', tc: 'T2', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'l', tc: 'T3', sub: 'Mat p/ ENEM', tea: 'Airan', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T5', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Verônica', col: COLORS.red }, { type: 'l', tc: 'T3', sub: 'Nat p/ ENEM', tea: 'Benedito', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Física', tea: 'Vitória', col: COLORS.fis }, { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'História', tea: 'João Lucas', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T5', sub: 'Hum. p/ ENEM', tea: 'João Lucas', col: COLORS.hist }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T2', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Língua Port.', tea: 'Leones', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Carlos Henrique', col: COLORS.form }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Carlos Henrique', col: COLORS.form }, { type: 'l', tc: 'T2', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'l', tc: 'T3', sub: 'Mat p/ ENEM', tea: 'Airan', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T5', sub: 'LGG p/ ENEM', tea: 'Ana Glauciane', col: COLORS.lp }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }]
                 }
             },
-            
             'tarde': {
                 '1D': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'l', tc: 'T2', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Ana Glauciane', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T5', sub: 'História', tea: 'João Lucas', col: COLORS.hist }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Anglaine', col: COLORS.fc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan/Anglaine', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: '---', tea: '---', col: COLORS.ifa } 
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'l', tc: 'T2', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T5', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Ana Glauciane', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T5', sub: 'História', tea: 'João Lucas', col: COLORS.hist }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Anglaine', col: COLORS.fc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan/Anglaine', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: '---', tea: '---', col: COLORS.ifa }]
                 },
                 '1E': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Natanael/Batista', col: COLORS.ifa }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T5', sub: 'História', tea: 'João Lucas', col: COLORS.hist }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Lucas', col: COLORS.fc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'l', tc: 'T3', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T5', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T2', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Natanael/Batista', col: COLORS.ifa }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T5', sub: 'História', tea: 'João Lucas', col: COLORS.hist }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Lucas', col: COLORS.fc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'l', tc: 'T3', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T5', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Leones/Santiago', col: COLORS.ifa }]
                 },
                 '1F': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T2', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Hélia', col: COLORS.ifa }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Carlos Antonio', col: COLORS.geo },
-                        { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T3', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Natanael', col: COLORS.fc },
-                        { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'História', tea: 'Natanael', col: COLORS.hist },
-                        { type: 'l', tc: 'T5', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T5', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Natanael/Batista', col: COLORS.ifa }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T2', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Airan/Hélia', col: COLORS.ifa }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Carlos Antonio', col: COLORS.geo }, { type: 'l', tc: 'T2', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T3', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Form. Cid.', tea: 'Natanael', col: COLORS.fc }, { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'História', tea: 'Natanael', col: COLORS.hist }, { type: 'l', tc: 'T5', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Gustavo', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T5', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Huthysonn', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Eletiva', tea: 'Natanael/Batista', col: COLORS.ifa }]
                 },
                 '2D': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Redação', tea: 'Ana Glauciane', col: COLORS.red },
-                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Ana Glauciane', col: COLORS.fc },
-                        { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T5', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'História', tea: 'João Lucas', col: COLORS.hist }, { type: 'l', tc: 'T5', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Redação', tea: 'Ana Glauciane', col: COLORS.red }, { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Ana Glauciane', col: COLORS.fc }, { type: 'l', tc: 'T3', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T5', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'l', tc: 'T5', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }]
                 },
                 '2E': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.fc },
-                        { type: 'l', tc: 'T3', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T5', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte },
-                        { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T5', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Química', tea: 'Besanildo', col: COLORS.qui },
-                        { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'João Lucas', col: COLORS.fc }, { type: 'l', tc: 'T3', sub: 'História', tea: 'João Lucas', col: COLORS.hist }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Audisio', col: COLORS.mat }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Huthysonn', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T5', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T2', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte }, { type: 'l', tc: 'T3', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T5', sub: 'IFA Lgg', tea: 'Ana Glauciane', col: COLORS.ifa }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }, { type: 'l', tc: 'T2', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }]
                 },
                 '2F': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'História', tea: 'João Lucas', col: COLORS.hist },
-                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Carlos Antonio', col: COLORS.geo },
-                        { type: 'l', tc: 'T3', sub: 'Filosofia', tea: 'Carlos Antonio', col: COLORS.filo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Edney', col: COLORS.bio },
-                        { type: 'l', tc: 'T5', sub: 'Física', tea: 'Benedito', col: COLORS.fis }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp },
-                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Linda', col: COLORS.fc },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Aline', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte },
-                        { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T2', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T3', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'História', tea: 'João Lucas', col: COLORS.hist }, { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Carlos Antonio', col: COLORS.geo }, { type: 'l', tc: 'T3', sub: 'Filosofia', tea: 'Carlos Antonio', col: COLORS.filo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Edney', col: COLORS.bio }, { type: 'l', tc: 'T5', sub: 'Física', tea: 'Benedito', col: COLORS.fis }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Espanhol', tea: 'Linda', col: COLORS.esp }, { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Linda', col: COLORS.fc }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Aline', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Arte', tea: 'Florêncio', col: COLORS.arte }, { type: 'l', tc: 'T5', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'IFA Mat', tea: 'Audisio', col: COLORS.ifa }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Aline', col: COLORS.lp }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T2', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'José Messias', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Química', tea: 'Besanildo', col: COLORS.qui }]
                 },
                 '3E': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio },
-                        { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Mat P/Enem', tea: 'Carlos Alberto', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T3', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'História', tea: 'Marcelo', col: COLORS.hist },
-                        { type: 'l', tc: 'T5', sub: 'Hum P/Enem', tea: 'Marcelo', col: COLORS.ifa }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Lgg P/Enem', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'Nat P/Enem', tea: 'Benedito', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Redação', tea: 'Verônica', col: COLORS.red },
-                        { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.fc },
-                        { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.fc },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T2', sub: 'Biologia', tea: 'Hélia', col: COLORS.bio }, { type: 'l', tc: 'T3', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Mat P/Enem', tea: 'Carlos Alberto', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T3', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'l', tc: 'T5', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T2', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T3', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'História', tea: 'Marcelo', col: COLORS.hist }, { type: 'l', tc: 'T5', sub: 'Hum P/Enem', tea: 'Marcelo', col: COLORS.ifa }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Lgg P/Enem', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'Nat P/Enem', tea: 'Benedito', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Benedito', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Redação', tea: 'Verônica', col: COLORS.red }, { type: 'l', tc: 'T2', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.fc }, { type: 'l', tc: 'T3', sub: 'Form. Cid.', tea: 'Helton', col: COLORS.fc }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Airan', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }]
                 },
                 '3F': {
-                    segunda: [
-                        { type: 'l', tc: 'T1', sub: 'Mat P/Enem', tea: 'Airan', col: COLORS.ifa },
-                        { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc },
-                        { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Leones', col: COLORS.red },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.fc },
-                        { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.fc }
-                    ],
-                    terca: [
-                        { type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo },
-                        { type: 'l', tc: 'T2', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui },
-                        { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat },
-                        { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }
-                    ],
-                    quarta: [
-                        { type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef },
-                        { type: 'l', tc: 'T2', sub: 'História', tea: 'Marcelo', col: COLORS.hist },
-                        { type: 'l', tc: 'T3', sub: 'Hum P/Enem', tea: 'Marcelo', col: COLORS.ifa },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }
-                    ],
-                    quinta: [
-                        { type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing },
-                        { type: 'l', tc: 'T2', sub: 'Lgg P/Enem', tea: 'Ana Glauciane', col: COLORS.ifa },
-                        { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio },
-                        { type: 'l', tc: 'T5', sub: 'Nat P/Enem', tea: 'Benedito', col: COLORS.ifa }
-                    ],
-                    sexta: [
-                        { type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo },
-                        { type: 'l', tc: 'T3', sub: 'Física', tea: 'Anglaine', col: COLORS.fis },
-                        { type: 'b', tc: 'INT', label: 'Intervalo' },
-                        { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp },
-                        { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }
-                    ]
+                    segunda: [{ type: 'l', tc: 'T1', sub: 'Mat P/Enem', tea: 'Airan', col: COLORS.ifa }, { type: 'l', tc: 'T2', sub: 'Sociologia', tea: 'Alyson', col: COLORS.soc }, { type: 'l', tc: 'T3', sub: 'Redação', tea: 'Leones', col: COLORS.red }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.fc }, { type: 'l', tc: 'T5', sub: 'Form. Cid.', tea: 'Breno', col: COLORS.fc }],
+                    terca: [{ type: 'l', tc: 'T1', sub: 'Filosofia', tea: 'Helton', col: COLORS.filo }, { type: 'l', tc: 'T2', sub: 'Química', tea: 'Rodrigo', col: COLORS.qui }, { type: 'l', tc: 'T3', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }, { type: 'l', tc: 'T5', sub: 'Matemática', tea: 'Carlos Alberto', col: COLORS.mat }],
+                    quarta: [{ type: 'l', tc: 'T1', sub: 'Ed. Física', tea: 'Florêncio', col: COLORS.ef }, { type: 'l', tc: 'T2', sub: 'História', tea: 'Marcelo', col: COLORS.hist }, { type: 'l', tc: 'T3', sub: 'Hum P/Enem', tea: 'Marcelo', col: COLORS.ifa }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Arte', tea: 'Rafaella', col: COLORS.arte }],
+                    quinta: [{ type: 'l', tc: 'T1', sub: 'Inglês', tea: 'Carlos Henrique', col: COLORS.ing }, { type: 'l', tc: 'T2', sub: 'Lgg P/Enem', tea: 'Ana Glauciane', col: COLORS.ifa }, { type: 'l', tc: 'T3', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Biologia', tea: 'Breno', col: COLORS.bio }, { type: 'l', tc: 'T5', sub: 'Nat P/Enem', tea: 'Benedito', col: COLORS.ifa }],
+                    sexta: [{ type: 'l', tc: 'T1', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T2', sub: 'Geografia', tea: 'Lucas', col: COLORS.geo }, { type: 'l', tc: 'T3', sub: 'Física', tea: 'Anglaine', col: COLORS.fis }, { type: 'b', tc: 'INT', label: 'Intervalo' }, { type: 'l', tc: 'T4', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }, { type: 'l', tc: 'T5', sub: 'Líng. Port.', tea: 'Verônica', col: COLORS.lp }]
                 }
             }
         };
 
-        // --- ÍCONES ---
         const IconBase = ({ children, className }) => (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{children}</svg>
         );
@@ -991,6 +303,66 @@
         const Download = (p) => <IconBase {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></IconBase>;
         const ShareIcon = (p) => <IconBase {...p}><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></IconBase>;
         const MoreVertical = (p) => <IconBase {...p}><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></IconBase>;
+        const Bell = (p) => <IconBase {...p}><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></IconBase>;
+        const Check = (p) => <IconBase {...p}><polyline points="20 6 9 17 4 12"/></IconBase>;
+        const WifiOff = (p) => <IconBase {...p}><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></IconBase>;
+
+
+        // --- COMPONENTE: MODAL DE NOVIDADES ---
+        function NewsModal({ isOpen, onClose, onDontShowAgain }) {
+            if (!isOpen) return null;
+
+            return (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-fadeIn">
+                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm relative z-10 overflow-hidden animate-scaleIn">
+                        
+                        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white relative">
+                            <button onClick={onClose} className="absolute top-4 right-4 p-1 bg-white/20 hover:bg-white/30 rounded-full transition-colors">
+                                <XIcon className="w-5 h-5" />
+                            </button>
+                            <div className="bg-white/20 w-12 h-12 rounded-xl flex items-center justify-center mb-3 backdrop-blur-sm">
+                                <Bell className="w-6 h-6 text-white" />
+                            </div>
+                            <h2 className="text-xl font-bold">Novidades!</h2>
+                            <p className="text-blue-100 text-sm">Confira o que mudou no app.</p>
+                        </div>
+
+                        <div className="p-6 space-y-4">
+                            <div className="flex gap-3">
+                                <div className="mt-1 bg-green-100 p-1.5 rounded-lg h-fit">
+                                    <WifiOff className="w-4 h-4 text-green-700" />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-slate-800 text-sm">Modo Offline Total</h4>
+                                    <p className="text-slate-500 text-xs mt-1">Agora você pode acessar seus horários mesmo sem internet! Basta abrir o app uma vez com conexão.</p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex gap-3">
+                                <div className="mt-1 bg-blue-100 p-1.5 rounded-lg h-fit">
+                                    <ImagePlus className="w-4 h-4 text-blue-700" />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-slate-800 text-sm">Fotos dos Livros</h4>
+                                    <p className="text-slate-500 text-xs mt-1">Toque no ícone de imagem ao lado da aula para ver a capa do livro didático.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="p-4 bg-slate-50 border-t border-slate-100">
+                            <button 
+                                onClick={onDontShowAgain}
+                                className="w-full bg-slate-800 text-white py-3 rounded-xl font-bold text-sm hover:bg-slate-900 transition-colors flex items-center justify-center gap-2"
+                            >
+                                <Check className="w-4 h-4" />
+                                Entendi, não mostrar novamente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
 
         // --- COMPONENTE: BOTÃO DE INSTALAÇÃO PWA ---
         function InstallPWA() {
@@ -1094,17 +466,12 @@
             );
         }
 
-        // --- COMPONENTE: MODAL DO LIVRO (Atualizado para lógica específica) ---
+        // --- COMPONENTE: MODAL DO LIVRO ---
         function BookModal({ isOpen, onClose, subject, classId }) {
             if (!isOpen) return null;
             
-            // 1. Tenta achar imagem específica da turma (Ex: "2D-Redação")
             const specificKey = classId ? `${classId}-${subject}` : null;
-            
-            // 2. Busca no dicionário (Primeiro a específica, depois a geral)
             const imageSrc = (specificKey && BOOK_IMAGES[specificKey]) || BOOK_IMAGES[subject];
-            
-            // 3. Fallback se não tiver nada
             const finalImage = imageSrc ? imageSrc : `https://placehold.co/400x600/e2e8f0/1e293b?text=Livro+de+${encodeURIComponent(subject)}`;
 
             return (
@@ -1142,7 +509,7 @@
         // --- COMPONENTE: TELA DE CONFIGURAÇÃO ---
         function SetupScreen({ onComplete }) {
             const [school, setSchool] = useState('danisio');
-            const [shift, setShift] = useState('tarde'); // Padrão: Tarde
+            const [shift, setShift] = useState('tarde');
             const [classId, setClassId] = useState('');
 
             useEffect(() => {
@@ -1231,6 +598,7 @@
             const [preferences, setPreferences] = useState(null);
             const [activeDay, setActiveDay] = useState('segunda');
             const [modalBook, setModalBook] = useState(null);
+            const [showNews, setShowNews] = useState(false);
 
             useEffect(() => {
                 const saved = localStorage.getItem('schoolAppPrefs_v2');
@@ -1239,7 +607,20 @@
                 const dayOfWeek = new Date().getDay();
                 const dayMap = { 1: 'segunda', 2: 'terca', 3: 'quarta', 4: 'quinta', 5: 'sexta' };
                 if (dayMap[dayOfWeek]) setActiveDay(dayMap[dayOfWeek]);
+
+                // Lógica de Novidades
+                const newsSeenKey = 'news_seen_v2_offline';
+                const hasSeenNews = localStorage.getItem(newsSeenKey);
+                if (!hasSeenNews) {
+                    // Pequeno delay para animação
+                    setTimeout(() => setShowNews(true), 1000);
+                }
             }, []);
+
+            const handleDontShowNews = () => {
+                localStorage.setItem('news_seen_v2_offline', 'true');
+                setShowNews(false);
+            };
 
             const savePreferences = (prefs) => {
                 localStorage.setItem('schoolAppPrefs_v2', JSON.stringify(prefs));
@@ -1406,6 +787,12 @@
                         classId={modalBook?.classId}
                         onClose={() => setModalBook(null)} 
                     />
+
+                    <NewsModal 
+                        isOpen={showNews}
+                        onClose={() => setShowNews(false)}
+                        onDontShowAgain={handleDontShowNews}
+                    />
                 </div>
             );
         }
@@ -1417,9 +804,12 @@
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
+      // Registrar o service worker (que deve estar na mesma pasta)
       navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker ativo!'))
-        .catch(err => console.log('Erro ao registar SW:', err));
+        .then(reg => {
+            console.log('Service Worker registrado com sucesso:', reg.scope);
+        })
+        .catch(err => console.log('Erro ao registar Service Worker:', err));
     });
   }
 </script>
