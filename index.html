@@ -24,8 +24,6 @@
     <!-- Ícones Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    
-
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -410,21 +408,17 @@
                 }
             };
 
-           // --- SEU BOTÃO DE DOWNLOAD AQUI ---
-        // Alterado de <button> para <a> com href e download apontando para o seu APK
-        const InstallPWA
+            if (isInstalled) return null;
+
             return (
-                <a 
-                    href="app-debug.apk" 
-                    download="HorarioEscolar.apk"
-                    className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 animate-bounce-gentle flex items-center gap-2 font-bold pr-6 cursor-pointer"
-                    style={{ textDecoration: 'none' }}
-                >
-                    <Download className="w-6 h-6" />
-                    <span className="text-sm">Baixar App</span>
-                </a>);
-            
-            
+                <>
+                    <button 
+                        onClick={handleInstallClick}
+                        className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 animate-bounce-gentle flex items-center gap-2 font-bold pr-6"
+                    >
+                        <Download className="w-6 h-6" />
+                        <span className="text-sm">Baixar App</span>
+                    </button>
 
                     {showInstructions && (
                         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 animate-fadeIn">
@@ -468,7 +462,7 @@
                             </div>
                         </div>
                     )}
-                
+                </>
             );
         }
 
