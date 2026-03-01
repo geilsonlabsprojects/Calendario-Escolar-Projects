@@ -365,19 +365,19 @@
         }
 
         // --- COMPONENTE: BOTÃO DE REDIRECIONAMENTO APK ---
+// --- COMPONENTE: BOTÃO DE REDIRECIONAMENTO APK (MESMA ABA) ---
 function InstallPWA() {
-    // IMPORTANTE: Altere o link abaixo para o site onde está seu APK
-    const urlDoApk = "apk.html"; 
+    // IMPORTANTE: Altere para o endereço do site onde o usuário vai baixar o APK
+    const urlDoSiteApk = "apk.html"; 
 
     return (
         <a 
-            href={urlDoApk}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 flex items-center gap-2 font-bold pr-6 decoration-none"
+            href={urlDoSiteApk}
+            className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 flex items-center gap-2 font-bold pr-6"
+            style={{ textDecoration: 'none' }}
         >
             <svg 
-                xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" 
+                xmlns="http://www.w3.org/2000/svg" 
                 width="24" 
                 height="24" 
                 viewBox="0 0 24 24" 
