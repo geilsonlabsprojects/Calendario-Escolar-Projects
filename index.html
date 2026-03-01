@@ -335,7 +335,7 @@
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-slate-800 text-sm">Modo Offline Total</h4>
-                                    <p className="text-slate-500 text-xs mt-1">Agora você pode acessar seus horários mesmo sem internet! Basta Aperta aqui --></p>
+                                    <p className="text-slate-500 text-xs mt-1">Agora você pode acessar seus horários mesmo sem internet! Basta instalar o APP</p>
                                 </div>
                             </div>
                             
@@ -364,116 +364,38 @@
             );
         }
 
-        // --- COMPONENTE: BOTÃO DE INSTALAÇÃO PWA ---
-        function InstallPWA() {
-            const [deferredPrompt, setDeferredPrompt] = useState(null);
-            const [isInstalled, setIsInstalled] = useState(false);
-            const [isIOS, setIsIOS] = useState(false);
-            const [showInstructions, setShowInstructions] = useState(false);
+        // --- COMPONENTE: BOTÃO DE REDIRECIONAMENTO APK ---
+function InstallPWA() {
+    // IMPORTANTE: Altere o link abaixo para o site onde está seu APK
+    const urlDoApk = "apk.html"; 
 
-            useEffect(() => {
-                const checkStandalone = () => {
-                    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-                        setIsInstalled(true);
-                    }
-                };
-                checkStandalone();
-                window.matchMedia('(display-mode: standalone)').addEventListener('change', checkStandalone);
-
-                const isIosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                setIsIOS(isIosDevice);
-
-                const handleBeforeInstallPrompt = (e) => {
-                    e.preventDefault();
-                    setDeferredPrompt(e);
-                };
-
-                window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-                return () => {
-                    window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-                };
-            }, []);
-
-            const handleInstallClick = () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            setDeferredPrompt(null);
-                        }
-                    });
-                } else {
-                    setShowInstructions(true);
-                }
-            };
-
-            if (isInstalled) return null;
-
-            return (
-                <>
-                    <button 
-                        onClick={handleInstallClick}
-                        className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 animate-bounce-gentle flex items-center gap-2 font-bold pr-6"
-                    >
-                        <Download className="w-6 h-6" />
-                        <span className="text-sm">Baixar App</span>
-                    </button>
-
-                    {showInstructions && (
-                        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 animate-fadeIn">
-                            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowInstructions(false)}></div>
-                            <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-sm relative z-10 overflow-hidden animate-scaleIn p-6 pb-10 sm:pb-6">
-                                <div className="flex justify-between items-start mb-4">
-                                    <h3 className="font-bold text-lg text-slate-800">
-                                        {isIOS ? 'Instalar no iPhone' : 'Instalar no Android'}
-                                    </h3>
-                                    <button onClick={() => setShowInstructions(false)}><XIcon className="w-6 h-6 text-slate-400" /></button>
-                                </div>
-                                
-                                <div className="space-y-4 text-slate-600 text-sm">
-                                    <p>Para instalar este aplicativo no seu dispositivo, siga os passos:</p>
-                                    
-                                    {isIOS ? (
-                                        <>
-                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><ShareIcon className="w-5 h-5 text-blue-500" /></div>
-                                                <span>1. Toque no botão <strong>Compartilhar</strong> na barra inferior.</span>
-                                            </div>
-                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><span className="text-xl leading-none">⊞</span></div>
-                                                <span>2. Role e toque em <strong>Adicionar à Tela de Início</strong>.</span>
-                                            </div>
-                                               <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><Download className="w-5 h-5 text-blue-500" /></div>
-                                                <span>3. Se nada der certo <strong><a href="apk.html">Aperte aqui</a></strong></span>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><MoreVertical className="w-5 h-5 text-slate-500" /></div>
-                                                <span>1. Toque nos <strong>3 pontinhos</strong> no canto superior do navegador.</span>
-                                            </div>
-                                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><Download className="w-5 h-5 text-blue-500" /></div>
-                                                <span>2. Toque em <strong>Instalar aplicativo</strong> ou <strong>Adicionar à tela inicial</strong>.</span>
-                                            </div>
-                                               <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <div className="bg-white p-2 rounded-md shadow-sm border border-slate-200"><Download className="w-5 h-5 text-blue-500" /></div>
-                                                <span>3. Se nada der certo <strong><a href="apk.html">Aperte aqui</a></strong></span>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                                <button onClick={() => setShowInstructions(false)} className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl font-bold">Entendi</button>
-                            </div>
-                        </div>
-                    )}
-                </>
-            );
-        }
-
+    return (
+        <a 
+            href={urlDoApk}
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-xl shadow-blue-400/50 z-40 hover:bg-blue-700 transition-transform active:scale-95 flex items-center gap-2 font-bold pr-6 decoration-none"
+        >
+            <svg 
+                xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="lucide lucide-download"
+            >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" x2="12" y1="15" y2="3"/>
+            </svg>
+            <span className="text-sm">Baixar App</span>
+        </a>
+    );
+}
         // --- COMPONENTE: MODAL DO LIVRO ---
         function BookModal({ isOpen, onClose, subject, classId }) {
             if (!isOpen) return null;
