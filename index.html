@@ -7,7 +7,7 @@
     
     <meta name="theme-color" content="#4f46e5">
     
-    <!-- Tailwind CSS Configurado para Dark Mode -->
+    <!-- Tailwind CSS Configurado para Dark Mode e Print -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -18,7 +18,7 @@
                         brand: {
                             50: '#eef2ff',
                             100: '#e0e7ff',
-                            500: '#6366f1', // Indigo
+                            500: '#6366f1',
                             600: '#4f46e5',
                             900: '#312e81',
                         }
@@ -74,23 +74,32 @@
         .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); }
         .dark .glass-panel { background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.05); }
 
-        /* Estilos específicos para impressão (Exportar PDF) */
+        /* Estilos Otimizados para Impressão */
         @media print {
-            body { background: white !important; }
+            @page { margin: 1cm; size: landscape; }
+            body { 
+                background: white !important; 
+                color: black !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
             .no-print { display: none !important; }
             .print-only { display: block !important; }
+            
+            /* Força a tabela a ter bordas visíveis na impressão */
             .print-table { width: 100%; border-collapse: collapse; }
-            .print-table th, .print-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-            .print-table th { background-color: #f3f4f6; -webkit-print-color-adjust: exact; }
+            .print-table th, .print-table td { border: 1px solid #cbd5e1 !important; padding: 12px; }
+            .print-table th { background-color: #f1f5f9 !important; color: #1e293b !important; }
+            
+            /* Remove sombras e efeitos desnecessários no papel */
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+                filter: none !important;
+                animation: none !important;
+            }
         }
     </style>
-
-    <!-- 
-      ==== ARQUIVO JSON EMBUTIDO ==== 
-      Se for usar um arquivo externo, você pode apagar esta tag <script id="app-data"> 
-      e descomentar a função fetch() lá embaixo no código React.
-    -->
-    
 </head>
 <body class="transition-colors duration-300">
     <div id="root"></div>
@@ -117,23 +126,24 @@
         const XIcon = (p) => <IconBase {...p}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></IconBase>;
         const HelpCircle = (p) => <IconBase {...p}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></IconBase>;
         const MonitorSmartphone = (p) => <IconBase {...p}><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></IconBase>;
+        const QrCodeIcon = (p) => <IconBase {...p}><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></IconBase>;
 
         // --- CORES INTELIGENTES ---
         const TAILWIND_COLORS = [
-            "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800/50",
-            "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800/50",
-            "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800/50",
-            "bg-pink-100 text-pink-800 border-pink-200 dark:bg-pink-900/40 dark:text-pink-300 dark:border-pink-800/50",
-            "bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-800/50",
-            "bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-800/50",
-            "bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-900/40 dark:text-teal-300 dark:border-teal-800/50",
-            "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800/50",
-            "bg-cyan-100 text-cyan-800 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-800/50"
+            "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800/50 print:bg-blue-50 print:text-blue-800 print:border-blue-200",
+            "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800/50 print:bg-emerald-50 print:text-emerald-800 print:border-emerald-200",
+            "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800/50 print:bg-purple-50 print:text-purple-800 print:border-purple-200",
+            "bg-pink-100 text-pink-800 border-pink-200 dark:bg-pink-900/40 dark:text-pink-300 dark:border-pink-800/50 print:bg-pink-50 print:text-pink-800 print:border-pink-200",
+            "bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-800/50 print:bg-indigo-50 print:text-indigo-800 print:border-indigo-200",
+            "bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-900/40 dark:text-rose-300 dark:border-rose-800/50 print:bg-rose-50 print:text-rose-800 print:border-rose-200",
+            "bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-900/40 dark:text-teal-300 dark:border-teal-800/50 print:bg-teal-50 print:text-teal-800 print:border-teal-200",
+            "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800/50 print:bg-amber-50 print:text-amber-800 print:border-amber-200",
+            "bg-cyan-100 text-cyan-800 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-800/50 print:bg-cyan-50 print:text-cyan-800 print:border-cyan-200"
         ];
 
         const getSubjectColors = (subject) => {
             if (!subject || subject === 'Intervalo' || subject === '---') {
-                return 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700';
+                return 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 print:bg-slate-100 print:text-slate-600 print:border-slate-300';
             }
             const hash = subject.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
             return TAILWIND_COLORS[hash % TAILWIND_COLORS.length];
@@ -143,7 +153,7 @@
         function NewsModal({ isOpen, onClose, news }) {
             if (!isOpen) return null;
             return (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fadeIn no-print">
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
                     <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg relative z-10 overflow-hidden flex flex-col max-h-[85vh] animate-slide-up border border-slate-200 dark:border-slate-700">
                         <div className="bg-gradient-to-br from-brand-600 to-indigo-700 p-6 sm:p-8 text-white relative shrink-0">
@@ -184,7 +194,7 @@
             ];
 
             return (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fadeIn no-print">
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}></div>
                     <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden flex flex-col max-h-[85vh] animate-slide-up border border-slate-200 dark:border-slate-700">
                         
@@ -321,32 +331,17 @@
             const [newsData, setNewsData] = useState([]);
             const [hasUnreadNews, setHasUnreadNews] = useState(false);
             const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
-            const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); // Novo Modal de Ajuda
+            const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); 
 
             // 1. Carrega os Dados
             useEffect(() => {
-                // --- COMO USAR O ARQUIVO EXTERNO (EXEMPLO) ---
-                 fetch('dados.json')
+                fetch('dados.json')
                     .then(response => response.json())
                     .then(parsed => {
                         setData(parsed);
                         processNews(parsed.news || []);
                     })
                     .catch(e => console.error("Erro ao carregar JSON externo:", e));
-                
-                
-                // --- Lógica Atual (Lendo da tag <script> no HTML) ---
-                /*try {
-                    const jsonElement = document.getElementById('app-data');
-                    if(jsonElement) {
-                        const parsed = JSON.parse(jsonElement.textContent);
-                        setData(parsed);
-                        processNews(parsed.news || []);
-                    }
-                } catch (e) {
-                    console.error("Erro ao ler JSON embutido:", e);
-                }
-                    */
             }, []);
 
             // Função separada para processar novidades
@@ -389,6 +384,29 @@
                 const timer = setInterval(() => setCurrentTime(new Date()), 60000); 
                 return () => clearInterval(timer);
             }, []);
+
+            // 5. INTERCEPTADOR DE IMPRESSÃO (Resolve o problema do Dark Mode ao imprimir)
+            useEffect(() => {
+                const handleBeforePrint = () => {
+                    // Força a remoção do dark mode antes de renderizar para a impressora/PDF
+                    document.documentElement.classList.remove('dark');
+                };
+                
+                const handleAfterPrint = () => {
+                    // Devolve o dark mode se o usuário estava usando
+                    if (isDarkMode) {
+                        document.documentElement.classList.add('dark');
+                    }
+                };
+
+                window.addEventListener('beforeprint', handleBeforePrint);
+                window.addEventListener('afterprint', handleAfterPrint);
+
+                return () => {
+                    window.removeEventListener('beforeprint', handleBeforePrint);
+                    window.removeEventListener('afterprint', handleAfterPrint);
+                };
+            }, [isDarkMode]);
 
             const savePreferences = (prefs) => {
                 localStorage.setItem('schoolAppPrefs_v4', JSON.stringify(prefs));
@@ -435,10 +453,18 @@
 
             const timeKeys = ['T1', 'T2', 'T3', 'INT', 'T4', 'T5'];
 
+            // Gera um link fictício para o QR Code (Você pode alterar para o link real do seu site)
+            const siteUrl = window.location.href.split('?')[0]; 
+            const shareUrl = `${siteUrl}?escola=${preferences.school}&turno=${preferences.shift}&turma=${preferences.classId}`;
+            // API pública gratuita para gerar o QR Code como imagem
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}&margin=10`;
+            const currentSchoolName = data.schools.find(s => s.id === preferences.school)?.name || "Escola";
+            const currentClassName = data.classesByShift[preferences.shift]?.find(c => c.id === preferences.classId)?.label || preferences.classId;
+
             return (
                 <div className="min-h-screen flex flex-col font-sans select-none pb-10 relative">
                     
-                    {/* CABEÇALHO PREMIUM */}
+                    {/* CABEÇALHO PREMIUM - Oculto na Impressão */}
                     <header className="no-print bg-gradient-to-br from-brand-600 to-indigo-800 text-white p-5 sm:p-8 shadow-2xl rounded-b-[2rem] sm:rounded-b-[2.5rem] mb-4 sm:mb-8 relative overflow-hidden shrink-0 z-20">
                         {/* Efeitos de Fundo no Header */}
                         <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl"></div>
@@ -446,12 +472,12 @@
 
                         <div className="max-w-6xl mx-auto relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6">
                             <div>
-                                <p className="text-brand-100 text-[10px] sm:text-xs font-bold tracking-widest mb-1 uppercase opacity-90 drop-shadow-sm">Danísio Dalton</p>
+                                <p className="text-brand-100 text-[10px] sm:text-xs font-bold tracking-widest mb-1 uppercase opacity-90 drop-shadow-sm">{currentSchoolName}</p>
                                 <h1 className="text-2xl sm:text-4xl font-extrabold flex items-center gap-3 drop-shadow-md tracking-tight">
                                     <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm border border-white/10 hidden sm:block">
                                         <GraduationCap className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                                     </div>
-                                    <span>Turma {preferences.classId}</span>
+                                    <span>{currentClassName}</span>
                                 </h1>
                                 <div className="flex items-center gap-2 mt-2 sm:mt-4">
                                     <span className="bg-white/10 backdrop-blur-md px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold border border-white/20 uppercase tracking-wider shadow-inner">
@@ -490,7 +516,32 @@
                     <main className="max-w-6xl mx-auto px-4 w-full flex-1">
                         
                         {/* =========================================
-                            VISÃO MOBILE (Celular) - Oculto no PC
+                            CABEÇALHO DE IMPRESSÃO (Aparece SÓ no PDF/Papel)
+                        ========================================= */}
+                        <div className="hidden print-only mb-8 border-b-2 border-slate-200 pb-6">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <GraduationCap className="w-8 h-8 text-slate-800" />
+                                        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{currentSchoolName}</h1>
+                                    </div>
+                                    <h2 className="text-xl font-bold text-slate-700 mt-2">Grade de Horários - {currentClassName}</h2>
+                                    <p className="text-slate-500 font-medium mt-1">Turno: {preferences.shift === 'manha' ? 'Manhã' : 'Tarde'}</p>
+                                    <p className="text-slate-400 text-sm mt-3 flex items-center gap-2">
+                                        <Clock className="w-4 h-4" /> Gerado em: {new Date().toLocaleDateString('pt-BR')} às {new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col items-center border border-slate-200 p-3 rounded-xl bg-slate-50">
+                                    <img src={qrCodeUrl} alt="QR Code da Turma" className="w-28 h-28 object-contain bg-white rounded-lg border border-slate-200" />
+                                    <p className="text-[10px] font-bold text-slate-500 mt-2 uppercase tracking-widest flex items-center gap-1">
+                                        <QrCodeIcon className="w-3 h-3" /> Escaneie
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* =========================================
+                            VISÃO MOBILE (Celular) - Oculto no PC e Oculto na Impressão
                         ========================================= */}
                         <div className="md:hidden no-print relative">
                             
@@ -511,7 +562,6 @@
                                         </button>
                                     ))}
                                 </div>
-                                {/* Sombra sutil para indicar rolagem abaixo do header sticky */}
                                 <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-b from-[#f8fafc] dark:from-[#0f172a] to-transparent pointer-events-none translate-y-full"></div>
                             </div>
 
@@ -524,7 +574,6 @@
                                     <p className="text-slate-400 dark:text-slate-500 mt-2 text-sm">Nenhuma aula cadastrada para hoje.</p>
                                 </div>
                             ) : (
-                                /* NOVO LAYOUT TIMELINE (LINHA DO TEMPO) PARA MOBILE */
                                 <div className="relative border-l-2 border-slate-200 dark:border-slate-700 ml-4 mt-6 mb-8 space-y-6">
                                     {daySchedule.map((item, index) => {
                                         const isInterval = item.tc === 'INT';
@@ -535,7 +584,6 @@
                                         if (isInterval) {
                                             return (
                                                 <div key={index} className="relative pl-6 opacity-80">
-                                                    {/* Ponto na timeline */}
                                                     <div className={`absolute w-3 h-3 rounded-full -left-[7px] top-3 border-2 border-[#f8fafc] dark:border-[#0f172a] bg-slate-300 dark:bg-slate-600`}></div>
                                                     
                                                     <div className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-xl border transition-colors shadow-sm
@@ -549,7 +597,6 @@
 
                                         return (
                                             <div key={index} className="relative pl-6">
-                                                {/* Ponto na timeline */}
                                                 <div className={`absolute w-4 h-4 rounded-full -left-[9px] top-4 border-4 border-[#f8fafc] dark:border-[#0f172a] shadow-sm transition-colors duration-300
                                                     ${isActive ? 'bg-brand-500 animate-pulse' : 'bg-slate-300 dark:bg-slate-600'}`}>
                                                 </div>
@@ -591,26 +638,27 @@
                         </div>
 
                         {/* =========================================
-                            VISÃO DESKTOP (PC / Impressão) - Oculto no Mobile
+                            VISÃO DESKTOP E IMPRESSÃO (Aparece no PC e no PDF)
                         ========================================= */}
-                        <div className="hidden md:block print-only bg-white dark:bg-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-700 animate-slide-up relative overflow-hidden">
+                        <div className="hidden md:block print-only bg-white dark:bg-slate-800 p-8 print:p-0 rounded-[2rem] print:rounded-none shadow-xl print:shadow-none shadow-slate-200/50 dark:shadow-none border border-slate-200 print:border-none dark:border-slate-700 animate-slide-up print:animate-none relative overflow-hidden print:overflow-visible">
                             
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-400 to-transparent opacity-50"></div>
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-400 to-transparent opacity-50 no-print"></div>
 
-                            <div className="mb-8 flex justify-between items-end">
+                            <div className="mb-8 flex justify-between items-end no-print">
                                 <div>
                                     <h2 className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Grade Semanal</h2>
                                     <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">Visão completa • Turma {preferences.classId} • Turno {preferences.shift === 'manha' ? 'Manhã' : 'Tarde'}</p>
                                 </div>
                             </div>
 
-                            <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            {/* Tabela de Horários */}
+                            <div className="overflow-x-auto rounded-2xl print:rounded-none border border-slate-200 print:border-none dark:border-slate-700 shadow-sm print:shadow-none">
                                 <table className="w-full text-left print-table">
-                                    <thead className="bg-slate-50 dark:bg-slate-900/80">
+                                    <thead className="bg-slate-50 print:bg-[#f1f5f9] dark:bg-slate-900/80">
                                         <tr>
-                                            <th className="p-5 border-b dark:border-slate-700 font-bold text-slate-400 uppercase text-[11px] tracking-widest text-center w-36">Horário</th>
+                                            <th className="p-5 print:p-3 border-b dark:border-slate-700 font-bold text-slate-400 print:text-slate-700 uppercase text-[11px] print:text-[10px] tracking-widest text-center w-36 print:w-24">Horário</th>
                                             {days.map(d => (
-                                                <th key={d.key} className="p-5 border-b border-l border-slate-200 dark:border-slate-700 font-extrabold text-slate-700 dark:text-slate-200 text-center w-1/5">{d.label}</th>
+                                                <th key={d.key} className="p-5 print:p-3 border-b border-l border-slate-200 dark:border-slate-700 font-extrabold text-slate-700 print:text-slate-900 dark:text-slate-200 text-center w-1/5">{d.label}</th>
                                             ))}
                                         </tr>
                                     </thead>
@@ -621,17 +669,17 @@
 
                                             return (
                                                 <tr key={idx} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/80 transition-colors group">
-                                                    <td className="p-4 align-middle text-center font-bold text-xs text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-900/30">
+                                                    <td className="p-4 print:p-2 align-middle text-center font-bold text-xs text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-900/30 print:bg-white">
                                                         <div className="flex flex-col items-center justify-center gap-1">
-                                                            <Clock className="w-4 h-4 opacity-50" />
-                                                            {timeString.replace(' - ', '\n')}
+                                                            <Clock className="w-4 h-4 opacity-50 print:hidden" />
+                                                            <span className="print:text-[11px]">{timeString.replace(' - ', '\n')}</span>
                                                         </div>
                                                     </td>
                                                     
                                                     {isBreakRow ? (
-                                                        <td colSpan={5} className="p-3 text-center bg-slate-50/50 dark:bg-slate-900/30 border-l border-slate-100 dark:border-slate-700/50">
-                                                            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
-                                                                <Coffee className="w-4 h-4" /> Intervalo
+                                                        <td colSpan={5} className="p-3 print:p-1 text-center bg-slate-50/50 dark:bg-slate-900/30 print:bg-slate-100 border-l border-slate-100 dark:border-slate-700/50">
+                                                            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 print:text-slate-600 dark:text-slate-500 px-6 py-2.5 print:py-1 rounded-xl print:rounded-none border border-slate-200 print:border-none dark:border-slate-700 bg-white dark:bg-slate-800 print:bg-transparent shadow-sm print:shadow-none">
+                                                                <Coffee className="w-4 h-4 print:hidden" /> Intervalo
                                                             </div>
                                                         </td>
                                                     ) : (
@@ -639,15 +687,15 @@
                                                             const cellClass = classSchedule[d.key]?.find(c => c.tc === tk);
                                                             const isActive = isCurrentClass(timeString, d.key);
                                                             
-                                                            if (!cellClass) return <td key={d.key} className="p-4 text-center text-slate-300 dark:text-slate-600 border-l border-slate-100 dark:border-slate-700/50">-</td>;
+                                                            if (!cellClass) return <td key={d.key} className="p-4 text-center text-slate-300 dark:text-slate-600 print:text-slate-400 border-l border-slate-100 dark:border-slate-700/50">-</td>;
                                                             
                                                             const colorClass = getSubjectColors(cellClass.sub);
 
                                                             return (
-                                                                <td key={d.key} className="p-2 align-top h-28 border-l border-slate-100 dark:border-slate-700/50">
-                                                                    <div className={`h-full rounded-[1rem] p-4 border flex flex-col justify-center items-center text-center transition-all duration-300 ${colorClass} ${isActive ? 'ring-2 ring-brand-500 shadow-lg shadow-brand-500/20 scale-[1.02] relative z-10 animate-pulse-slow' : 'group-hover:scale-[1.02] shadow-sm'}`}>
-                                                                        <span className="font-extrabold text-sm mb-1.5 leading-tight">{cellClass.sub}</span>
-                                                                        <span className="text-[11px] opacity-80 font-semibold bg-white/40 dark:bg-slate-900/40 px-2 py-1 rounded-md w-full truncate">{cellClass.tea}</span>
+                                                                <td key={d.key} className="p-2 print:p-1 align-top h-28 print:h-20 border-l border-slate-100 dark:border-slate-700/50 print:border-slate-300">
+                                                                    <div className={`h-full rounded-[1rem] print:rounded-lg p-4 print:p-2 border flex flex-col justify-center items-center text-center transition-all duration-300 ${colorClass} ${isActive ? 'ring-2 ring-brand-500 shadow-lg shadow-brand-500/20 scale-[1.02] relative z-10 animate-pulse-slow print:animate-none print:scale-100 print:ring-0 print:shadow-none' : 'group-hover:scale-[1.02] print:group-hover:scale-100 shadow-sm print:shadow-none'}`}>
+                                                                        <span className="font-extrabold text-sm print:text-xs mb-1.5 print:mb-0.5 leading-tight">{cellClass.sub}</span>
+                                                                        <span className="text-[11px] print:text-[10px] opacity-80 print:opacity-100 font-semibold bg-white/40 dark:bg-slate-900/40 print:bg-transparent px-2 py-1 print:p-0 rounded-md w-full truncate">{cellClass.tea}</span>
                                                                     </div>
                                                                 </td>
                                                             );
@@ -661,7 +709,7 @@
                             </div>
                         </div>
                         
-                       <footer className="mt-8 pb-10 px-6 text-center">
+                       <footer className="mt-8 pb-10 px-6 text-center no-print">
                         <p className="text-xs text-slate-500 leading-relaxed">
                          Este site é um projeto estudantil independente.
                         </p>
@@ -672,6 +720,7 @@
                          <a 
                          href="https://aluno.seduc.ce.gov.br/"
                         className="font-bold"
+                        target="_blank" rel="noreferrer"
                         >
                         {" "}Aluno Online
                         </a>.
@@ -680,7 +729,7 @@
 
                     </main>
 
-                    {/* Modais */}
+                    {/* Modais (Ocultos na Impressão pelas classes base) */}
                     <NewsModal 
                         isOpen={isNewsModalOpen}
                         onClose={() => setIsNewsModalOpen(false)}
