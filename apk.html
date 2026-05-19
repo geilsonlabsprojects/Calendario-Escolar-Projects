@@ -111,7 +111,7 @@
                 <span class="text-gradient">totalmente organizada</span> em <br class="hidden md:inline"> tempo real.
             </h1>
             <p class="text-slate-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                O <strong class="text-white">Portal Escolar Premium</strong> é agora uma plataforma completa de gestão educacional e comunicação em tempo real para alunos e professores.
+                O <strong class="text-white">Portal Escolar Premium</strong> é uma plataforma completa de gestão educacional e comunicação direta em tempo real para alunos e professores.
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -297,7 +297,7 @@
         </div>
     </header>
 
-    <!-- DETALHAMENTO DE PILARES DO APLICATIVO -->
+    <!-- APRESENTAÇÃO COMPLETA DOS RECURSOS (MUDANÇA: Sincronizada Dinamicamente do Painel /dados_app/portal) -->
     <section id="features" class="max-w-7xl mx-auto px-4 py-20 border-t border-slate-900 relative">
         <div class="text-center space-y-4 mb-16">
             <span class="text-xs font-black text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1.5 rounded-full border border-indigo-500/20">Recursos Unificados</span>
@@ -305,148 +305,27 @@
             <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">Tudo o que o Portal Escolar oferece ao seu cliente final (alunos e professores) com controle absoluto e em tempo real.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Bloco de Apresentação de Recursos Dinâmicos Gigante -->
+        <div class="max-w-5xl mx-auto glass-card rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl space-y-6 relative overflow-hidden text-left leading-relaxed">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
             
-            <!-- 1. Gestão Inteligente de Horários -->
-            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-indigo-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-clock"></i>
+            <div class="flex items-center gap-3 pb-4 border-b border-slate-850">
+                <div class="w-10 h-10 rounded-lg bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-lg">
+                    <i class="fas fa-clipboard-list-check"></i>
                 </div>
-                <h3 class="text-lg font-bold text-white">1. Gestão Inteligente de Horários</h3>
-                <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Grade Completa:</strong> Acesso instantâneo aos horários de aula divididos por dia da semana de forma otimizada.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Contador "Live":</strong> O app mostra qual aula está acontecendo agora e quantos minutos faltam para acabar ou para o intervalo começar.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Anotações Pessoais:</strong> O usuário pode salvar lembretes específicos em cada matéria (ex: "Trabalho para amanhã").</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Favoritos:</strong> Permite marcar as matérias e horários favoritos para acesso rápido e atalhos na tela.</span>
-                    </li>
-                </ul>
+                <div>
+                    <h3 class="font-extrabold text-white text-lg">O que o aplicativo oferece:</h3>
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Módulos Ativos do Sistema</span>
+                </div>
             </div>
 
-            <!-- 2. Central de Comunicação (Mural) -->
-            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-cyan-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-clipboard-list"></i>
+            <!-- Este container renderiza o seu texto gigante estruturado dinamicamente do Firebase com formatação adaptada -->
+            <div id="portal-presentation-container" class="text-slate-300 text-sm space-y-4 whitespace-pre-wrap font-medium">
+                <div class="flex flex-col items-center justify-center py-12 text-slate-500 space-y-3">
+                    <i class="fas fa-circle-notch fa-spin text-xl text-indigo-400"></i>
+                    <span>Sincronizando apresentação dos pilares do app...</span>
                 </div>
-                <h3 class="text-lg font-bold text-white">2. Central de Comunicação (Mural)</h3>
-                <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Multi-Recados:</strong> Um feed dinâmico e contínuo de notícias, avisos e anúncios publicados pela direção.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Categorização Visual:</strong> Avisos com etiquetas coloridas (Urgente, Evento, Novidade) para rápida leitura e identificação.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Botões de Ação:</strong> Redirecionamentos rápidos nos avisos para links externos, mídias ou formulários de resposta.</span>
-                    </li>
-                </ul>
             </div>
-
-            <!-- 3. Segurança de Nível Bancário -->
-            <div id="security" class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-purple-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-shield-halved"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white">3. Segurança de Nível Bancário</h3>
-                <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Autenticação Google:</strong> Login seguro, rápido e prático, sem a necessidade de decorar senhas.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>2FA (TOTP):</strong> Segundo fator de autenticação para proteger dados contra tentativas de invasão externa.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Proteção Biométrica:</strong> Opção de habilitar autenticação por digital ou reconhecimento facial.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Anti-Screenshot & Auto-Lock:</strong> Bloqueia prints de tela de dados confidenciais e trava o app em inatividade.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 4. Experiência e Personalização -->
-            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-emerald-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-palette"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white">4. Experiência e Personalização</h3>
-                <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modos de Visualização:</strong> Suporte completo a Tema Escuro (Dark), Tema Claro ou seguir o sistema.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modo Compacto:</strong> Otimização do tamanho de cards para caber mais informações em telas menores.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Imersão Total:</strong> Esconde barras de navegação do dispositivo celular para visualização limpa.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 5. Suporte e Conectividade -->
-            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-pink-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-xl group-hover:bg-pink-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-wifi"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white">5. Suporte e Conectividade</h3>
-                <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Ecossistema Social:</strong> Acesso direto para WhatsApp de suporte, Telegram, Instagram e tutoriais no YouTube.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Sincronização em Nuvem:</strong> Todas as notas, favoritos e preferências recuperados instantaneamente se trocar de celular.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modo Offline:</strong> O aplicativo salva uma cópia persistente dos horários para acesso mesmo sem sinal de internet.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 6. Controle Administrativo -->
-            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-yellow-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-xl group-hover:bg-yellow-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white">6. Controle Administrativo Pro</h3>
-                <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modo Manutenção:</strong> Bloqueie o app temporariamente e mostre avisos de ajustes ou instabilidade aos usuários.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Atualizações In-App:</strong> O aluno recebe aviso direto ao abrir e instala o APK, com validação de tamanho e Wi-Fi.</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Bloqueio de Usuários:</strong> Capacidade de suspender e bloquear o acesso de qualquer usuário por UID no Firebase.</span>
-                    </li>
-                </ul>
-            </div>
-
         </div>
     </section>
 
@@ -484,7 +363,7 @@
             <!-- Changelog/Novidades Dinâmicas -->
             <div class="max-w-2xl mx-auto bg-slate-900/35 p-5 rounded-2xl border border-slate-850 text-left space-y-2">
                 <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">
-                    <i class="fas fa-file-signature mr-1 text-indigo-400"></i> Novidades desta Versão:
+                    <i class="fas fa-file-signature mr-1 text-indigo-400"></i> Novidades desta Versão (Changelog):
                 </span>
                 <p id="active-changelog" class="text-xs text-slate-400 leading-relaxed font-medium">Buscando as atualizações mais recentes salvas no servidor...</p>
             </div>
@@ -525,7 +404,7 @@
     <!-- Firebase SDK Modular -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDGCjBbqtp_TvFeW7ySpLp0QmKjTsTn2Sw",
@@ -541,15 +420,16 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        async function syncWithFirebase() {
-            try {
-                const dbRef = ref(db);
-                const snapshot = await get(child(dbRef, 'dados_app'));
-                
+        // Função de escuta em tempo real (Sincronização instantânea com onValue)
+        function startRealtimeSync() {
+            const dbRef = ref(db, 'dados_app');
+            
+            // Ouvinte contínuo no nó principal /dados_app
+            onValue(dbRef, (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     
-                    // Sincronizar dados dinâmicos do módulo 'update'
+                    // 1. Sincronizar dados do módulo de Atualização ('update')
                     if (data.update) {
                         const updateData = data.update;
                         
@@ -564,47 +444,63 @@
                             document.getElementById('active-changelog').innerText = 'Nenhuma alteração descrita para esta versão.';
                         }
 
-                        // Vincular o link do download para o botão do APK
+                        // Vincular o link de download direto
                         const downloadBtn = document.getElementById('main-download-btn');
                         if (updateData.apkUrl) {
                             downloadBtn.href = updateData.apkUrl;
                             downloadBtn.target = "_blank";
+                            downloadBtn.innerHTML = `<i class="fas fa-cloud-arrow-down text-xl"></i> Baixar Versão APK Oficial`;
                         } else {
                             downloadBtn.href = "#";
-                            downloadBtn.innerText = "Download Indisponível";
+                            downloadBtn.innerHTML = `<i class="fas fa-circle-exclamation text-xl"></i> Download Indisponível`;
                         }
                     }
 
-                    // Sincronizar links das redes sociais dinamicamente no rodapé
+                    // 2. Sincronizar texto de apresentação do Portal ('portal')
+                    if (data.portal && data.portal.content) {
+                        document.getElementById('portal-presentation-container').innerText = data.portal.content;
+                    } else {
+                        // Conteúdo padrão de fallback caso esteja vazio no banco de dados
+                        document.getElementById('portal-presentation-container').innerHTML = `
+                            <p class="text-slate-450 italic text-center">Nenhum texto de apresentação salvo ainda no painel administrativo.</p>
+                        `;
+                    }
+
+                    // 3. Sincronizar canais e redes sociais do rodapé ('links')
                     if (data.links) {
                         const socialData = data.links;
                         
                         if (socialData.whatsapp) {
                             document.getElementById('footer-wpp').href = `https://wa.me/${socialData.whatsapp}`;
+                            document.getElementById('footer-wpp').classList.remove('hidden');
                         }
                         if (socialData.telegram) {
                             document.getElementById('footer-telegram').href = socialData.telegram;
+                            document.getElementById('footer-telegram').classList.remove('hidden');
                         }
                         if (socialData.instagram) {
                             document.getElementById('footer-insta').href = socialData.instagram;
+                            document.getElementById('footer-insta').classList.remove('hidden');
                         }
                         if (socialData.youtube) {
                             document.getElementById('footer-youtube').href = socialData.youtube;
+                            document.getElementById('footer-youtube').classList.remove('hidden');
                         }
                         if (socialData.website) {
                             document.getElementById('footer-site').href = socialData.website;
+                            document.getElementById('footer-site').classList.remove('hidden');
                         }
                     }
                 }
-            } catch (err) {
-                console.error("Erro na leitura dinâmica do Firebase:", err);
-                document.getElementById('active-version').innerText = "Erro ao carregar";
-                document.getElementById('active-changelog').innerText = "Não foi possível carregar as informações do servidor de banco de dados.";
-            }
+            }, (error) => {
+                console.error("Erro na escuta dinâmica do Firebase:", error);
+                document.getElementById('active-version').innerText = "Erro";
+                document.getElementById('active-changelog').innerText = "Erro de conexão com as regras de leitura pública.";
+            });
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            syncWithFirebase();
+            startRealtimeSync();
         });
     </script>
 </body>
