@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Ajuda e Suporte - Portal Escolar</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Marked.js para renderizar os Termos de Uso em Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            background-color: #F8FAFC; /* Slate Claro */
+            color: #0F172A; /* Slate Escuro */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .bg-indigo-primary {
+            background-color: #4F46E5; /* Indigo */
+        }
+        .text-indigo-primary {
+            color: #4F46E5;
+        }
+        .border-slate-smooth {
+            border-color: #E2E8F0; /* Bordas suaves */
+        }
+        /* Transições suaves */
+        .faq-transition {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Banner de Manutenção Geral (Ativado dinamicamente pelo Painel Administrativo) -->
+    <div id="maintenanceBanner" class="hidden bg-amber-600 text-white px-4 py-3 text-center text-sm font-semibold relative z-50 shadow-md">
+        <div class="max-w-4xl mx-auto flex items-center justify-center gap-2">
+            <i data-lucide="construction" class="w-5 h-5 animate-bounce"></i>
+            <span id="maintenanceText">O sistema encontra-se em atualização preventiva.</span>
+        </div>
+    </div>
+
+    <!-- Cabeçalho Principal (Header) -->
+    <header class="bg-indigo-primary text-white py-14 px-4 text-center shadow-lg relative overflow-hidden">
+        <!-- Detalhes decorativos de fundo para dar profundidade visual premium -->
+        <div class="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full filter blur-xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-48 h-48 bg-indigo-500/20 rounded-full filter blur-2xl pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto flex flex-col items-center relative z-10">
+            <!-- Logótipo do Portal -->
+            <div class="bg-white p-3.5 rounded-full shadow-md mb-4 flex items-center justify-center hover:scale-105 transition-transform duration-300">
+                <i data-lucide="graduation-cap" class="text-[#4F46E5] w-10 h-10"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Portal Escolar</h1>
+            <p class="text-xl font-semibold mt-2 text-indigo-100">Central de Ajuda e Suporte</p>
+            <p class="text-sm md:text-base mt-1.5 text-indigo-200/90 max-w-lg">Canal exclusivo de suporte. Esclareça as suas dúvidas com a nossa equipa ou consulte o mural informativo da escola.</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-10 space-y-12">
+
+        <!-- Notificação de Alerta/Instabilidade (Ativado dinamicamente pelo Painel Administrativo) -->
+        <div id="instabilityContainer" class="hidden border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300">
+            <div id="instabilityIcon" class="shrink-0"></div>
+            <div class="flex-1 space-y-1">
+                <h4 id="instabilityTitle" class="font-bold text-sm"></h4>
+                <p id="instabilityText" class="text-xs leading-relaxed whitespace-pre-line font-medium"></p>
+            </div>
+        </div>
+
+        <!-- Mural Informativo / Comunicado Principal (Ativado dinamicamente pelo Painel) -->
+        <section id="muralContainer" class="hidden bg-white border border-slate-smooth rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row hover:shadow-md transition duration-300">
+            <div id="muralImageWrapper" class="md:w-2/5 h-48 md:h-auto bg-slate-100 overflow-hidden relative shrink-0">
+                <img id="muralImage" src="" alt="Comunicado Escolar" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600">
+                        <i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Comunicado do Mural
+                    </span>
+                    <h3 id="muralTitle" class="text-lg font-extrabold text-slate-900 leading-snug"></h3>
+                    <p id="muralContent" class="text-slate-600 text-xs leading-relaxed whitespace-pre-line"></p>
+                </div>
+                <div class="text-[10px] text-slate-400 font-bold flex items-center gap-1.5 border-t pt-3">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Atualizado recentemente via servidor
+                </div>
+            </div>
+        </section>
+        
+        <!-- Canais de Atendimento Rápido (Atualizado em tempo real pelas configurações do Painel) -->
+        <section>
+            <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
+                <i data-lucide="message-circle" class="text-indigo-primary"></i> Canais de Atendimento
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- WhatsApp -->
+                <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col items-center text-center group">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="phone"></i>
+                    </div>
+                    <span class="font-bold mt-3 text-sm text-slate-800">WhatsApp</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Apoio Direto</span>
+                </a>
+
+                <!-- Telegram -->
+                <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition-all duration-300 flex flex-col items-center text-center group">
+                    <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="send"></i>
+                    </div>
+                    <span class="font-bold mt-3 text-sm text-slate-800">Telegram</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Canal de Avisos</span>
+                </a>
+
+                <!-- Website Oficial -->
+                <a id="linkWebsite" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-300 flex flex-col items-center text-center group">
+                    <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="globe"></i>
+                    </div>
+                    <span class="font-bold mt-3 text-sm text-slate-800">Página Web</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Visitar Website</span>
+                </a>
+
+                <!-- Instagram -->
+                <a id="linkInstagram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-pink-300 transition-all duration-300 flex flex-col items-center text-center group">
+                    <div class="p-3 bg-pink-50 text-pink-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="instagram"></i>
+                    </div>
+                    <span class="font-bold mt-3 text-sm text-slate-800">Instagram</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Tutoriais e Fotos</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Caixa de Mensagens (Grava em suporte_mensagens no Realtime Database) -->
+        <section class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm">
+            <h2 class="text-lg font-extrabold mb-3 flex items-center gap-2 text-slate-800">
+                <i data-lucide="mailbox" class="text-indigo-primary"></i> Caixa de Mensagens & Dúvidas
+            </h2>
+            <p class="text-xs text-slate-400 mb-6">Precisa de suporte extra ou quer sugerir alguma melhoria? Preencha o formulário abaixo para enviar a sua mensagem à coordenação pedagógica ou técnica.</p>
+            
+            <form id="supportForm" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">O seu Nome</label>
+                        <input type="text" id="senderName" required class="w-full border border-slate-smooth rounded-xl p-3 text-xs bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" placeholder="Ex: Lucas Silva">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">E-mail para contacto</label>
+                        <input type="email" id="senderEmail" required class="w-full border border-slate-smooth rounded-xl p-3 text-xs bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" placeholder="exemplo@escola.com">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Como o podemos ajudar?</label>
+                    <textarea id="senderMessage" required rows="4" class="w-full border border-slate-smooth rounded-xl p-3 text-xs bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition resize-none" placeholder="Escreva detalhadamente a sua dúvida ou o problema técnico..."></textarea>
+                </div>
+                
+                <button type="submit" id="submitMsgBtn" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-sm transition text-xs flex items-center gap-2 justify-center w-full sm:w-auto">
+                    <i data-lucide="send" class="w-4 h-4"></i> Submeter Pedido
+                </button>
+            </form>
+            <div id="formStatus" class="mt-4 p-3.5 rounded-xl text-xs font-bold hidden"></div>
+        </section>
+
+        <!-- Perguntas Frequentes (FAQ Estáticas) -->
+        <section>
+            <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
+                <i data-lucide="help-circle" class="text-indigo-primary"></i> Perguntas Frequentes
+            </h2>
+            <div id="faqList" class="space-y-3">
+                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
+                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
+                        <span>Como recuperar a minha senha de acesso?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
+                        No ecrã de início de sessão da aplicação móvel, toque na opção "Esqueci-me da senha". Introduza o e-mail oficial que está associado à sua matrícula escolar para receber as instruções seguras de reposição.
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
+                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
+                        <span>Como posso configurar a biometria/impressão digital?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
+                        Abra o menu lateral esquerdo do Portal Escolar, selecione as "Definições de Perfil" e ative o interruptor "Proteção Biométrica". Certifique-se de que o seu telemóvel já tem uma digital configurada no próprio sistema operativo do aparelho.
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
+                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
+                        <span>Como funciona a sincronização offline?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
+                        Sempre que o telemóvel estiver ligado à Internet, a aplicação descarrega e guarda em cache os horários atualizados. Se ficar sem rede na escola, poderá aceder ao seu horário do dia normalmente sem gastar dados móveis.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Link Externo para Download e Termos Legais -->
+        <section id="downloadSection" class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
+                <div class="p-4 bg-indigo-50 text-indigo-primary rounded-xl">
+                    <i data-lucide="download" class="w-8 h-8"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-800">Precisa de instalar o aplicativo?</h3>
+                    <p class="text-xs text-slate-500">Consulte todas as funcionalidades e descarregue o APK na nossa página de download oficial.</p>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <a id="apkDownloadBtn" href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/apk.html#features" target="_blank" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-5 py-3 rounded-xl shadow-sm text-center transition flex items-center justify-center gap-2 text-xs">
+                    <i data-lucide="external-link" class="w-4 h-4"></i> Ir para Downloads
+                </a>
+                <button id="termsBtn" class="border border-slate-smooth hover:bg-slate-50 text-slate-600 font-bold px-5 py-3 rounded-xl text-center transition text-xs flex items-center justify-center">
+                    Políticas e Privacidade
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal para Políticas e Termos Legais (Carregados via Markdown - dados_app/terms) -->
+    <div id="termsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl w-full max-w-2xl shadow-xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
+                <h3 class="font-bold flex items-center gap-2 text-sm"><i data-lucide="file-text" class="text-indigo-400"></i> Termos de Uso e Privacidade</h3>
+                <button id="closeTermsBtn" class="text-white/80 hover:text-white transition"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div id="termsModalContent" class="p-6 overflow-y-auto prose prose-sm max-w-none text-slate-600 text-xs md:text-sm space-y-4">
+                <!-- Preenchido dinamicamente via Markdown -->
+            </div>
+            <div class="bg-slate-50 p-4 border-t flex justify-end">
+                <button id="acceptTermsModalBtn" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">Compreendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="bg-white border-t border-slate-smooth mt-12 py-8 px-4 text-center text-xs text-slate-400">
+        <div class="max-w-4xl mx-auto space-y-3">
+            <p class="font-semibold text-slate-500">Portal Escolar &bull; Simplificando a rotina de alunos, professores e encarregados de educação.</p>
+            <p>&copy; 2026 &bull; Versão da App Ativa: <span id="appVersionSpan" class="font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-bold">v3.4.0</span></p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK Modular e Scripts de Leitura em Tempo Real -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Configurações reais da base de dados fornecidas
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGCjBbqtp_TvFeW7ySpLp0QmKjTsTn2Sw",
+            authDomain: "horarios-escolar-danisio.firebaseapp.com",
+            databaseURL: "https://horarios-escolar-danisio-default-rtdb.firebaseio.com",
+            projectId: "horarios-escolar-danisio",
+            storageBucket: "horarios-escolar-danisio.firebasestorage.app",
+            messagingSenderId: "348445793744",
+            appId: "1:348445793744:web:4ad8dd25f449c2c8416dd5",
+            measurementId: "G-YEXZVMKDPK"
+        };
+
+        // Inicializar aplicação Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Referências do DOM
+        const maintenanceBanner = document.getElementById('maintenanceBanner');
+        const maintenanceText = document.getElementById('maintenanceText');
+        const instabilityContainer = document.getElementById('instabilityContainer');
+        const instabilityTitle = document.getElementById('instabilityTitle');
+        const instabilityText = document.getElementById('instabilityText');
+        const instabilityIcon = document.getElementById('instabilityIcon');
+        
+        const muralContainer = document.getElementById('muralContainer');
+        const muralTitle = document.getElementById('muralTitle');
+        const muralContent = document.getElementById('muralContent');
+        const muralImage = document.getElementById('muralImage');
+        const muralImageWrapper = document.getElementById('muralImageWrapper');
+
+        const linkWhatsapp = document.getElementById('linkWhatsapp');
+        const linkTelegram = document.getElementById('linkTelegram');
+        const linkInstagram = document.getElementById('linkInstagram');
+        const linkWebsite = document.getElementById('linkWebsite');
+
+        const appVersionSpan = document.getElementById('appVersionSpan');
+        const termsBtn = document.getElementById('termsBtn');
+        const termsModal = document.getElementById('termsModal');
+        const termsModalContent = document.getElementById('termsModalContent');
+        const closeTermsBtn = document.getElementById('closeTermsBtn');
+        const acceptTermsModalBtn = document.getElementById('acceptTermsModalBtn');
+
+        const supportForm = document.getElementById('supportForm');
+        const formStatus = document.getElementById('formStatus');
+
+        let termsContentRaw = ""; // Armazena os termos originais para renderização em Markdown
+
+        // Sair de qualquer sessão administrativa e autenticar como utilizador anónimo para leitura segura
+        const initializeVisitorSession = async () => {
+            try {
+                await signInAnonymously(auth);
+            } catch (err) {
+                console.error("Falha ao inicializar sessão segura:", err);
+            }
+        };
+        initializeVisitorSession();
+
+        // Escuta em tempo real do nó 'dados_app' do Realtime Database
+        const appDataRef = ref(db, 'dados_app');
+        onValue(appDataRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                renderizarDadosSincronizados(data);
+            }
+        }, (error) => {
+            console.error("Erro na leitura das definições em tempo real:", error);
+        });
+
+        // Função de sincronização e renderização dinâmica das opções
+        const renderizarDadosSincronizados = (data) => {
+            
+            // 1. Manutenção Preventiva (dados_app/maintenance)
+            if (data.maintenance && data.maintenance.enabled) {
+                maintenanceBanner.classList.remove('hidden');
+                if (data.maintenance.title) {
+                    maintenanceText.textContent = `${data.maintenance.title}: ${data.maintenance.message || ''} ${data.maintenance.eta ? `(Previsão: ${data.maintenance.eta})` : ''}`;
+                }
+            } else {
+                maintenanceBanner.classList.add('hidden');
+            }
+
+            // 2. Alertas Gerais e Instabilidade (dados_app/messages)
+            if (data.messages && data.messages.enabled) {
+                instabilityTitle.textContent = data.messages.title || 'Alerta Escolar';
+                instabilityText.textContent = data.messages.message || '';
+                
+                // Tratar estilos visuais do banner configurados no painel
+                const style = data.messages.bannerStyle || 'warning';
+                instabilityContainer.className = "border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300";
+                
+                if (style === 'danger') {
+                    instabilityContainer.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-950');
+                    instabilityIcon.innerHTML = '<i data-lucide="alert-octagon" class="text-rose-600 w-6 h-6"></i>';
+                } else if (style === 'success') {
+                    instabilityContainer.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-950');
+                    instabilityIcon.innerHTML = '<i data-lucide="check-circle-2" class="text-emerald-600 w-6 h-6"></i>';
+                } else if (style === 'info') {
+                    instabilityContainer.classList.add('bg-sky-50', 'border-sky-200', 'text-sky-950');
+                    instabilityIcon.innerHTML = '<i data-lucide="info" class="text-sky-600 w-6 h-6"></i>';
+                } else { // default warning
+                    instabilityContainer.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-950');
+                    instabilityIcon.innerHTML = '<i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6 animate-pulse"></i>';
+                }
+                
+                instabilityContainer.classList.remove('hidden');
+            } else {
+                instabilityContainer.classList.add('hidden');
+            }
+
+            // 3. Mural de Avisos (dados_app/mural)
+            if (data.mural && data.mural.enabled) {
+                let title = data.mural.title || '';
+                let content = data.mural.content || '';
+                let imageUrl = data.mural.imageUrl || '';
+
+                // Se houver uma lista de comunicados no painel, recolhemos o mais recente ativo
+                if (data.mural.comunicados) {
+                    const arrayComunicados = Object.values(data.mural.comunicados).filter(c => c.active !== false);
+                    if (arrayComunicados.length > 0) {
+                        arrayComunicados.sort((a, b) => b.timestamp - a.timestamp);
+                        const top = arrayComunicados[0];
+                        title = top.title;
+                        content = top.content;
+                        imageUrl = top.imageUrl;
+                    }
+                }
+
+                if (title && content) {
+                    muralTitle.textContent = title;
+                    muralContent.textContent = content;
+
+                    if (imageUrl && imageUrl.trim() !== '') {
+                        muralImage.src = imageUrl;
+                        muralImageWrapper.classList.remove('hidden');
+                    } else {
+                        muralImageWrapper.classList.add('hidden');
+                    }
+                    muralContainer.classList.remove('hidden');
+                } else {
+                    muralContainer.classList.add('hidden');
+                }
+            } else {
+                muralContainer.classList.add('hidden');
+            }
+
+            // 4. Configurar Links das Redes e Suporte
+            if (data.links) {
+                configurarCanalLink(linkWhatsapp, data.links.whatsapp);
+                configurarCanalLink(linkTelegram, data.links.telegram);
+                configurarCanalLink(linkInstagram, data.links.instagram);
+                configurarCanalLink(linkWebsite, data.links.website);
+            }
+
+            // 5. Termos de Uso (dados_app/terms/content)
+            if (data.terms && data.terms.content) {
+                termsContentRaw = data.terms.content;
+            }
+
+            // 6. Atualizar apenas o indicador visual da versão do Aplicativo
+            if (data.update) {
+                appVersionSpan.textContent = data.update.versionName || 'v3.4.0';
+            }
+
+            // Atualiza os ícones gerados dinamicamente
+            lucide.createIcons();
+        };
+
+        // Utilitário para configurar links externos
+        const configurarCanalLink = (elemento, url) => {
+            if (url && url.trim() !== '') {
+                elemento.href = url;
+                elemento.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                elemento.href = '#';
+                elemento.classList.add('opacity-50', 'pointer-events-none');
+            }
+        };
+
+        // Submeter nova mensagem/dúvida direto para suporte_mensagens
+        supportForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitMsgBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-1.5 inline-block"></span> A submeter...`;
+
+            const nome = document.getElementById('senderName').value.trim();
+            const email = document.getElementById('senderEmail').value.trim();
+            const mensagem = document.getElementById('senderMessage').value.trim();
+
+            try {
+                const mensagensRef = ref(db, 'suporte_mensagens');
+                const novaMsgRef = push(mensagensRef);
+                
+                await set(novaMsgRef, {
+                    nome,
+                    email,
+                    mensagem,
+                    dataEnvio: new Date().toISOString(),
+                    status: 'Aguardando Resposta'
+                });
+
+                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+                formStatus.textContent = "Mensagem submetida com sucesso! A nossa equipa de apoio analisará o seu caso.";
+                supportForm.reset();
+            } catch (err) {
+                console.error("Erro ao guardar pedido de ajuda:", err);
+                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
+                formStatus.textContent = "Erro ao enviar a mensagem. Por favor, tente de novo mais tarde.";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> Submeter Pedido`;
+                lucide.createIcons();
+            }
+        });
+
+        // Eventos do Modal de Termos de Uso
+        termsBtn.addEventListener('click', () => {
+            if (termsContentRaw && termsContentRaw.trim() !== '') {
+                termsModalContent.innerHTML = marked.parse(termsContentRaw);
+            } else {
+                termsModalContent.innerHTML = `<p class="italic text-slate-400 text-center py-6">As políticas e termos legais não estão disponíveis de momento.</p>`;
+            }
+            termsModal.classList.remove('hidden');
+        });
+
+        const ocultarModal = () => termsModal.classList.add('hidden');
+        closeTermsBtn.addEventListener('click', ocultarModal);
+        acceptTermsModalBtn.addEventListener('click', ocultarModal);
+
+        // Accordion / Sanfona para o FAQ
+        document.querySelectorAll('.toggle-faq').forEach(botao => {
+            botao.addEventListener('click', () => {
+                const resposta = botao.nextElementSibling;
+                const icon = botao.querySelector('[data-lucide="chevron-down"]');
+                resposta.classList.toggle('hidden');
+                
+                if (resposta.classList.contains('hidden')) {
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Inicializar ícones iniciais
+        lucide.createIcons();
+    </script>
+</body>
+</html>
