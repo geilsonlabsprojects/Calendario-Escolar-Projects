@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,403 +9,494 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
+        :root {
+            --bg-color: #030510;
+        }
+
         body { 
-            background-color: #030510; 
+            background-color: var(--bg-color); 
             color: #f3f4f6; 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             overflow-x: hidden;
+            /* Dot Grid Background */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
+        /* Efeitos Glassmorphism Refinados */
         .glass-card { 
-            background: rgba(15, 17, 35, 0.45); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
+            background: rgba(15, 17, 35, 0.6); 
+            backdrop-filter: blur(24px); 
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .text-gradient {
             background: linear-gradient(135deg, #818cf8 0%, #34d399 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .btn-premium {
             background: linear-gradient(135deg, #6366f1 0%, #10b981 100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-        .btn-premium:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.3);
-            filter: brightness(1.1);
+        
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #4f46e5 0%, #059669 100%);
+            z-index: -1;
+            transition: opacity 0.4s ease;
+            opacity: 0;
         }
 
-        /* Animação suave de flutuar */
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
+        .btn-premium:hover::before { opacity: 1; }
+        .btn-premium:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
         }
+
+        /* Animações */
+        .float-animation { animation: float 6s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-15px); }
         }
 
-        /* Estilos fiéis da tela do celular (Baseado no Print) */
-        .phone-bg {
-            background-color: #121324;
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
-        .phone-card {
-            background-color: #191b33;
-            border: 1px solid #232549;
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .pill-blue { background-color: #123d4a; color: #4ecdc4; }
-        .pill-purple { background-color: #3b174d; color: #cc8efc; }
-        .pill-green { background-color: #0c3c23; color: #4efc8c; }
-        .pill-cyan { background-color: #0c3c34; color: #4efcc4; }
-        .banner-intervalo { background-color: #2b2c63; }
+
+        /* Mockup do Celular */
+        .phone-bg { background-color: #121324; }
+        .phone-card { background-color: #191b33; border: 1px solid rgba(255,255,255,0.03); }
+        .phone-glare {
+            position: absolute; top: 0; left: -50%; width: 200%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        /* Pills de matérias */
+        .pill-blue { background: rgba(78, 205, 196, 0.1); color: #4ecdc4; border: 1px solid rgba(78, 205, 196, 0.2); }
+        .pill-purple { background: rgba(204, 142, 252, 0.1); color: #cc8efc; border: 1px solid rgba(204, 142, 252, 0.2); }
+        .pill-green { background: rgba(78, 252, 140, 0.1); color: #4efc8c; border: 1px solid rgba(78, 252, 140, 0.2); }
+        .banner-intervalo { background: linear-gradient(90deg, rgba(43,44,99,1) 0%, rgba(31,33,74,1) 100%); }
         
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #030510; }
-        ::-webkit-scrollbar-thumb { background: #1e1f38; border-radius: 99px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2b2d54; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Skeleton Loading Animado */
+        .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body class="selection:bg-indigo-500 selection:text-white">
 
     <!-- Decorações de Fundo (Blur Gradientes) -->
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none"></div>
-    <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none"></div>
-    <div class="absolute bottom-10 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0"></div>
+    <div class="fixed top-[40%] right-[-10%] w-[30%] h-[40%] bg-emerald-600/15 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0"></div>
+    <div class="fixed bottom-[-10%] left-[20%] w-[30%] h-[40%] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0"></div>
 
     <!-- Barra de Navegação -->
-    <nav class="sticky top-0 z-50 bg-[#030510]/80 backdrop-blur-md border-b border-slate-900 px-4 py-4 transition-all">
+    <nav class="sticky top-0 z-50 bg-[#030510]/70 backdrop-blur-xl border-b border-white/5 px-4 py-4 transition-all duration-300 shadow-2xl shadow-black/50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/10">
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 transition-transform group-hover:scale-105 group-hover:rotate-3">
                     <i class="fas fa-graduation-cap text-white text-lg"></i>
                 </div>
                 <div>
-                    <span class="font-extrabold text-lg tracking-tight block">Portal Escolar <span class="text-emerald-400">Premium</span></span>
-                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Plataforma Inteligente</span>
+                    <span class="font-extrabold text-lg tracking-tight block text-white">Portal Escolar <span class="text-emerald-400">Premium</span></span>
+                    <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest block -mt-0.5">Plataforma Inteligente</span>
                 </div>
             </div>
 
-            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-400">
-                <a href="#features" class="hover:text-white transition">Recursos</a>
-                <a href="#security" class="hover:text-white transition">Segurança</a>
-                <a href="#social" class="hover:text-white transition">Suporte</a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                <a href="#features" class="hover:text-emerald-400 transition-colors">Recursos</a>
+                <a href="#download-box" class="hover:text-emerald-400 transition-colors">Baixar App</a>
+                <a href="#social" class="hover:text-emerald-400 transition-colors">Suporte</a>
             </div>
 
-            <a href="#download-box" class="btn-premium px-5 py-2.5 rounded-xl text-xs font-bold text-white flex items-center gap-2">
-                <i class="fas fa-cloud-arrow-down"></i> Baixar App
+            <a href="#download-box" class="btn-premium px-5 py-2.5 rounded-xl text-xs font-bold text-white flex items-center gap-2 shadow-lg shadow-indigo-500/20">
+                <i class="fas fa-cloud-arrow-down"></i> Instalar
             </a>
         </div>
     </nav>
 
     <!-- Seção Hero -->
-    <header class="relative max-w-7xl mx-auto px-4 pt-10 pb-20 lg:pt-16 flex flex-col lg:flex-row items-center justify-between gap-12 z-10">
-        <div class="flex-1 space-y-6 text-center lg:text-left">
-            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
-                <i class="fas fa-sparkles animate-pulse"></i> Lançamento Nova Versão
-            </span>
-            <h1 class="text-4xl md:text-5.5xl font-black leading-tight tracking-tight">
-                Sua vida escolar <br class="hidden md:inline">
-                <span class="text-gradient">totalmente organizada</span> em <br class="hidden md:inline"> tempo real.
+    <header class="relative max-w-7xl mx-auto px-4 pt-16 pb-24 lg:pt-24 flex flex-col lg:flex-row items-center justify-between gap-16 z-10 min-h-[90vh]">
+        <div class="flex-1 space-y-8 text-center lg:text-left reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-indigo-300 text-xs font-bold uppercase tracking-wider shadow-lg">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Versão mais recente disponível
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight text-white drop-shadow-sm">
+                Sua vida escolar <br class="hidden lg:inline">
+                <span class="text-gradient">totalmente conectada</span> <br class="hidden lg:inline"> em tempo real.
             </h1>
-            <p class="text-slate-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                O <strong class="text-white">Portal Escolar Premium</strong> é uma plataforma completa de gestão educacional e comunicação direta em tempo real para alunos e professores.
+            
+            <p class="text-slate-400 text-base md:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                O <strong class="text-white font-bold">Portal Escolar Premium</strong> transforma a gestão educacional. Comunicação instantânea, horários e rotinas na palma da mão de alunos e professores.
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                <a href="#download-box" class="btn-premium w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-white flex items-center justify-center gap-3 shadow-xl">
-                    <i class="fas fa-cloud-arrow-down text-lg"></i> Instalar Aplicativo (APK)
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                <a href="#download-box" class="btn-premium w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-white flex items-center justify-center gap-3 shadow-xl shadow-indigo-500/20 text-lg">
+                    <i class="fas fa-cloud-arrow-down text-xl"></i> Baixar Agora (APK)
                 </a>
-                <a href="#features" class="w-full sm:w-auto bg-slate-900/40 hover:bg-slate-900 hover:text-white border border-slate-800 text-slate-350 px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-2">
-                    Conhecer Recursos <i class="fas fa-arrow-down text-xs"></i>
+                <a href="#features" class="w-full sm:w-auto glass-panel hover:bg-white/5 text-white px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-2 text-lg group">
+                    Explorar <i class="fas fa-arrow-down text-sm text-slate-400 group-hover:translate-y-1 transition-transform"></i>
                 </a>
             </div>
 
-            <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500 font-semibold">
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-check-circle text-emerald-400"></i> Sincronização em Nuvem Ativa
+            <div class="pt-8 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-slate-300 font-semibold">
+                <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
+                    <i class="fas fa-cloud text-emerald-400"></i> Nuvem Ativa
                 </div>
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-shield-halved text-indigo-400"></i> Proteção 2FA & Biometria
+                <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
+                    <i class="fas fa-fingerprint text-indigo-400"></i> Segurança 2FA
                 </div>
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-signal text-purple-400"></i> Modo Offline Integrado
+                <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
+                    <i class="fas fa-wifi text-purple-400"></i> Modo Offline
                 </div>
             </div>
         </div>
 
-        <!-- MOCKUP ULTRA-FIEL DE CELULAR (IDÊNTICO AO SEU PRINT) -->
-        <div class="flex-1 flex justify-center float-animation relative w-full max-w-sm">
-            <div class="glass-card w-full rounded-[45px] p-4 border-4 border-slate-800 shadow-3xl overflow-hidden relative" style="height: 640px;">
-                <!-- Câmera Notch do Celular -->
-                <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-4.5 bg-slate-950 rounded-full z-20 flex items-center justify-center gap-1.5">
-                    <div class="w-2.5 h-2.5 rounded-full bg-slate-900"></div>
-                </div>
-
-                <!-- Tela Interna do Aplicativo -->
-                <div class="phone-bg h-full w-full rounded-[38px] p-4 pt-6 overflow-y-auto space-y-4 text-left select-none relative" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+        <!-- MOCKUP ULTRA-FIEL DE CELULAR -->
+        <div class="flex-1 flex justify-center w-full max-w-sm lg:max-w-md reveal relative">
+            <!-- Glow effect behind phone -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[100%] bg-gradient-to-tr from-indigo-500/20 to-emerald-500/20 blur-[80px] rounded-full z-0"></div>
+            
+            <div class="float-animation relative z-10 w-full">
+                <!-- Phone Chassis -->
+                <div class="glass-card w-full rounded-[3rem] p-3.5 border-4 border-slate-700/50 shadow-2xl relative overflow-hidden ring-1 ring-white/10" style="aspect-ratio: 9/19; max-height: 700px;">
                     
-                    <!-- Header do App -->
-                    <div class="flex items-center justify-between text-white mt-2">
-                        <div>
-                            <h3 class="text-sm font-extrabold tracking-wider text-slate-100">HORÁRIOS ESCOLAR</h3>
-                            <div class="flex items-center gap-2 text-[10px] text-indigo-300 font-bold uppercase tracking-wide mt-0.5">
-                                <span>2ª SÉRIE D</span>
-                                <span class="text-slate-500">•</span>
-                                <span>TURNO TARDE</span>
-                            </div>
-                        </div>
-                        <button class="w-8 h-8 rounded-full bg-slate-900/50 flex items-center justify-center text-slate-300">
-                            <i class="fas fa-cog text-sm"></i>
-                        </button>
+                    <!-- Glare Effect -->
+                    <div class="phone-glare"></div>
+
+                    <!-- Câmera Notch do Celular -->
+                    <div class="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-30 flex items-center justify-center gap-2">
+                        <div class="w-1 h-1 rounded-full bg-slate-700"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700/50"></div>
                     </div>
 
-                    <!-- Mensagem do Usuário -->
-                    <div class="text-sm font-bold text-white">
-                        Olá, Geilson! 👋
-                    </div>
-
-                    <!-- Abas de Dias da Semana -->
-                    <div class="flex justify-between items-center text-[10px] font-black tracking-wider text-slate-500 border-b border-slate-900 pb-2">
-                        <span class="text-indigo-400 border-b-2 border-indigo-500 pb-1.5 px-1 font-extrabold">SEGUNDA</span>
-                        <span class="hover:text-slate-300 transition">TERÇA</span>
-                        <span class="hover:text-slate-300 transition">QUARTA</span>
-                        <span class="hover:text-slate-300 transition">QUINTA</span>
-                        <span class="hover:text-slate-300 transition">SEXTA</span>
-                    </div>
-
-                    <!-- Lista de Matérias (Igual ao Print) -->
-                    <div class="space-y-3">
+                    <!-- Tela Interna do Aplicativo -->
+                    <div class="phone-bg h-full w-full rounded-[2.2rem] p-4 pt-8 overflow-y-auto space-y-4 text-left select-none relative shadow-inner">
                         
-                        <!-- Aula 1: Sociologia -->
-                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
-                            <div class="space-y-3">
-                                <span class="pill-blue text-[10px] font-black px-3 py-1 rounded-lg">Sociologia</span>
-                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
-                                    <span>Alyson</span>
+                        <!-- Header do App -->
+                        <div class="flex items-center justify-between text-white mt-3">
+                            <div>
+                                <h3 class="text-sm font-black tracking-wider text-white drop-shadow-md">HORÁRIOS ESCOLAR</h3>
+                                <div class="flex items-center gap-2 text-[10px] text-indigo-300 font-bold uppercase tracking-wide mt-1">
+                                    <span class="bg-indigo-500/20 px-2 py-0.5 rounded text-indigo-200">2ª SÉRIE D</span>
+                                    <span class="text-slate-500">•</span>
+                                    <span>TARDE</span>
                                 </div>
                             </div>
-                            <div class="flex flex-col items-end gap-3">
-                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
-                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 13:00 - 13:50
-                                </span>
-                                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                                    <i class="fas fa-pencil hover:text-white transition cursor-pointer"></i>
-                                    <i class="far fa-star hover:text-yellow-400 transition cursor-pointer"></i>
+                            <button class="w-9 h-9 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 shadow-sm">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+
+                        <!-- Mensagem do Usuário -->
+                        <div class="text-base font-bold text-white bg-slate-800/30 p-3 rounded-2xl border border-white/5">
+                            Olá, <span class="text-emerald-400">Geilson!</span> 👋
+                        </div>
+
+                        <!-- Abas de Dias da Semana -->
+                        <div class="flex justify-between items-center text-[10px] font-black tracking-wider text-slate-500 border-b border-slate-800/80 pb-2 pt-2">
+                            <span class="text-indigo-400 border-b-2 border-indigo-500 pb-2 px-1 font-extrabold relative">
+                                SEGUNDA
+                                <div class="absolute -bottom-[2px] left-0 w-full h-[2px] bg-indigo-400 shadow-[0_0_8px_#818cf8]"></div>
+                            </span>
+                            <span class="hover:text-slate-300 transition cursor-pointer">TERÇA</span>
+                            <span class="hover:text-slate-300 transition cursor-pointer">QUARTA</span>
+                            <span class="hover:text-slate-300 transition cursor-pointer">QUINTA</span>
+                            <span class="hover:text-slate-300 transition cursor-pointer">SEXTA</span>
+                        </div>
+
+                        <!-- Lista de Matérias -->
+                        <div class="space-y-3 pb-16"> <!-- Padding bottom extra para nav bar -->
+                            
+                            <!-- Aula 1 -->
+                            <div class="phone-card rounded-2xl p-4 flex justify-between items-start shadow-sm relative overflow-hidden group">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#4ecdc4]"></div>
+                                <div class="space-y-3 pl-1">
+                                    <span class="pill-blue text-[10px] font-black px-3 py-1 rounded-lg">Sociologia</span>
+                                    <div class="flex items-center gap-2 text-slate-300 text-xs font-semibold">
+                                        <div class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center"><i class="fas fa-user-tie text-[9px] text-slate-400"></i></div>
+                                        <span>Alyson</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end gap-3">
+                                    <span class="bg-slate-950/60 text-[10px] font-bold text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5 shadow-inner">
+                                        <i class="far fa-clock text-indigo-400"></i> 13:00 - 13:50
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Aula 2 -->
+                            <div class="phone-card rounded-2xl p-4 flex justify-between items-start shadow-sm relative overflow-hidden group">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#cc8efc]"></div>
+                                <div class="space-y-3 pl-1">
+                                    <span class="pill-purple text-[10px] font-black px-3 py-1 rounded-lg">Matemática</span>
+                                    <div class="flex items-center gap-2 text-slate-300 text-xs font-semibold">
+                                        <div class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center"><i class="fas fa-user-tie text-[9px] text-slate-400"></i></div>
+                                        <span>Airan</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end gap-3">
+                                    <span class="bg-slate-950/60 text-[10px] font-bold text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5 shadow-inner">
+                                        <i class="far fa-clock text-indigo-400"></i> 13:50 - 14:40
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Banner Intervalo -->
+                            <div class="banner-intervalo rounded-2xl p-3.5 text-center text-white font-bold text-[11px] flex items-center justify-center gap-2 border border-indigo-500/20 shadow-[0_0_15px_rgba(79,70,229,0.15)]">
+                                <div class="w-6 h-6 rounded-full bg-indigo-500/30 flex items-center justify-center">☕</div>
+                                <span>INTERVALO • 15:25 - 15:40</span>
+                            </div>
+
+                            <!-- Aula 3 -->
+                            <div class="phone-card rounded-2xl p-4 flex justify-between items-start shadow-sm relative overflow-hidden group">
+                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#4efc8c]"></div>
+                                <div class="space-y-3 pl-1">
+                                    <span class="pill-green text-[10px] font-black px-3 py-1 rounded-lg">Ed. Física</span>
+                                    <div class="flex items-center gap-2 text-slate-300 text-xs font-semibold">
+                                        <div class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center"><i class="fas fa-user-tie text-[9px] text-slate-400"></i></div>
+                                        <span>Florêncio</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end gap-3">
+                                    <span class="bg-slate-950/60 text-[10px] font-bold text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5 shadow-inner">
+                                        <i class="far fa-clock text-indigo-400"></i> 15:45 - 16:25
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Aula 2: Matemática -->
-                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
-                            <div class="space-y-3">
-                                <span class="pill-purple text-[10px] font-black px-3 py-1 rounded-lg">Matemática</span>
-                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
-                                    <span>Airan</span>
+                        <!-- Barra de Navegação Inferior -->
+                        <div class="absolute bottom-0 left-0 right-0 bg-[#0c0d1b]/95 backdrop-blur-md border-t border-slate-800/80 px-4 py-3 flex justify-between items-center z-10 pb-5">
+                            <div class="flex flex-col items-center gap-1 cursor-pointer">
+                                <div class="bg-indigo-500/20 text-indigo-400 w-14 py-1.5 rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
+                                <span class="text-[9px] font-bold text-indigo-400">Início</span>
                             </div>
-                            <div class="flex flex-col items-end gap-3">
-                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
-                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 13:50 - 14:40
-                                </span>
-                                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                                    <i class="fas fa-pencil hover:text-white"></i>
-                                    <i class="far fa-star hover:text-yellow-400"></i>
-                                </div>
+                            <div class="flex flex-col items-center gap-1.5 text-slate-500 hover:text-slate-300 cursor-pointer transition px-2">
+                                <i class="fas fa-star text-lg"></i>
+                                <span class="text-[9px] font-bold">Favoritos</span>
                             </div>
-                        </div>
-
-                        <!-- Aula 3: Matemática -->
-                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
-                            <div class="space-y-3">
-                                <span class="pill-purple text-[10px] font-black px-3 py-1 rounded-lg">Matemática</span>
-                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
-                                    <span>Airan</span>
-                                </div>
+                            <div class="flex flex-col items-center gap-1.5 text-slate-500 hover:text-slate-300 cursor-pointer transition px-2">
+                                <i class="fas fa-newspaper text-lg"></i>
+                                <span class="text-[9px] font-bold">Mural</span>
                             </div>
-                            <div class="flex flex-col items-end gap-3">
-                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
-                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 14:40 - 15:25
-                                </span>
-                                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                                    <i class="fas fa-pencil hover:text-white"></i>
-                                    <i class="far fa-star hover:text-yellow-400"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Banner de Intervalo -->
-                        <div class="banner-intervalo rounded-2xl p-3 text-center text-white font-bold text-xs flex items-center justify-center gap-2 border border-indigo-900/40 shadow-inner">
-                            <i class="fas fa-desktop text-[10px] text-indigo-300"></i>
-                            <span>☕ INTERVALO • 15:25 - 15:40</span>
-                        </div>
-
-                        <!-- Aula 4: Ed. Física -->
-                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
-                            <div class="space-y-3">
-                                <span class="pill-green text-[10px] font-black px-3 py-1 rounded-lg">Ed. Física</span>
-                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
-                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
-                                    <span>Florêncio</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-end gap-3">
-                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
-                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 15:45 - 16:25
-                                </span>
-                                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                                    <i class="fas fa-pencil hover:text-white"></i>
-                                    <i class="far fa-star hover:text-yellow-400"></i>
-                                </div>
+                            <div class="flex flex-col items-center gap-1.5 text-slate-500 hover:text-slate-300 cursor-pointer transition px-2">
+                                <i class="fas fa-user-circle text-lg"></i>
+                                <span class="text-[9px] font-bold">Perfil</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Barra de Navegação Inferior (Fiel ao Print) -->
-                    <div class="absolute bottom-0 left-0 right-0 bg-[#0c0d1b] border-t border-slate-900 px-4 py-2 flex justify-between items-center z-10">
-                        <div class="flex flex-col items-center gap-0.5 cursor-pointer">
-                            <div class="bg-[#1f213a] text-indigo-400 w-12 py-1 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-calendar-alt text-sm"></i>
-                            </div>
-                            <span class="text-[9px] font-bold text-indigo-400">Início</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
-                            <i class="fas fa-star text-sm"></i>
-                            <span class="text-[9px] font-bold">Favoritos</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
-                            <i class="fas fa-newspaper text-sm"></i>
-                            <span class="text-[9px] font-bold">Mural</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
-                            <i class="fas fa-pen-fancy text-sm"></i>
-                            <span class="text-[9px] font-bold">Tarefas</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
-                            <i class="fas fa-user-circle text-sm"></i>
-                            <span class="text-[9px] font-bold">Perfil</span>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- APRESENTAÇÃO COMPLETA DOS RECURSOS (MUDANÇA: Sincronizada Dinamicamente do Painel /dados_app/portal) -->
-    <section id="features" class="max-w-7xl mx-auto px-4 py-20 border-t border-slate-900 relative">
-        <div class="text-center space-y-4 mb-16">
-            <span class="text-xs font-black text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1.5 rounded-full border border-indigo-500/20">Recursos Unificados</span>
-            <h2 class="text-3xl md:text-4.5xl font-black">Uma Plataforma Completa de Gestão Educacional</h2>
-            <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">Tudo o que o Portal Escolar oferece ao seu cliente final (alunos e professores) com controle absoluto e em tempo real.</p>
+    <!-- APRESENTAÇÃO DOS RECURSOS (Dinâmico) -->
+    <section id="features" class="max-w-7xl mx-auto px-4 py-24 border-t border-white/5 relative z-10">
+        <div class="text-center space-y-4 mb-16 reveal">
+            <span class="inline-block text-xs font-black text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-4 py-2 rounded-full border border-indigo-500/20 shadow-inner">
+                Visão Geral do Sistema
+            </span>
+            <h2 class="text-4xl md:text-5xl font-black text-white">Plataforma Educacional Unificada</h2>
+            <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto">Informações geridas no painel administrativo sincronizadas em tempo real para o app.</p>
         </div>
 
-        <!-- Bloco de Apresentação de Recursos Dinâmicos Gigante -->
-        <div class="max-w-5xl mx-auto glass-card rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl space-y-6 relative overflow-hidden text-left leading-relaxed">
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
+        <div class="max-w-4xl mx-auto glass-card rounded-[2rem] p-8 md:p-12 relative overflow-hidden text-left reveal">
+            <!-- Decoração de fundo do card -->
+            <div class="absolute -top-32 -right-32 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px]"></div>
+            <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px]"></div>
             
-            <div class="flex items-center gap-3 pb-4 border-b border-slate-850">
-                <div class="w-10 h-10 rounded-lg bg-indigo-500/15 text-indigo-400 flex items-center justify-center text-lg">
-                    <i class="fas fa-clipboard-list-check"></i>
+            <div class="relative z-10 flex items-center gap-4 pb-6 border-b border-white/10 mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-xl shadow-lg">
+                    <i class="fas fa-rocket"></i>
                 </div>
                 <div>
-                    <h3 class="font-extrabold text-white text-lg">O que o aplicativo oferece:</h3>
-                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Módulos Ativos do Sistema</span>
+                    <h3 class="font-black text-white text-xl md:text-2xl">Módulos do Aplicativo</h3>
+                    <span class="text-xs text-indigo-300 font-bold uppercase tracking-widest">Sincronização Ativa</span>
                 </div>
             </div>
 
-            <!-- Este container renderiza o seu texto gigante estruturado dinamicamente do Firebase com formatação adaptada -->
-            <div id="portal-presentation-container" class="text-slate-300 text-sm space-y-4 whitespace-pre-wrap font-medium">
-                <div class="flex flex-col items-center justify-center py-12 text-slate-500 space-y-3">
-                    <i class="fas fa-circle-notch fa-spin text-xl text-indigo-400"></i>
-                    <span>Sincronizando apresentação dos pilares do app...</span>
+            <!-- Container Dinâmico -->
+            <div id="portal-presentation-container" class="text-slate-300 text-base md:text-lg space-y-6 whitespace-pre-wrap font-medium leading-relaxed">
+                <!-- Skeleton Loader -->
+                <div class="space-y-4 py-4">
+                    <div class="h-6 skeleton w-3/4"></div>
+                    <div class="h-4 skeleton w-full"></div>
+                    <div class="h-4 skeleton w-5/6"></div>
+                    <div class="h-4 skeleton w-full"></div>
+                    <div class="h-6 skeleton w-1/2 mt-8"></div>
+                    <div class="h-4 skeleton w-full"></div>
+                    <div class="h-4 skeleton w-4/5"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- BOX DE DOWNLOAD DINÂMICO (SINCRONIZADO COM O SEU PAINEL) -->
-    <section id="download-box" class="max-w-4xl mx-auto px-4 py-16 text-center z-10 relative">
-        <div class="glass-card rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl space-y-8 relative overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl"></div>
+    <!-- BOX DE DOWNLOAD DINÂMICO -->
+    <section id="download-box" class="max-w-5xl mx-auto px-4 py-20 z-10 relative">
+        <div class="glass-panel rounded-[2.5rem] p-8 md:p-14 relative overflow-hidden text-center reveal shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[50%] bg-indigo-500/20 rounded-full blur-[100px]"></div>
             
-            <div class="space-y-3">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">Instalação direta</span>
-                <h2 class="text-3xl md:text-4.5xl font-black text-white">Pronto para Instalar?</h2>
-                <p class="text-slate-400 text-sm max-w-xl mx-auto">Esta seção se atualiza dinamicamente conforme você publica novas versões no seu painel administrativo.</p>
+            <div class="relative z-10 space-y-6 mb-12">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-emerald-400 to-indigo-600 rounded-3xl flex items-center justify-center shadow-xl shadow-emerald-500/20 rotate-3">
+                    <i class="fab fa-android text-4xl text-white"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight">Instalar Aplicativo Oficial</h2>
+                <p class="text-slate-400 text-base max-w-xl mx-auto">Baixe o APK de forma segura e direta. As informações abaixo refletem a versão mais recente publicada pela escola.</p>
             </div>
 
-            <!-- Dados Sincronizados em Tempo Real do Firebase -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto bg-slate-950/70 p-5 rounded-2xl border border-slate-900 text-left">
-                <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Versão Atual</span>
-                    <span id="active-version" class="text-lg font-black text-indigo-400">v0.0.0</span>
+            <!-- Dados Sincronizados -->
+            <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8">
+                <div class="glass-card p-5 rounded-2xl text-left hover:bg-white/5 transition duration-300 group">
+                    <span class="block text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mb-1 group-hover:text-indigo-400 transition-colors">Versão Atual</span>
+                    <span id="active-version" class="text-xl md:text-2xl font-black text-white flex items-center gap-2">
+                        <div class="h-6 w-16 skeleton"></div>
+                    </span>
                 </div>
-                <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Tamanho do Arquivo</span>
-                    <span id="active-size" class="text-lg font-black text-white">Carregando...</span>
+                <div class="glass-card p-5 rounded-2xl text-left hover:bg-white/5 transition duration-300 group">
+                    <span class="block text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mb-1 group-hover:text-emerald-400 transition-colors">Tamanho</span>
+                    <span id="active-size" class="text-xl md:text-2xl font-black text-white">
+                        <div class="h-6 w-16 skeleton"></div>
+                    </span>
                 </div>
-                <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Mínimo Android</span>
-                    <span id="active-sdk" class="text-lg font-black text-white">Android 8.0</span>
+                <div class="glass-card p-5 rounded-2xl text-left hover:bg-white/5 transition duration-300 group">
+                    <span class="block text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mb-1 group-hover:text-purple-400 transition-colors">Requisito</span>
+                    <span id="active-sdk" class="text-xl md:text-2xl font-black text-white">
+                        <div class="h-6 w-20 skeleton"></div>
+                    </span>
                 </div>
-                <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Canal</span>
-                    <span id="active-channel" class="text-lg font-black text-emerald-450 uppercase">Estável</span>
+                <div class="glass-card p-5 rounded-2xl text-left hover:bg-white/5 transition duration-300 group">
+                    <span class="block text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mb-1 group-hover:text-sky-400 transition-colors">Status</span>
+                    <span id="active-channel" class="text-xl md:text-2xl font-black text-emerald-400 uppercase flex items-center gap-2">
+                        <div class="h-6 w-20 skeleton"></div>
+                    </span>
                 </div>
             </div>
 
-            <!-- Changelog/Novidades Dinâmicas -->
-            <div class="max-w-2xl mx-auto bg-slate-900/35 p-5 rounded-2xl border border-slate-850 text-left space-y-2">
-                <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">
-                    <i class="fas fa-file-signature mr-1 text-indigo-400"></i> Novidades desta Versão (Changelog):
+            <!-- Changelog -->
+            <div class="relative z-10 max-w-3xl mx-auto bg-[#0a0c1a]/80 backdrop-blur-md p-6 rounded-2xl border border-white/5 text-left mb-10 shadow-inner">
+                <span class="text-[11px] font-black text-indigo-400 uppercase tracking-widest flex items-center gap-2 mb-3">
+                    <i class="fas fa-history"></i> O que há de novo nesta versão:
                 </span>
-                <p id="active-changelog" class="text-xs text-slate-400 leading-relaxed font-medium">Buscando as atualizações mais recentes salvas no servidor...</p>
+                <div id="active-changelog" class="text-sm text-slate-300 leading-relaxed font-medium">
+                    <div class="space-y-2">
+                        <div class="h-4 w-full skeleton"></div>
+                        <div class="h-4 w-3/4 skeleton"></div>
+                    </div>
+                </div>
             </div>
 
-            <div class="space-y-4">
-                <a href="#" id="main-download-btn" class="btn-premium inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-white text-lg shadow-xl cursor-pointer">
-                    <i class="fas fa-cloud-arrow-down text-xl"></i> Baixar Versão APK Oficial
+            <div class="relative z-10 space-y-4">
+                <a href="#" id="main-download-btn" class="btn-premium inline-flex items-center justify-center gap-3 w-full sm:w-auto px-12 py-5 rounded-2xl font-black text-white text-xl shadow-[0_10px_40px_-10px_rgba(99,102,241,0.6)] cursor-not-allowed opacity-80 transition-all">
+                    <i class="fas fa-circle-notch fa-spin text-2xl"></i> Aguardando Servidor...
                 </a>
-                
-                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
-                    Conectado dinamicamente com o painel de administração em /dados_app
-                </p>
             </div>
         </div>
     </section>
 
-    <!-- Rodapé & Canais de Suporte com Links -->
-    <footer id="social" class="bg-slate-950 border-t border-slate-900 py-12 px-4 text-center z-10 relative">
-        <div class="max-w-7xl mx-auto space-y-6">
-            <div class="flex items-center justify-center gap-2">
-                <i class="fas fa-graduation-cap text-gradient text-2xl"></i>
-                <span class="font-bold text-lg">Portal Escolar <span class="text-emerald-400">Premium</span></span>
+    <!-- Rodapé -->
+    <footer id="social" class="bg-[#020308] border-t border-white/5 py-16 px-4 text-center z-10 relative mt-10">
+        <div class="max-w-7xl mx-auto space-y-8 reveal">
+            <div class="flex items-center justify-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-indigo-500 to-emerald-500 flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-white text-lg"></i>
+                </div>
+                <span class="font-black text-2xl text-white tracking-tight">Portal Escolar <span class="text-emerald-400">Premium</span></span>
             </div>
             
-            <!-- Redes Sociais Dinâmicas sincronizadas do Banco -->
-            <div class="flex flex-wrap justify-center gap-4 text-xs font-bold text-slate-400">
-                <a id="footer-wpp" href="#" target="_blank" class="hover:text-green-450 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-whatsapp text-green-400 text-sm"></i> WhatsApp de Suporte</a>
-                <a id="footer-telegram" href="#" target="_blank" class="hover:text-sky-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-telegram text-sky-400 text-sm"></i> Canal Telegram</a>
-                <a id="footer-insta" href="#" target="_blank" class="hover:text-pink-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-instagram text-pink-400 text-sm"></i> Instagram</a>
-                <a id="footer-youtube" href="#" target="_blank" class="hover:text-red-500 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-youtube text-red-500 text-sm"></i> Canal YouTube</a>
-                <a id="footer-site" href="#" target="_blank" class="hover:text-indigo-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fas fa-earth-americas text-indigo-400 text-sm"></i> Site Oficial</a>
+            <p class="text-slate-400 text-sm max-w-md mx-auto">Conectando alunos, professores e a escola em um ecossistema digital inteligente.</p>
+
+            <!-- Redes Sociais Dinâmicas -->
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a id="footer-wpp" href="#" target="_blank" class="hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-green-500/20 transition-all bg-[#0a0c1a] px-6 py-3 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
+                    <i class="fab fa-whatsapp text-green-400 text-lg"></i> Suporte
+                </a>
+                <a id="footer-telegram" href="#" target="_blank" class="hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/20 transition-all bg-[#0a0c1a] px-6 py-3 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
+                    <i class="fab fa-telegram text-sky-400 text-lg"></i> Telegram
+                </a>
+                <a id="footer-insta" href="#" target="_blank" class="hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-500/20 transition-all bg-[#0a0c1a] px-6 py-3 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
+                    <i class="fab fa-instagram text-pink-400 text-lg"></i> Instagram
+                </a>
+                <a id="footer-site" href="#" target="_blank" class="hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-500/20 transition-all bg-[#0a0c1a] px-6 py-3 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
+                    <i class="fas fa-globe text-indigo-400 text-lg"></i> Web
+                </a>
             </div>
 
-            <p class="text-xs text-slate-600 font-medium">© 2026 Portal Escolar Premium. Todos os direitos reservados. Gestão de dados educacionais em tempo real.</p>
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-500">
+                <p>© 2026 Portal Escolar Premium. Todos os direitos reservados.</p>
+                <div class="flex gap-4">
+                    <span class="hover:text-slate-300 cursor-pointer">Termos de Uso</span>
+                    <span class="hover:text-slate-300 cursor-pointer">Privacidade</span>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- Firebase SDK Modular -->
+    <!-- Scripts de Animação e Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
+        // 1. Lógica de Scroll Reveal (Animações CSS)
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 2. Lógica do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDGCjBbqtp_TvFeW7ySpLp0QmKjTsTn2Sw",
             authDomain: "horarios-escolar-danisio.firebaseapp.com",
@@ -420,88 +511,80 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Função de escuta em tempo real (Sincronização instantânea com onValue)
         function startRealtimeSync() {
             const dbRef = ref(db, 'dados_app');
             
-            // Ouvinte contínuo no nó principal /dados_app
             onValue(dbRef, (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     
-                    // 1. Sincronizar dados do módulo de Atualização ('update')
+                    // -- ATUALIZAÇÃO (Download) --
                     if (data.update) {
                         const updateData = data.update;
                         
                         document.getElementById('active-version').innerText = 'v' + (updateData.versionName || '0.0.0');
                         document.getElementById('active-size').innerText = updateData.apkSize || 'N/A';
                         document.getElementById('active-sdk').innerText = updateData.minSdk || 'Android 8.0';
-                        document.getElementById('active-channel').innerText = updateData.channel || 'Estável';
+                        document.getElementById('active-channel').innerHTML = `<i class="fas fa-check-circle text-sm"></i> ${updateData.channel || 'Estável'}`;
                         
-                        if (updateData.description) {
-                            document.getElementById('active-changelog').innerText = updateData.description;
-                        } else {
-                            document.getElementById('active-changelog').innerText = 'Nenhuma alteração descrita para esta versão.';
-                        }
+                        document.getElementById('active-changelog').innerText = updateData.description || 'Nenhuma alteração descrita para esta versão.';
 
-                        // Vincular o link de download direto
                         const downloadBtn = document.getElementById('main-download-btn');
+                        downloadBtn.classList.remove('cursor-not-allowed', 'opacity-80');
+                        
                         if (updateData.apkUrl) {
                             downloadBtn.href = updateData.apkUrl;
                             downloadBtn.target = "_blank";
-                            downloadBtn.innerHTML = `<i class="fas fa-cloud-arrow-down text-xl"></i> Baixar Versão APK Oficial`;
+                            downloadBtn.innerHTML = `<i class="fas fa-cloud-arrow-down text-2xl"></i> Baixar Versão Oficial (APK)`;
                         } else {
                             downloadBtn.href = "#";
-                            downloadBtn.innerHTML = `<i class="fas fa-circle-exclamation text-xl"></i> Download Indisponível`;
+                            downloadBtn.innerHTML = `<i class="fas fa-exclamation-triangle text-2xl"></i> Link Indisponível`;
                         }
                     }
 
-                    // 2. Sincronizar texto de apresentação do Portal ('portal')
+                    // -- APRESENTAÇÃO PORTAL --
                     if (data.portal && data.portal.content) {
                         document.getElementById('portal-presentation-container').innerText = data.portal.content;
                     } else {
-                        // Conteúdo padrão de fallback caso esteja vazio no banco de dados
                         document.getElementById('portal-presentation-container').innerHTML = `
-                            <p class="text-slate-450 italic text-center">Nenhum texto de apresentação salvo ainda no painel administrativo.</p>
+                            <p class="text-slate-500 italic flex items-center gap-2"><i class="fas fa-info-circle"></i> O texto de apresentação será sincronizado aqui em breve.</p>
                         `;
                     }
 
-                    // 3. Sincronizar canais e redes sociais do rodapé ('links')
+                    // -- REDES SOCIAIS --
                     if (data.links) {
                         const socialData = data.links;
                         
                         if (socialData.whatsapp) {
-                            document.getElementById('footer-wpp').href = `https://wa.me/${socialData.whatsapp}`;
-                            document.getElementById('footer-wpp').classList.remove('hidden');
+                            const btn = document.getElementById('footer-wpp');
+                            btn.href = `https://wa.me/${socialData.whatsapp}`;
+                            btn.classList.remove('hidden');
                         }
                         if (socialData.telegram) {
-                            document.getElementById('footer-telegram').href = socialData.telegram;
-                            document.getElementById('footer-telegram').classList.remove('hidden');
+                            const btn = document.getElementById('footer-telegram');
+                            btn.href = socialData.telegram;
+                            btn.classList.remove('hidden');
                         }
                         if (socialData.instagram) {
-                            document.getElementById('footer-insta').href = socialData.instagram;
-                            document.getElementById('footer-insta').classList.remove('hidden');
-                        }
-                        if (socialData.youtube) {
-                            document.getElementById('footer-youtube').href = socialData.youtube;
-                            document.getElementById('footer-youtube').classList.remove('hidden');
+                            const btn = document.getElementById('footer-insta');
+                            btn.href = socialData.instagram;
+                            btn.classList.remove('hidden');
                         }
                         if (socialData.website) {
-                            document.getElementById('footer-site').href = socialData.website;
-                            document.getElementById('footer-site').classList.remove('hidden');
+                            const btn = document.getElementById('footer-site');
+                            btn.href = socialData.website;
+                            btn.classList.remove('hidden');
                         }
                     }
                 }
             }, (error) => {
-                console.error("Erro na escuta dinâmica do Firebase:", error);
+                console.error("Erro na leitura:", error);
                 document.getElementById('active-version').innerText = "Erro";
-                document.getElementById('active-changelog').innerText = "Erro de conexão com as regras de leitura pública.";
+                document.getElementById('active-changelog').innerText = "Falha ao conectar com o servidor.";
             });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            startRealtimeSync();
-        });
+        window.addEventListener('DOMContentLoaded', startRealtimeSync);
     </script>
 </body>
 </html>
