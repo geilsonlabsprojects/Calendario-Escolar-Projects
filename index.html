@@ -127,6 +127,7 @@
         const HelpCircle = (p) => <IconBase {...p}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></IconBase>;
         const MonitorSmartphone = (p) => <IconBase {...p}><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></IconBase>;
         const QrCodeIcon = (p) => <IconBase {...p}><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></IconBase>;
+        const Download = (p) => <IconBase {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></IconBase>;
 
         // --- CORES INTELIGENTES ---
         const TAILWIND_COLORS = [
@@ -494,6 +495,17 @@
                                 <button onClick={() => setIsHelpModalOpen(true)} className="p-2.5 sm:p-3 hover:bg-white/10 rounded-xl transition" aria-label="Ajuda">
                                     <HelpCircle className="w-5 h-5 text-brand-50" />
                                 </button>
+
+                                {/* NOVO BOTÃO DE DOWNLOAD AQUI */}
+                                <a 
+                                    href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/apk.html#features" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="p-2.5 sm:p-3 hover:bg-white/10 rounded-xl transition flex items-center justify-center" 
+                                    aria-label="Baixar App"
+                                >
+                                    <Download className="w-5 h-5 text-brand-50" />
+                                </a>
                                 
                                 <button onClick={handleOpenNews} className="relative p-2.5 sm:p-3 hover:bg-white/10 rounded-xl transition group" aria-label="Novidades">
                                     <Bell className="w-5 h-5 text-brand-50 group-hover:text-white transition-colors" />
