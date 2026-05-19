@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <!-- Mural Informativo / Comunicado Principal (Ativado dinamicamente pelo Painel) -->
+        <!-- Mural Informativo / Comunicado Principal (Puxado estritamente do dados_app/mural) -->
         <section id="muralContainer" class="hidden bg-white border border-slate-smooth rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row hover:shadow-md transition duration-300">
             <div id="muralImageWrapper" class="md:w-2/5 h-48 md:h-auto bg-slate-100 overflow-hidden relative shrink-0">
                 <img id="muralImage" src="" alt="Comunicado Escolar" class="w-full h-full object-cover">
@@ -91,10 +91,10 @@
             </div>
         </section>
         
-        <!-- Canais de Atendimento Rápido (Atualizado em tempo real pelas configurações do Painel) -->
+        <!-- Outras Redes / Canais de Atendimento Rápido (Sincronizado dinamicamente do dados_app/links) -->
         <section>
             <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
-                <i data-lucide="message-circle" class="text-indigo-primary"></i> Canais de Atendimento
+                <i data-lucide="share-2" class="text-indigo-primary"></i> Canais e Redes Sociais
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <!-- WhatsApp -->
@@ -124,13 +124,13 @@
                     <span class="text-[11px] text-slate-400 mt-1">Visitar Website</span>
                 </a>
 
-                <!-- Instagram -->
-                <a id="linkInstagram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-pink-300 transition-all duration-300 flex flex-col items-center text-center group">
-                    <div class="p-3 bg-pink-50 text-pink-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <i data-lucide="instagram"></i>
+                <!-- YouTube -->
+                <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition-all duration-300 flex flex-col items-center text-center group">
+                    <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="youtube"></i>
                     </div>
-                    <span class="font-bold mt-3 text-sm text-slate-800">Instagram</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Tutoriais e Fotos</span>
+                    <span class="font-bold mt-3 text-sm text-slate-800">YouTube</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Canal de Vídeos</span>
                 </a>
             </div>
         </section>
@@ -165,40 +165,15 @@
             <div id="formStatus" class="mt-4 p-3.5 rounded-xl text-xs font-bold hidden"></div>
         </section>
 
-        <!-- Perguntas Frequentes (FAQ Estáticas) -->
+        <!-- Perguntas Frequentes (FAQ Sincronizadas do dados_app/faq) -->
         <section>
             <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
                 <i data-lucide="help-circle" class="text-indigo-primary"></i> Perguntas Frequentes
             </h2>
             <div id="faqList" class="space-y-3">
-                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
-                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
-                        <span>Como recuperar a minha senha de acesso?</span>
-                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
-                        No ecrã de início de sessão da aplicação móvel, toque na opção "Esqueci-me da senha". Introduza o e-mail oficial que está associado à sua matrícula escolar para receber as instruções seguras de reposição.
-                    </div>
-                </div>
-
-                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
-                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
-                        <span>Como posso configurar a biometria/impressão digital?</span>
-                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
-                        Abra o menu lateral esquerdo do Portal Escolar, selecione as "Definições de Perfil" e ative o interruptor "Proteção Biométrica". Certifique-se de que o seu telemóvel já tem uma digital configurada no próprio sistema operativo do aparelho.
-                    </div>
-                </div>
-
-                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
-                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
-                        <span>Como funciona a sincronização offline?</span>
-                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
-                        Sempre que o telemóvel estiver ligado à Internet, a aplicação descarrega e guarda em cache os horários atualizados. Se ficar sem rede na escola, poderá aceder ao seu horário do dia normalmente sem gastar dados móveis.
-                    </div>
+                <!-- Conteúdo gerado dinamicamente a partir do Realtime Database -->
+                <div class="p-6 bg-white border border-slate-smooth rounded-xl text-center text-slate-400 text-xs">
+                    <i class="fas fa-circle-notch fa-spin mr-1"></i> A carregar perguntas frequentes...
                 </div>
             </div>
         </section>
@@ -289,8 +264,8 @@
 
         const linkWhatsapp = document.getElementById('linkWhatsapp');
         const linkTelegram = document.getElementById('linkTelegram');
-        const linkInstagram = document.getElementById('linkInstagram');
         const linkWebsite = document.getElementById('linkWebsite');
+        const linkYoutube = document.getElementById('linkYoutube');
 
         const appVersionSpan = document.getElementById('appVersionSpan');
         const termsBtn = document.getElementById('termsBtn');
@@ -301,6 +276,7 @@
 
         const supportForm = document.getElementById('supportForm');
         const formStatus = document.getElementById('formStatus');
+        const faqListContainer = document.getElementById('faqList');
 
         let termsContentRaw = ""; // Armazena os termos originais para renderização em Markdown
 
@@ -366,23 +342,11 @@
                 instabilityContainer.classList.add('hidden');
             }
 
-            // 3. Mural de Avisos (dados_app/mural)
+            // 3. Mural de Avisos (Lido exclusivamente do dados_app/mural)
             if (data.mural && data.mural.enabled) {
-                let title = data.mural.title || '';
-                let content = data.mural.content || '';
-                let imageUrl = data.mural.imageUrl || '';
-
-                // Se houver uma lista de comunicados no painel, recolhemos o mais recente ativo
-                if (data.mural.comunicados) {
-                    const arrayComunicados = Object.values(data.mural.comunicados).filter(c => c.active !== false);
-                    if (arrayComunicados.length > 0) {
-                        arrayComunicados.sort((a, b) => b.timestamp - a.timestamp);
-                        const top = arrayComunicados[0];
-                        title = top.title;
-                        content = top.content;
-                        imageUrl = top.imageUrl;
-                    }
-                }
+                const title = data.mural.title || '';
+                const content = data.mural.content || '';
+                const imageUrl = data.mural.imageUrl || '';
 
                 if (title && content) {
                     muralTitle.textContent = title;
@@ -406,8 +370,8 @@
             if (data.links) {
                 configurarCanalLink(linkWhatsapp, data.links.whatsapp);
                 configurarCanalLink(linkTelegram, data.links.telegram);
-                configurarCanalLink(linkInstagram, data.links.instagram);
                 configurarCanalLink(linkWebsite, data.links.website);
+                configurarCanalLink(linkYoutube, data.links.youtube);
             }
 
             // 5. Termos de Uso (dados_app/terms/content)
@@ -418,6 +382,14 @@
             // 6. Atualizar apenas o indicador visual da versão do Aplicativo
             if (data.update) {
                 appVersionSpan.textContent = data.update.versionName || 'v3.4.0';
+            }
+
+            // 7. Renderizar FAQ Dinâmico (dados_app/faq)
+            if (data.faq) {
+                renderizarFaqDinamico(data.faq);
+            } else {
+                // Se ainda não houver FAQs criadas no nó dados_app/faq
+                renderizarFaqFallback();
             }
 
             // Atualiza os ícones gerados dinamicamente
@@ -433,6 +405,90 @@
                 elemento.href = '#';
                 elemento.classList.add('opacity-50', 'pointer-events-none');
             }
+        };
+
+        // Renderização dinâmica do FAQ proveniente do dados_app/faq
+        const renderizarFaqDinamico = (faqData) => {
+            faqListContainer.innerHTML = '';
+            
+            // Aceita tanto formato de array como de dicionário/objeto chave-valor do Firebase
+            const faqItems = Object.values(faqData);
+
+            if (faqItems.length === 0) {
+                renderFaqFallback();
+                return;
+            }
+
+            faqItems.forEach((item, index) => {
+                const title = item.pergunta || item.question || 'Pergunta';
+                const content = item.resposta || item.answer || 'Resposta indisponível.';
+                
+                const faqItemDiv = document.createElement('div');
+                faqItemDiv.className = "bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm";
+                faqItemDiv.innerHTML = `
+                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
+                        <span>${title}</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
+                        ${content}
+                    </div>
+                `;
+
+                // Adiciona o Event Listener direto para evitar problemas de escuta
+                faqItemDiv.querySelector('.toggle-faq').addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const answer = btn.nextElementSibling;
+                    const icon = btn.querySelector('[data-lucide="chevron-down"]');
+                    answer.classList.toggle('hidden');
+                    
+                    if (answer.classList.contains('hidden')) {
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+
+                faqListContainer.appendChild(faqItemDiv);
+            });
+        };
+
+        const renderizarFaqFallback = () => {
+            faqListContainer.innerHTML = `
+                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
+                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
+                        <span>Como recuperar a minha senha de acesso?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
+                        No ecrã de início de sessão da aplicação móvel, toque na opção "Esqueci-me da senha". Introduza o e-mail oficial que está associado à sua matrícula escolar para receber as instruções seguras de reposição.
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
+                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
+                        <span>Como posso configurar a biometria/impressão digital?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
+                        Abra o menu lateral esquerdo do Portal Escolar, selecione as "Definições de Perfil" e ative o interruptor "Proteção Biométrica". Certifique-se de que o seu telemóvel já tem uma digital configurada no próprio sistema operativo do aparelho.
+                    </div>
+                </div>
+            `;
+            
+            // Reatribui listeners de clique do fallback
+            document.querySelectorAll('.toggle-faq').forEach(botao => {
+                botao.addEventListener('click', () => {
+                    const resposta = botao.nextElementSibling;
+                    const icon = botao.querySelector('[data-lucide="chevron-down"]');
+                    resposta.classList.toggle('hidden');
+                    if (resposta.classList.contains('hidden')) {
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
         };
 
         // Submeter nova mensagem/dúvida direto para suporte_mensagens
@@ -485,21 +541,6 @@
         const ocultarModal = () => termsModal.classList.add('hidden');
         closeTermsBtn.addEventListener('click', ocultarModal);
         acceptTermsModalBtn.addEventListener('click', ocultarModal);
-
-        // Accordion / Sanfona para o FAQ
-        document.querySelectorAll('.toggle-faq').forEach(botao => {
-            botao.addEventListener('click', () => {
-                const resposta = botao.nextElementSibling;
-                const icon = botao.querySelector('[data-lucide="chevron-down"]');
-                resposta.classList.toggle('hidden');
-                
-                if (resposta.classList.contains('hidden')) {
-                    icon.style.transform = 'rotate(0deg)';
-                } else {
-                    icon.style.transform = 'rotate(180deg)';
-                }
-            });
-        });
 
         // Inicializar ícones iniciais
         lucide.createIcons();
