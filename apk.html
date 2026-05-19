@@ -10,37 +10,31 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
         body { 
-            background-color: #030712; 
+            background-color: #030510; 
             color: #f3f4f6; 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             overflow-x: hidden;
         }
 
         .glass-card { 
-            background: rgba(17, 24, 39, 0.45); 
-            backdrop-filter: blur(16px); 
+            background: rgba(15, 17, 35, 0.45); 
+            backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
         }
 
         .text-gradient {
-            background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .text-gradient-purple {
-            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 100%);
+            background: linear-gradient(135deg, #818cf8 0%, #34d399 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .btn-premium {
-            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #10b981 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .btn-premium:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.3);
             filter: brightness(1.1);
         }
 
@@ -50,29 +44,43 @@
         }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-12px); }
         }
 
+        /* Estilos fiéis da tela do celular (Baseado no Print) */
+        .phone-bg {
+            background-color: #121324;
+        }
+        .phone-card {
+            background-color: #191b33;
+            border: 1px solid #232549;
+        }
+        .pill-blue { background-color: #123d4a; color: #4ecdc4; }
+        .pill-purple { background-color: #3b174d; color: #cc8efc; }
+        .pill-green { background-color: #0c3c23; color: #4efc8c; }
+        .pill-cyan { background-color: #0c3c34; color: #4efcc4; }
+        .banner-intervalo { background-color: #2b2c63; }
+        
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 99px; }
-        ::-webkit-scrollbar-thumb:hover { background: #374151; }
+        ::-webkit-scrollbar-track { background: #030510; }
+        ::-webkit-scrollbar-thumb { background: #1e1f38; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2b2d54; }
     </style>
 </head>
-<body class="selection:bg-emerald-500 selection:text-white">
+<body class="selection:bg-indigo-500 selection:text-white">
 
     <!-- Decorações de Fundo (Blur Gradientes) -->
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-10 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute bottom-10 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px] pointer-events-none"></div>
 
     <!-- Barra de Navegação -->
-    <nav class="sticky top-0 z-50 bg-slate-950/70 backdrop-blur-md border-b border-slate-900 px-4 py-4 transition-all">
+    <nav class="sticky top-0 z-50 bg-[#030510]/80 backdrop-blur-md border-b border-slate-900 px-4 py-4 transition-all">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/10">
-                    <i class="fas fa-graduation-cap text-white text-lg animate-pulse"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/10">
+                    <i class="fas fa-graduation-cap text-white text-lg"></i>
                 </div>
                 <div>
                     <span class="font-extrabold text-lg tracking-tight block">Portal Escolar <span class="text-emerald-400">Premium</span></span>
@@ -86,165 +94,241 @@
                 <a href="#social" class="hover:text-white transition">Suporte</a>
             </div>
 
-            <a href="#download-box" class="btn-premium px-5 py-2 rounded-xl text-xs font-bold text-white flex items-center gap-2">
+            <a href="#download-box" class="btn-premium px-5 py-2.5 rounded-xl text-xs font-bold text-white flex items-center gap-2">
                 <i class="fas fa-cloud-arrow-down"></i> Baixar App
             </a>
         </div>
     </nav>
 
     <!-- Seção Hero -->
-    <header class="relative max-w-7xl mx-auto px-4 pt-10 pb-20 lg:pt-20 flex flex-col lg:flex-row items-center justify-between gap-12 z-10">
+    <header class="relative max-w-7xl mx-auto px-4 pt-10 pb-20 lg:pt-16 flex flex-col lg:flex-row items-center justify-between gap-12 z-10">
         <div class="flex-1 space-y-6 text-center lg:text-left">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                <i class="fas fa-sparkles"></i> Lançamento Nova Versão
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+                <i class="fas fa-sparkles animate-pulse"></i> Lançamento Nova Versão
             </span>
             <h1 class="text-4xl md:text-5.5xl font-black leading-tight tracking-tight">
                 Sua vida escolar <br class="hidden md:inline">
                 <span class="text-gradient">totalmente organizada</span> em <br class="hidden md:inline"> tempo real.
             </h1>
             <p class="text-slate-400 text-base md:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                O <strong class="text-white">Portal Escolar Premium</strong> é uma plataforma completa de gestão educacional e comunicação direta para alunos e professores.
+                O <strong class="text-white">Portal Escolar Premium</strong> é agora uma plataforma completa de gestão educacional e comunicação em tempo real para alunos e professores.
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 <a href="#download-box" class="btn-premium w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-white flex items-center justify-center gap-3 shadow-xl">
                     <i class="fas fa-cloud-arrow-down text-lg"></i> Instalar Aplicativo (APK)
                 </a>
-                <a href="#features" class="w-full sm:w-auto bg-slate-900/60 hover:bg-slate-900 hover:text-white border border-slate-800 text-slate-300 px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-2">
+                <a href="#features" class="w-full sm:w-auto bg-slate-900/40 hover:bg-slate-900 hover:text-white border border-slate-800 text-slate-350 px-8 py-4 rounded-2xl font-bold transition flex items-center justify-center gap-2">
                     Conhecer Recursos <i class="fas fa-arrow-down text-xs"></i>
                 </a>
             </div>
 
-            <!-- Pequeno Banner com Status dinâmico direto do Firebase -->
             <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500 font-semibold">
                 <div class="flex items-center gap-2">
                     <i class="fas fa-check-circle text-emerald-400"></i> Sincronização em Nuvem Ativa
                 </div>
                 <div class="flex items-center gap-2">
-                    <i class="fas fa-shield-halved text-blue-400"></i> Proteção 2FA & Biometria
+                    <i class="fas fa-shield-halved text-indigo-400"></i> Proteção 2FA & Biometria
                 </div>
                 <div class="flex items-center gap-2">
-                    <i class="fas fa-signal-stream text-purple-400"></i> Modo Offline Suportado
+                    <i class="fas fa-signal text-purple-400"></i> Modo Offline Integrado
                 </div>
             </div>
         </div>
 
-        <!-- Mockup Visual Dinâmico de Celular à Direita -->
+        <!-- MOCKUP ULTRA-FIEL DE CELULAR (IDÊNTICO AO SEU PRINT) -->
         <div class="flex-1 flex justify-center float-animation relative w-full max-w-sm">
-            <div class="glass-card w-full rounded-[45px] p-4.5 border-4 border-slate-800 shadow-3xl overflow-hidden relative" style="height: 620px;">
-                <!-- Notch do Celular -->
-                <div class="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-5 bg-slate-900 rounded-full z-20 flex items-center justify-center gap-1.5">
-                    <div class="w-2.5 h-2.5 rounded-full bg-slate-800"></div>
-                    <div class="w-2.5 h-2.5 rounded-full bg-slate-800"></div>
+            <div class="glass-card w-full rounded-[45px] p-4 border-4 border-slate-800 shadow-3xl overflow-hidden relative" style="height: 640px;">
+                <!-- Câmera Notch do Celular -->
+                <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-4.5 bg-slate-950 rounded-full z-20 flex items-center justify-center gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-slate-900"></div>
                 </div>
 
-                <!-- Interface Interna do App Mockup -->
-                <div class="bg-[#070b19] h-full w-full rounded-[38px] p-5 pt-8 overflow-y-auto space-y-4 text-left text-xs text-slate-200">
-                    <!-- Status do App Mockup -->
-                    <div class="flex items-center justify-between text-[11px] text-slate-500 font-bold">
-                        <span>Portal Premium</span>
-                        <span id="mockup-clock" class="text-emerald-400 font-mono">10:34 PM</span>
-                    </div>
-
-                    <!-- Bloco do "Contador Live" Dinâmico Simulando App -->
-                    <div class="p-4 rounded-2xl bg-gradient-to-br from-blue-900/40 to-indigo-950/40 border border-blue-500/20 space-y-2">
-                        <span class="text-[9px] bg-blue-500/20 text-blue-400 font-black px-2 py-0.5 rounded uppercase tracking-wider">Aula em Andamento</span>
-                        <div class="flex justify-between items-center">
-                            <h4 class="font-extrabold text-white text-sm">Desenvolvimento de Software</h4>
-                            <span class="text-emerald-400 font-bold font-mono text-[11px] animate-pulse">Live</span>
-                        </div>
-                        <p class="text-[10px] text-slate-400">Prof. Danísio - Sala de Multimídia</p>
-                        <!-- Progresso da Aula -->
-                        <div class="space-y-1">
-                            <div class="w-full h-1 bg-slate-900 rounded-full overflow-hidden">
-                                <div class="w-3/4 h-full bg-gradient-to-r from-blue-500 to-emerald-400"></div>
-                            </div>
-                            <div class="flex justify-between text-[9px] text-slate-500 font-semibold">
-                                <span>Início: 20:30</span>
-                                <span class="text-blue-400">Faltam 15 minutos</span>
-                                <span>Fim: 21:15</span>
+                <!-- Tela Interna do Aplicativo -->
+                <div class="phone-bg h-full w-full rounded-[38px] p-4 pt-6 overflow-y-auto space-y-4 text-left select-none relative" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    
+                    <!-- Header do App -->
+                    <div class="flex items-center justify-between text-white mt-2">
+                        <div>
+                            <h3 class="text-sm font-extrabold tracking-wider text-slate-100">HORÁRIOS ESCOLAR</h3>
+                            <div class="flex items-center gap-2 text-[10px] text-indigo-300 font-bold uppercase tracking-wide mt-0.5">
+                                <span>2ª SÉRIE D</span>
+                                <span class="text-slate-500">•</span>
+                                <span>TURNO TARDE</span>
                             </div>
                         </div>
+                        <button class="w-8 h-8 rounded-full bg-slate-900/50 flex items-center justify-center text-slate-300">
+                            <i class="fas fa-cog text-sm"></i>
+                        </button>
                     </div>
 
-                    <!-- Simulação do Mural no Celular -->
-                    <div class="space-y-2.5">
-                        <span class="text-[10px] text-slate-500 font-black uppercase tracking-wider">Avisos Importantes</span>
+                    <!-- Mensagem do Usuário -->
+                    <div class="text-sm font-bold text-white">
+                        Olá, Geilson! 👋
+                    </div>
+
+                    <!-- Abas de Dias da Semana -->
+                    <div class="flex justify-between items-center text-[10px] font-black tracking-wider text-slate-500 border-b border-slate-900 pb-2">
+                        <span class="text-indigo-400 border-b-2 border-indigo-500 pb-1.5 px-1 font-extrabold">SEGUNDA</span>
+                        <span class="hover:text-slate-300 transition">TERÇA</span>
+                        <span class="hover:text-slate-300 transition">QUARTA</span>
+                        <span class="hover:text-slate-300 transition">QUINTA</span>
+                        <span class="hover:text-slate-300 transition">SEXTA</span>
+                    </div>
+
+                    <!-- Lista de Matérias (Igual ao Print) -->
+                    <div class="space-y-3">
                         
-                        <div class="p-3 bg-slate-900/60 rounded-xl border-l-4 border-l-red-500 space-y-1">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[8px] bg-red-500/15 text-red-400 font-bold px-1.5 py-0.2 rounded uppercase">Urgente</span>
-                                <span class="text-[9px] text-slate-500">Hoje</span>
-                            </div>
-                            <h5 class="font-bold text-white text-xs">Alteração de Sala de Prova</h5>
-                            <p class="text-[10px] text-slate-400 leading-snug">As avaliações finais da próxima terça-feira ocorrerão no Bloco C.</p>
-                        </div>
-                    </div>
-
-                    <!-- Opções Rápidas de Configurações Simulando App -->
-                    <div class="space-y-2">
-                        <span class="text-[10px] text-slate-500 font-black uppercase tracking-wider">Segurança & Conexão</span>
-                        <div class="grid grid-cols-2 gap-2 text-[11px]">
-                            <div class="p-2.5 bg-slate-900/30 rounded-xl border border-slate-850 flex items-center gap-2">
-                                <i class="fas fa-fingerprint text-emerald-400 text-sm"></i>
-                                <div>
-                                    <span class="block text-[9px] text-slate-500 font-bold">Biometria</span>
-                                    <span class="text-white font-semibold">Ativado</span>
+                        <!-- Aula 1: Sociologia -->
+                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
+                            <div class="space-y-3">
+                                <span class="pill-blue text-[10px] font-black px-3 py-1 rounded-lg">Sociologia</span>
+                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
+                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
+                                    <span>Alyson</span>
                                 </div>
                             </div>
-                            <div class="p-2.5 bg-slate-900/30 rounded-xl border border-slate-850 flex items-center gap-2">
-                                <i class="fas fa-shield-halved text-purple-400 text-sm"></i>
-                                <div>
-                                    <span class="block text-[9px] text-slate-500 font-bold">2FA (TOTP)</span>
-                                    <span class="text-white font-semibold">Seguro</span>
+                            <div class="flex flex-col items-end gap-3">
+                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
+                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 13:00 - 13:50
+                                </span>
+                                <div class="flex items-center gap-2 text-slate-500 text-sm">
+                                    <i class="fas fa-pencil hover:text-white transition cursor-pointer"></i>
+                                    <i class="far fa-star hover:text-yellow-400 transition cursor-pointer"></i>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Aula 2: Matemática -->
+                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
+                            <div class="space-y-3">
+                                <span class="pill-purple text-[10px] font-black px-3 py-1 rounded-lg">Matemática</span>
+                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
+                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
+                                    <span>Airan</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end gap-3">
+                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
+                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 13:50 - 14:40
+                                </span>
+                                <div class="flex items-center gap-2 text-slate-500 text-sm">
+                                    <i class="fas fa-pencil hover:text-white"></i>
+                                    <i class="far fa-star hover:text-yellow-400"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aula 3: Matemática -->
+                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
+                            <div class="space-y-3">
+                                <span class="pill-purple text-[10px] font-black px-3 py-1 rounded-lg">Matemática</span>
+                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
+                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
+                                    <span>Airan</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end gap-3">
+                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
+                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 14:40 - 15:25
+                                </span>
+                                <div class="flex items-center gap-2 text-slate-500 text-sm">
+                                    <i class="fas fa-pencil hover:text-white"></i>
+                                    <i class="far fa-star hover:text-yellow-400"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Banner de Intervalo -->
+                        <div class="banner-intervalo rounded-2xl p-3 text-center text-white font-bold text-xs flex items-center justify-center gap-2 border border-indigo-900/40 shadow-inner">
+                            <i class="fas fa-desktop text-[10px] text-indigo-300"></i>
+                            <span>☕ INTERVALO • 15:25 - 15:40</span>
+                        </div>
+
+                        <!-- Aula 4: Ed. Física -->
+                        <div class="phone-card rounded-2xl p-3.5 flex justify-between items-start">
+                            <div class="space-y-3">
+                                <span class="pill-green text-[10px] font-black px-3 py-1 rounded-lg">Ed. Física</span>
+                                <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold">
+                                    <i class="fas fa-graduation-cap text-slate-500 text-[11px]"></i>
+                                    <span>Florêncio</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end gap-3">
+                                <span class="bg-slate-900/40 text-[10px] font-bold text-slate-300 px-2 py-1 rounded-lg border border-slate-800/80 flex items-center gap-1.5">
+                                    <i class="far fa-clock text-slate-400 text-[11px]"></i> 15:45 - 16:25
+                                </span>
+                                <div class="flex items-center gap-2 text-slate-500 text-sm">
+                                    <i class="fas fa-pencil hover:text-white"></i>
+                                    <i class="far fa-star hover:text-yellow-400"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Rodapé do Aplicativo -->
-                    <div class="pt-4 border-t border-slate-900 flex justify-around text-slate-500 text-[14px]">
-                        <i class="fas fa-calendar-days text-emerald-400"></i>
-                        <i class="fas fa-bell"></i>
-                        <i class="fas fa-user-shield"></i>
+                    <!-- Barra de Navegação Inferior (Fiel ao Print) -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-[#0c0d1b] border-t border-slate-900 px-4 py-2 flex justify-between items-center z-10">
+                        <div class="flex flex-col items-center gap-0.5 cursor-pointer">
+                            <div class="bg-[#1f213a] text-indigo-400 w-12 py-1 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-calendar-alt text-sm"></i>
+                            </div>
+                            <span class="text-[9px] font-bold text-indigo-400">Início</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
+                            <i class="fas fa-star text-sm"></i>
+                            <span class="text-[9px] font-bold">Favoritos</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
+                            <i class="fas fa-newspaper text-sm"></i>
+                            <span class="text-[9px] font-bold">Mural</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
+                            <i class="fas fa-pen-fancy text-sm"></i>
+                            <span class="text-[9px] font-bold">Tarefas</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 cursor-pointer transition">
+                            <i class="fas fa-user-circle text-sm"></i>
+                            <span class="text-[9px] font-bold">Perfil</span>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- PILARES DO APLICATIVO -->
+    <!-- DETALHAMENTO DE PILARES DO APLICATIVO -->
     <section id="features" class="max-w-7xl mx-auto px-4 py-20 border-t border-slate-900 relative">
         <div class="text-center space-y-4 mb-16">
-            <span class="text-xs font-black text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/20">Recursos Integrados</span>
-            <h2 class="text-3xl md:text-4.5xl font-black">Uma Experiência Completa no Seu Bolso</h2>
-            <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">Explore todos os módulos inovadores criados para tornar sua jornada de aprendizado o mais tranquila e produtiva possível.</p>
+            <span class="text-xs font-black text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1.5 rounded-full border border-indigo-500/20">Recursos Unificados</span>
+            <h2 class="text-3xl md:text-4.5xl font-black">Uma Plataforma Completa de Gestão Educacional</h2>
+            <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto">Tudo o que o Portal Escolar oferece ao seu cliente final (alunos e professores) com controle absoluto e em tempo real.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <!-- 1. Gestão Inteligente de Horários -->
-            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-blue-500/40 transition-all duration-300 space-y-4 group">
-                <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+            <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-indigo-500/40 transition-all duration-300 space-y-4 group">
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">
                     <i class="fas fa-clock"></i>
                 </div>
                 <h3 class="text-lg font-bold text-white">1. Gestão Inteligente de Horários</h3>
                 <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Grade Completa:</strong> Acesso rápido a todas as aulas estruturadas por dia da semana.</span>
+                        <span><strong>Grade Completa:</strong> Acesso instantâneo aos horários de aula divididos por dia da semana de forma otimizada.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Contador Live:</strong> Mostra instantaneamente qual aula está ocorrendo e o tempo restante em minutos.</span>
+                        <span><strong>Contador "Live":</strong> O app mostra qual aula está acontecendo agora e quantos minutos faltam para acabar ou para o intervalo começar.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Anotações Rápidas:</strong> Salve lembretes importantes sobre provas e trabalhos direto na matéria correspondente.</span>
+                        <span><strong>Anotações Pessoais:</strong> O usuário pode salvar lembretes específicos em cada matéria (ex: "Trabalho para amanhã").</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Favoritar Disciplinas:</strong> Acesso de um toque para suas disciplinas e professores mais visualizados.</span>
+                        <span><strong>Favoritos:</strong> Permite marcar as matérias e horários favoritos para acesso rápido e atalhos na tela.</span>
                     </li>
                 </ul>
             </div>
@@ -258,15 +342,15 @@
                 <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Feed Multi-Recados:</strong> Avisos, postagens e comunicados importantes de forma integrada.</span>
+                        <span><strong>Multi-Recados:</strong> Um feed dinâmico e contínuo de notícias, avisos e anúncios publicados pela direção.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Categorias Visuais:</strong> Distinga rapidamente avisos Urgentes, Eventos ou Novidades através de etiquetas coloridas.</span>
+                        <span><strong>Categorização Visual:</strong> Avisos com etiquetas coloridas (Urgente, Evento, Novidade) para rápida leitura e identificação.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Botões de Ação Dinâmicos:</strong> Acesse de imediato links externos, vídeos informativos ou formulários.</span>
+                        <span><strong>Botões de Ação:</strong> Redirecionamentos rápidos nos avisos para links externos, mídias ou formulários de resposta.</span>
                     </li>
                 </ul>
             </div>
@@ -280,19 +364,19 @@
                 <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Autenticação Google:</strong> Login rápido, seguro e unificado sem necessidade de senhas complexas.</span>
+                        <span><strong>Autenticação Google:</strong> Login seguro, rápido e prático, sem a necessidade de decorar senhas.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>2FA integrado (TOTP):</strong> Compatível com Google Authenticator para máxima blindagem de conta.</span>
+                        <span><strong>2FA (TOTP):</strong> Segundo fator de autenticação para proteger dados contra tentativas de invasão externa.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Proteção Biométrica:</strong> Exige impressão digital ou reconhecimento facial para abrir o aplicativo.</span>
+                        <span><strong>Proteção Biométrica:</strong> Opção de habilitar autenticação por digital ou reconhecimento facial.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Anti-Screenshot & AutoLock:</strong> Bloqueia prints de tela de dados sensíveis e trava após 30s de inatividade.</span>
+                        <span><strong>Anti-Screenshot & Auto-Lock:</strong> Bloqueia prints de tela de dados confidenciais e trava o app em inatividade.</span>
                     </li>
                 </ul>
             </div>
@@ -306,15 +390,15 @@
                 <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Temas Personalizados:</strong> Alterne facilmente entre Tema Escuro, Tema Claro ou siga o sistema.</span>
+                        <span><strong>Modos de Visualização:</strong> Suporte completo a Tema Escuro (Dark), Tema Claro ou seguir o sistema.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modo Compacto:</strong> Reduza o tamanho dos elementos na tela para priorizar a visualização em aparelhos menores.</span>
+                        <span><strong>Modo Compacto:</strong> Otimização do tamanho de cards para caber mais informações em telas menores.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modo Imersivo:</strong> Oculte a barra de navegação superior e inferior para foco total nos horários.</span>
+                        <span><strong>Imersão Total:</strong> Esconde barras de navegação do dispositivo celular para visualização limpa.</span>
                     </li>
                 </ul>
             </div>
@@ -328,15 +412,15 @@
                 <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Ecossistema Social:</strong> Suporte nativo pelo WhatsApp, canal do Telegram, Instagram e vídeos no YouTube.</span>
+                        <span><strong>Ecossistema Social:</strong> Acesso direto para WhatsApp de suporte, Telegram, Instagram e tutoriais no YouTube.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Sincronização Cloud:</strong> Todas as notas, matérias e horários salvos de forma contínua no Firebase.</span>
+                        <span><strong>Sincronização em Nuvem:</strong> Todas as notas, favoritos e preferências recuperados instantaneamente se trocar de celular.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Modo Offline Completo:</strong> Visualização de horários mesmo se o celular ficar sem conexão ou internet móvel.</span>
+                        <span><strong>Modo Offline:</strong> O aplicativo salva uma cópia persistente dos horários para acesso mesmo sem sinal de internet.</span>
                     </li>
                 </ul>
             </div>
@@ -344,21 +428,21 @@
             <!-- 6. Controle Administrativo -->
             <div class="glass-card rounded-2xl p-6 border border-slate-850 hover:border-yellow-500/40 transition-all duration-300 space-y-4 group">
                 <div class="w-12 h-12 rounded-xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-xl group-hover:bg-yellow-500 group-hover:text-white transition-all duration-300">
-                    <i class="fas fa-user-gear"></i>
+                    <i class="fas fa-lock"></i>
                 </div>
-                <h3 class="text-lg font-bold text-white">6. Controle Administrativo Próprio</h3>
+                <h3 class="text-lg font-bold text-white">6. Controle Administrativo Pro</h3>
                 <ul class="space-y-2.5 text-xs text-slate-400 font-medium">
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Aviso de Manutenção:</strong> Notificação geral na tela em caso de atualizações de servidores.</span>
+                        <span><strong>Modo Manutenção:</strong> Bloqueie o app temporariamente e mostre avisos de ajustes ou instabilidade aos usuários.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Atualização Facilitada:</strong> Baixe o arquivo de atualização do APK direto de dentro da própria plataforma.</span>
+                        <span><strong>Atualizações In-App:</strong> O aluno recebe aviso direto ao abrir e instala o APK, com validação de tamanho e Wi-Fi.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fas fa-circle-check text-emerald-400 mt-0.5"></i>
-                        <span><strong>Bloqueio Rápido:</strong> Bloqueie e suspenda o acesso de qualquer usuário indesejado ou inadimplente em tempo real.</span>
+                        <span><strong>Bloqueio de Usuários:</strong> Capacidade de suspender e bloquear o acesso de qualquer usuário por UID no Firebase.</span>
                     </li>
                 </ul>
             </div>
@@ -366,51 +450,52 @@
         </div>
     </section>
 
-    <!-- BOX DE DOWNLOAD SINCRONIZADA EM TEMPO REAL -->
+    <!-- BOX DE DOWNLOAD DINÂMICO (SINCRONIZADO COM O SEU PAINEL) -->
     <section id="download-box" class="max-w-4xl mx-auto px-4 py-16 text-center z-10 relative">
         <div class="glass-card rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl space-y-8 relative overflow-hidden">
-            <!-- Efeito brilhante interno -->
-            <div class="absolute -top-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl"></div>
             
             <div class="space-y-3">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Acesso Livre</span>
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">Instalação direta</span>
                 <h2 class="text-3xl md:text-4.5xl font-black text-white">Pronto para Instalar?</h2>
-                <p class="text-slate-400 text-sm max-w-xl mx-auto">Sempre fornecemos a versão oficial compilada sem modificações de forma automática e integrada em tempo real.</p>
+                <p class="text-slate-400 text-sm max-w-xl mx-auto">Esta seção se atualiza dinamicamente conforme você publica novas versões no seu painel administrativo.</p>
             </div>
 
-            <!-- Status do Firebase (Painel Informativo da Atualização Carregada) -->
+            <!-- Dados Sincronizados em Tempo Real do Firebase -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto bg-slate-950/70 p-5 rounded-2xl border border-slate-900 text-left">
                 <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase">Versão Sincronizada</span>
-                    <span id="active-version" class="text-lg font-extrabold text-blue-400">Carregando...</span>
+                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Versão Atual</span>
+                    <span id="active-version" class="text-lg font-black text-indigo-400">v0.0.0</span>
                 </div>
                 <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase">Tamanho do Arquivo</span>
-                    <span id="active-size" class="text-lg font-extrabold text-white">...</span>
+                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Tamanho do Arquivo</span>
+                    <span id="active-size" class="text-lg font-black text-white">Carregando...</span>
                 </div>
                 <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase">Android Mínimo</span>
-                    <span id="active-sdk" class="text-lg font-extrabold text-white">...</span>
+                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Mínimo Android</span>
+                    <span id="active-sdk" class="text-lg font-black text-white">Android 8.0</span>
                 </div>
                 <div>
-                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase">Canal</span>
-                    <span id="active-channel" class="text-lg font-extrabold text-emerald-400 uppercase">...</span>
+                    <span class="block text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">Canal</span>
+                    <span id="active-channel" class="text-lg font-black text-emerald-450 uppercase">Estável</span>
                 </div>
             </div>
 
-            <!-- Bloco de Changelog / Novidades dinâmico -->
+            <!-- Changelog/Novidades Dinâmicas -->
             <div class="max-w-2xl mx-auto bg-slate-900/35 p-5 rounded-2xl border border-slate-850 text-left space-y-2">
-                <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block"><i class="fas fa-file-lines mr-1 text-blue-400"></i> Novidades desta Versão:</span>
-                <p id="active-changelog" class="text-xs text-slate-400 leading-relaxed font-medium">Conectando ao banco de dados para buscar detalhes...</p>
+                <span class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">
+                    <i class="fas fa-file-signature mr-1 text-indigo-400"></i> Novidades desta Versão:
+                </span>
+                <p id="active-changelog" class="text-xs text-slate-400 leading-relaxed font-medium">Buscando as atualizações mais recentes salvas no servidor...</p>
             </div>
 
             <div class="space-y-4">
                 <a href="#" id="main-download-btn" class="btn-premium inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-white text-lg shadow-xl cursor-pointer">
-                    <i class="fas fa-cloud-arrow-down text-xl"></i> Baixar Arquivo APK Oficial
+                    <i class="fas fa-cloud-arrow-down text-xl"></i> Baixar Versão APK Oficial
                 </a>
                 
-                <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wider">
-                    Sincronizado via Firebase Realtime Database
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                    Conectado dinamicamente com o painel de administração em /dados_app
                 </p>
             </div>
         </div>
@@ -424,25 +509,24 @@
                 <span class="font-bold text-lg">Portal Escolar <span class="text-emerald-400">Premium</span></span>
             </div>
             
-            <!-- Redes Sociais dinâmicas / Estáticas com fallback -->
+            <!-- Redes Sociais Dinâmicas sincronizadas do Banco -->
             <div class="flex flex-wrap justify-center gap-4 text-xs font-bold text-slate-400">
-                <a id="footer-wpp" href="#" target="_blank" class="hover:text-green-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-whatsapp text-green-400 text-sm"></i> WhatsApp</a>
-                <a id="footer-telegram" href="#" target="_blank" class="hover:text-sky-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-telegram text-sky-400 text-sm"></i> Telegram</a>
+                <a id="footer-wpp" href="#" target="_blank" class="hover:text-green-450 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-whatsapp text-green-400 text-sm"></i> WhatsApp de Suporte</a>
+                <a id="footer-telegram" href="#" target="_blank" class="hover:text-sky-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-telegram text-sky-400 text-sm"></i> Canal Telegram</a>
                 <a id="footer-insta" href="#" target="_blank" class="hover:text-pink-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-instagram text-pink-400 text-sm"></i> Instagram</a>
-                <a id="footer-youtube" href="#" target="_blank" class="hover:text-red-500 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-youtube text-red-500 text-sm"></i> YouTube</a>
-                <a id="footer-site" href="#" target="_blank" class="hover:text-blue-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fas fa-earth-americas text-blue-400 text-sm"></i> Website</a>
+                <a id="footer-youtube" href="#" target="_blank" class="hover:text-red-500 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fab fa-youtube text-red-500 text-sm"></i> Canal YouTube</a>
+                <a id="footer-site" href="#" target="_blank" class="hover:text-indigo-400 transition bg-slate-900/60 p-3 px-5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fas fa-earth-americas text-indigo-400 text-sm"></i> Site Oficial</a>
             </div>
 
-            <p class="text-xs text-slate-600 font-medium">© 2026 Portal Escolar Premium. Todos os direitos reservados. Gestão de dados educacionais unificada.</p>
+            <p class="text-xs text-slate-600 font-medium">© 2026 Portal Escolar Premium. Todos os direitos reservados. Gestão de dados educacionais em tempo real.</p>
         </div>
     </footer>
 
-    <!-- Firebase SDK Modular Integration -->
+    <!-- Firebase SDK Modular -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // Configurações do Firebase Realtime Database
         const firebaseConfig = {
             apiKey: "AIzaSyDGCjBbqtp_TvFeW7ySpLp0QmKjTsTn2Sw",
             authDomain: "horarios-escolar-danisio.firebaseapp.com",
@@ -457,20 +541,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Atualizar o Relógio do Mockup em tempo real
-        function startMockupClock() {
-            const clockEl = document.getElementById('mockup-clock');
-            setInterval(() => {
-                const now = new Date();
-                let hours = now.getHours();
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const ampm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12; // Formato 12 horas
-                clockEl.innerText = `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
-            }, 1000);
-        }
-
         async function syncWithFirebase() {
             try {
                 const dbRef = ref(db);
@@ -479,34 +549,33 @@
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     
-                    // Sincronizar Informações de Atualização e Downloads (Modo Client)
+                    // Sincronizar dados dinâmicos do módulo 'update'
                     if (data.update) {
                         const updateData = data.update;
                         
                         document.getElementById('active-version').innerText = 'v' + (updateData.versionName || '0.0.0');
                         document.getElementById('active-size').innerText = updateData.apkSize || 'N/A';
-                        document.getElementById('active-sdk').innerText = updateData.minSdk || 'Android 8.0+';
+                        document.getElementById('active-sdk').innerText = updateData.minSdk || 'Android 8.0';
                         document.getElementById('active-channel').innerText = updateData.channel || 'Estável';
                         
-                        // Atualizar descrição das novidades
                         if (updateData.description) {
                             document.getElementById('active-changelog').innerText = updateData.description;
                         } else {
-                            document.getElementById('active-changelog').innerText = 'Nenhuma novidade listada para esta versão.';
+                            document.getElementById('active-changelog').innerText = 'Nenhuma alteração descrita para esta versão.';
                         }
 
-                        // Configurar botão de download para redirecionar para o APK
+                        // Vincular o link do download para o botão do APK
                         const downloadBtn = document.getElementById('main-download-btn');
                         if (updateData.apkUrl) {
                             downloadBtn.href = updateData.apkUrl;
                             downloadBtn.target = "_blank";
                         } else {
                             downloadBtn.href = "#";
-                            downloadBtn.innerText = "APK Temporariamente Indisponível";
+                            downloadBtn.innerText = "Download Indisponível";
                         }
                     }
 
-                    // Sincronizar links das Redes Sociais no Rodapé
+                    // Sincronizar links das redes sociais dinamicamente no rodapé
                     if (data.links) {
                         const socialData = data.links;
                         
@@ -530,13 +599,11 @@
             } catch (err) {
                 console.error("Erro na leitura dinâmica do Firebase:", err);
                 document.getElementById('active-version').innerText = "Erro ao carregar";
-                document.getElementById('active-changelog').innerText = "Não foi possível carregar as informações do servidor.";
+                document.getElementById('active-changelog').innerText = "Não foi possível carregar as informações do servidor de banco de dados.";
             }
         }
 
-        // Inicializar fluxos na tela do usuário
         window.addEventListener('DOMContentLoaded', () => {
-            startMockupClock();
             syncWithFirebase();
         });
     </script>
