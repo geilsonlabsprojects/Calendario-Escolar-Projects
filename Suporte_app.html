@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Central de Ajuda e Suporte - Portal Escolar</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Marked.js para renderizar os Termos de Uso em Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -35,7 +32,6 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
-    <!-- Banner de Manutenção Geral (Ativado dinamicamente pelo Painel Administrativo) -->
     <div id="maintenanceBanner" class="hidden bg-amber-600 text-white px-4 py-3 text-center text-sm font-semibold relative z-50 shadow-md">
         <div class="max-w-4xl mx-auto flex items-center justify-center gap-2">
             <i data-lucide="construction" class="w-5 h-5 animate-bounce"></i>
@@ -43,14 +39,11 @@
         </div>
     </div>
 
-    <!-- Cabeçalho Principal (Header) -->
     <header class="bg-indigo-primary text-white py-14 px-4 text-center shadow-lg relative overflow-hidden">
-        <!-- Detalhes decorativos de fundo para dar profundidade visual premium -->
         <div class="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full filter blur-xl pointer-events-none"></div>
         <div class="absolute bottom-0 right-0 w-48 h-48 bg-indigo-500/20 rounded-full filter blur-2xl pointer-events-none"></div>
         
         <div class="max-w-4xl mx-auto flex flex-col items-center relative z-10">
-            <!-- Logótipo do Portal -->
             <div class="bg-white p-3.5 rounded-full shadow-md mb-4 flex items-center justify-center hover:scale-105 transition-transform duration-300">
                 <i data-lucide="graduation-cap" class="text-[#4F46E5] w-10 h-10"></i>
             </div>
@@ -60,10 +53,8 @@
         </div>
     </header>
 
-    <!-- Conteúdo Principal -->
     <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-10 space-y-12">
 
-        <!-- Notificação de Alerta/Instabilidade (Ativado dinamicamente pelo Painel Administrativo) -->
         <div id="instabilityContainer" class="hidden border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300">
             <div id="instabilityIcon" class="shrink-0"></div>
             <div class="flex-1 space-y-1">
@@ -72,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Mural Informativo / Comunicado Principal (Puxado estritamente do dados_app/mural) -->
         <section id="muralContainer" class="hidden bg-white border border-slate-smooth rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row hover:shadow-md transition duration-300">
             <div id="muralImageWrapper" class="md:w-2/5 h-48 md:h-auto bg-slate-100 overflow-hidden relative shrink-0">
                 <img id="muralImage" src="" alt="Comunicado Escolar" class="w-full h-full object-cover">
@@ -91,13 +81,11 @@
             </div>
         </section>
         
-        <!-- Outras Redes / Canais de Atendimento Rápido (Sincronizado dinamicamente do dados_app/links) -->
         <section>
             <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
                 <i data-lucide="share-2" class="text-indigo-primary"></i> Canais e Redes Sociais
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- WhatsApp -->
                 <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col items-center text-center group">
                     <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
                         <i data-lucide="phone"></i>
@@ -106,7 +94,6 @@
                     <span class="text-[11px] text-slate-400 mt-1">Apoio Direto</span>
                 </a>
 
-                <!-- Telegram -->
                 <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition-all duration-300 flex flex-col items-center text-center group">
                     <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform">
                         <i data-lucide="send"></i>
@@ -115,7 +102,6 @@
                     <span class="text-[11px] text-slate-400 mt-1">Canal de Avisos</span>
                 </a>
 
-                <!-- Website Oficial -->
                 <a id="linkWebsite" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-300 flex flex-col items-center text-center group">
                     <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform">
                         <i data-lucide="globe"></i>
@@ -124,7 +110,6 @@
                     <span class="text-[11px] text-slate-400 mt-1">Visitar Website</span>
                 </a>
 
-                <!-- YouTube -->
                 <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition-all duration-300 flex flex-col items-center text-center group">
                     <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform">
                         <i data-lucide="youtube"></i>
@@ -135,7 +120,6 @@
             </div>
         </section>
 
-        <!-- Caixa de Mensagens (Grava em suporte_mensagens no Realtime Database) -->
         <section class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm">
             <h2 class="text-lg font-extrabold mb-3 flex items-center gap-2 text-slate-800">
                 <i data-lucide="mailbox" class="text-indigo-primary"></i> Caixa de Mensagens & Dúvidas
@@ -165,20 +149,17 @@
             <div id="formStatus" class="mt-4 p-3.5 rounded-xl text-xs font-bold hidden"></div>
         </section>
 
-        <!-- Perguntas Frequentes (FAQ Sincronizadas do dados_app/faq) -->
         <section>
             <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
                 <i data-lucide="help-circle" class="text-indigo-primary"></i> Perguntas Frequentes
             </h2>
             <div id="faqList" class="space-y-3">
-                <!-- Conteúdo gerado dinamicamente a partir do Realtime Database -->
                 <div class="p-6 bg-white border border-slate-smooth rounded-xl text-center text-slate-400 text-xs">
                     <i class="fas fa-circle-notch fa-spin mr-1"></i> A carregar perguntas frequentes...
                 </div>
             </div>
         </section>
 
-        <!-- Link Externo para Download e Termos Legais -->
         <section id="downloadSection" class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
                 <div class="p-4 bg-indigo-50 text-indigo-primary rounded-xl">
@@ -201,7 +182,6 @@
 
     </main>
 
-    <!-- Modal para Políticas e Termos Legais (Carregados via Markdown - dados_app/terms) -->
     <div id="termsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl w-full max-w-2xl shadow-xl overflow-hidden flex flex-col max-h-[85vh]">
             <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
@@ -209,15 +189,13 @@
                 <button id="closeTermsBtn" class="text-white/80 hover:text-white transition"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <div id="termsModalContent" class="p-6 overflow-y-auto prose prose-sm max-w-none text-slate-600 text-xs md:text-sm space-y-4">
-                <!-- Preenchido dinamicamente via Markdown -->
-            </div>
+                </div>
             <div class="bg-slate-50 p-4 border-t flex justify-end">
                 <button id="acceptTermsModalBtn" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">Compreendido</button>
             </div>
         </div>
     </div>
 
-    <!-- Rodapé -->
     <footer class="bg-white border-t border-slate-smooth mt-12 py-8 px-4 text-center text-xs text-slate-400">
         <div class="max-w-4xl mx-auto space-y-3">
             <p class="font-semibold text-slate-500">Portal Escolar &bull; Simplificando a rotina de alunos, professores e encarregados de educação.</p>
@@ -225,7 +203,6 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK Modular e Scripts de Leitura em Tempo Real -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -239,8 +216,8 @@
             projectId: "horarios-escolar-danisio",
             storageBucket: "horarios-escolar-danisio.firebasestorage.app",
             messagingSenderId: "348445793744",
-            appId: "1:348445793744:web:4ad8dd25f449c2c8416dd5",
-            measurementId: "G-YEXZVMKDPK"
+            appId: "1:348445793744:web:8efa2060a6259536416dd5",
+            measurementId: "G-D76S27RN3S"
         };
 
         // Inicializar aplicação Firebase
