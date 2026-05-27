@@ -355,14 +355,16 @@
                         let validTurno = parsed.shifts.some(s => s.id === urlTurno) ? urlTurno : null;
                         let validTurma = (validTurno && parsed.classesByShift[validTurno]?.some(c => c.id === urlTurma)) ? urlTurma : null;
 
+                        // Limpa a URL do navegador removendo as tags para um visual mais limpo
+                        if (urlEscola || urlTurno || urlTurma) {
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                        }
+
                         // Se os 3 parâmetros foram passados e são válidos, fazemos o "Login Automático"
                         if (validEscola && validTurno && validTurma) {
                             const newPrefs = { school: validEscola, shift: validTurno, classId: validTurma };
                             setPreferences(newPrefs);
                             localStorage.setItem('schoolAppPrefs_v4', JSON.stringify(newPrefs));
-                            
-                            // Opcional: Limpa a URL do navegador para melhorar o visual
-                            window.history.replaceState({}, document.title, window.location.pathname);
                         } 
                         // Se houver pelo menos 1 parâmetro válido (ex: apenas a escola), preenchemos a tela Setup
                         else if (validEscola || validTurno || validTurma) {
