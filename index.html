@@ -236,10 +236,11 @@
         }
 
         // --- COMPONENTE: TELA DE CONFIGURAÇÃO ---
-        function SetupScreen({ data, onComplete }) {
-            const [school, setSchool] = useState(data.schools[0].id);
-            const [shift, setShift] = useState('tarde');
-            const [classId, setClassId] = useState('');
+        function SetupScreen({ data, onComplete, initialParams }) {
+            // Inicializa usando initialParams da URL se houver, ou os padrões
+            const [school, setSchool] = useState(initialParams?.school || data.schools[0]?.id);
+            const [shift, setShift] = useState(initialParams?.shift || 'tarde');
+            const [classId, setClassId] = useState(initialParams?.classId || '');
 
             useEffect(() => {
                 const classesForShift = data.classesByShift[shift] || [];
@@ -324,6 +325,7 @@
         function App() {
             const [data, setData] = useState(null);
             const [preferences, setPreferences] = useState(null);
+            const [urlInitialParams, setUrlInitialParams] = useState(null);
             const [activeDay, setActiveDay] = useState('segunda');
             const [isDarkMode, setIsDarkMode] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
@@ -334,13 +336,47 @@
             const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
             const [isHelpModalOpen, setIsHelpModalOpen] = useState(false); 
 
-            // 1. Carrega os Dados
+            // 1. Carrega os Dados e Lê Parâmetros da URL
             useEffect(() => {
                 fetch('dados.json')
                     .then(response => response.json())
                     .then(parsed => {
                         setData(parsed);
                         processNews(parsed.news || []);
+
+                        // --- LEITURA DA URL (QR CODE) ---
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const urlEscola = urlParams.get('escola');
+                        const urlTurno = urlParams.get('turno');
+                        const urlTurma = urlParams.get('turma');
+
+                        // Validação: Checa se os parâmetros fornecidos existem nos dados
+                        let validEscola = parsed.schools.some(s => s.id === urlEscola) ? urlEscola : null;
+                        let validTurno = parsed.shifts.some(s => s.id === urlTurno) ? urlTurno : null;
+                        let validTurma = (validTurno && parsed.classesByShift[validTurno]?.some(c => c.id === urlTurma)) ? urlTurma : null;
+
+                        // Se os 3 parâmetros foram passados e são válidos, fazemos o "Login Automático"
+                        if (validEscola && validTurno && validTurma) {
+                            const newPrefs = { school: validEscola, shift: validTurno, classId: validTurma };
+                            setPreferences(newPrefs);
+                            localStorage.setItem('schoolAppPrefs_v4', JSON.stringify(newPrefs));
+                            
+                            // Opcional: Limpa a URL do navegador para melhorar o visual
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                        } 
+                        // Se houver pelo menos 1 parâmetro válido (ex: apenas a escola), preenchemos a tela Setup
+                        else if (validEscola || validTurno || validTurma) {
+                            setUrlInitialParams({
+                                school: validEscola,
+                                shift: validTurno,
+                                classId: validTurma
+                            });
+                        } 
+                        // Se não tem URL e não preencheu parcialmente, busca do LocalStorage normalmente
+                        else {
+                            const saved = localStorage.getItem('schoolAppPrefs_v4');
+                            if (saved) setPreferences(JSON.parse(saved));
+                        }
                     })
                     .catch(e => console.error("Erro ao carregar JSON externo:", e));
             }, []);
@@ -356,11 +392,8 @@
                 }
             };
 
-            // 2. Configurações salvas e Tema
+            // 2. Configurações salvas (Tema e Dia da Semana)
             useEffect(() => {
-                const saved = localStorage.getItem('schoolAppPrefs_v4');
-                if (saved) setPreferences(JSON.parse(saved));
-                
                 const themePref = localStorage.getItem('schoolAppTheme');
                 if (themePref === 'dark') setIsDarkMode(true);
 
@@ -412,6 +445,8 @@
             const savePreferences = (prefs) => {
                 localStorage.setItem('schoolAppPrefs_v4', JSON.stringify(prefs));
                 setPreferences(prefs);
+                // Limpa os params iniciais caso o usuário decida trocar tudo
+                setUrlInitialParams(null); 
             };
 
             const handleOpenNews = () => {
@@ -440,7 +475,7 @@
             };
 
             if (!data) return <div className="p-10 text-center dark:text-white flex h-screen items-center justify-center font-bold">Carregando dados...</div>;
-            if (!preferences) return <SetupScreen data={data} onComplete={savePreferences} />;
+            if (!preferences) return <SetupScreen data={data} onComplete={savePreferences} initialParams={urlInitialParams} />;
 
             const currentTimes = data.timeSlots[preferences.shift] || {};
             const classSchedule = data.schedule[preferences.shift]?.[preferences.classId] || {}; 
@@ -454,10 +489,8 @@
 
             const timeKeys = ['T1', 'T2', 'T3', 'INT', 'T4', 'T5'];
 
-            // Gera um link fictício para o QR Code (Você pode alterar para o link real do seu site)
             const siteUrl = window.location.href.split('?')[0]; 
             const shareUrl = `${siteUrl}?escola=${preferences.school}&turno=${preferences.shift}&turma=${preferences.classId}`;
-            // API pública gratuita para gerar o QR Code como imagem
             const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}&margin=10`;
             const currentSchoolName = data.schools.find(s => s.id === preferences.school)?.name || "Escola";
             const currentClassName = data.classesByShift[preferences.shift]?.find(c => c.id === preferences.classId)?.label || preferences.classId;
@@ -496,7 +529,6 @@
                                     <HelpCircle className="w-5 h-5 text-brand-50" />
                                 </button>
 
-                                {/* NOVO BOTÃO DE DOWNLOAD AQUI */}
                                 <a 
                                     href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/apk.html#features" 
                                     target="_blank" 
