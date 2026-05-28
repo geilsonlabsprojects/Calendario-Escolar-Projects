@@ -11,27 +11,22 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
         body {
-            background-color: #F8FAFC; /* Slate Claro */
-            color: #0F172A; /* Slate Escuro */
+            background-color: #F8FAFC;
+            color: #0F172A;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .bg-indigo-primary {
-            background-color: #4F46E5; /* Indigo */
-        }
-        .text-indigo-primary {
-            color: #4F46E5;
-        }
-        .border-slate-smooth {
-            border-color: #E2E8F0; /* Bordas suaves */
-        }
-        /* Transições suaves */
-        .faq-transition {
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .bg-indigo-primary { background-color: #4F46E5; }
+        .text-indigo-primary { color: #4F46E5; }
+        .border-slate-smooth { border-color: #E2E8F0; }
+        .faq-transition { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
+    <!-- Banner de Manutenção -->
     <div id="maintenanceBanner" class="hidden bg-amber-600 text-white px-4 py-3 text-center text-sm font-semibold relative z-50 shadow-md">
         <div class="max-w-4xl mx-auto flex items-center justify-center gap-2">
             <i data-lucide="construction" class="w-5 h-5 animate-bounce"></i>
@@ -39,6 +34,7 @@
         </div>
     </div>
 
+    <!-- Header -->
     <header class="bg-indigo-primary text-white py-14 px-4 text-center shadow-lg relative overflow-hidden">
         <div class="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full filter blur-xl pointer-events-none"></div>
         <div class="absolute bottom-0 right-0 w-48 h-48 bg-indigo-500/20 rounded-full filter blur-2xl pointer-events-none"></div>
@@ -49,12 +45,13 @@
             </div>
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Portal Escolar</h1>
             <p class="text-xl font-semibold mt-2 text-indigo-100">Central de Ajuda e Suporte</p>
-            <p class="text-sm md:text-base mt-1.5 text-indigo-200/90 max-w-lg">Canal exclusivo de suporte. Esclareça as suas dúvidas com a nossa equipa ou consulte o mural informativo da escola.</p>
+            <p class="text-sm md:text-base mt-1.5 text-indigo-200/90 max-w-lg">Esclareça as suas dúvidas com a nossa equipa ou consulte o mural informativo.</p>
         </div>
     </header>
 
     <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-10 space-y-12">
 
+        <!-- Instabilidade -->
         <div id="instabilityContainer" class="hidden border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300">
             <div id="instabilityIcon" class="shrink-0"></div>
             <div class="flex-1 space-y-1">
@@ -63,6 +60,7 @@
             </div>
         </div>
 
+        <!-- Mural -->
         <section id="muralContainer" class="hidden bg-white border border-slate-smooth rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row hover:shadow-md transition duration-300">
             <div id="muralImageWrapper" class="md:w-2/5 h-48 md:h-auto bg-slate-100 overflow-hidden relative shrink-0">
                 <img id="muralImage" src="" alt="Comunicado Escolar" class="w-full h-full object-cover">
@@ -75,91 +73,104 @@
                     <h3 id="muralTitle" class="text-lg font-extrabold text-slate-900 leading-snug"></h3>
                     <p id="muralContent" class="text-slate-600 text-xs leading-relaxed whitespace-pre-line"></p>
                 </div>
-                <div class="text-[10px] text-slate-400 font-bold flex items-center gap-1.5 border-t pt-3">
-                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Atualizado recentemente via servidor
-                </div>
             </div>
         </section>
         
+        <!-- Redes Sociais -->
         <section>
             <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
                 <i data-lucide="share-2" class="text-indigo-primary"></i> Canais e Redes Sociais
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col items-center text-center group">
-                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <i data-lucide="phone"></i>
-                    </div>
+                <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col items-center text-center group">
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="phone"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">WhatsApp</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Apoio Direto</span>
                 </a>
-
-                <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition-all duration-300 flex flex-col items-center text-center group">
-                    <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <i data-lucide="send"></i>
-                    </div>
+                <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col items-center text-center group">
+                    <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="send"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">Telegram</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Canal de Avisos</span>
                 </a>
-
-                <a id="linkWebsite" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-300 flex flex-col items-center text-center group">
-                    <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform">
-                        <i data-lucide="globe"></i>
-                    </div>
+                <a id="linkWebsite" href="#" target="_blank" class="bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition flex flex-col items-center text-center group">
+                    <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="globe"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">Página Web</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Visitar Website</span>
                 </a>
-
-                <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition-all duration-300 flex flex-col items-center text-center group">
-                    <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <i data-lucide="youtube"></i>
-                    </div>
+                <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition flex flex-col items-center text-center group">
+                    <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="youtube"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">YouTube</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Canal de Vídeos</span>
                 </a>
             </div>
         </section>
 
-        <section class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm">
-            <h2 class="text-lg font-extrabold mb-3 flex items-center gap-2 text-slate-800">
-                <i data-lucide="mailbox" class="text-indigo-primary"></i> Caixa de Mensagens & Dúvidas
-            </h2>
-            <p class="text-xs text-slate-400 mb-6">Precisa de suporte extra ou quer sugerir alguma melhoria? Preencha o formulário abaixo para enviar a sua mensagem à coordenação pedagógica ou técnica.</p>
-            
-            <form id="supportForm" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">O seu Nome</label>
-                        <input type="text" id="senderName" required class="w-full border border-slate-smooth rounded-xl p-3 text-xs bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" placeholder="Ex: Lucas Silva">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">E-mail para contacto</label>
-                        <input type="email" id="senderEmail" required class="w-full border border-slate-smooth rounded-xl p-3 text-xs bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" placeholder="exemplo@escola.com">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase">Como o podemos ajudar?</label>
-                    <textarea id="senderMessage" required rows="4" class="w-full border border-slate-smooth rounded-xl p-3 text-xs bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition resize-none" placeholder="Escreva detalhadamente a sua dúvida ou o problema técnico..."></textarea>
-                </div>
+        <!-- SECÇÃO DE SUPORTE COM GOOGLE LOGIN -->
+        <section class="bg-white border border-slate-smooth rounded-2xl overflow-hidden shadow-sm">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h2 class="text-lg font-extrabold flex items-center gap-2 text-slate-800">
+                    <i data-lucide="life-buoy" class="text-indigo-primary"></i> Atendimento ao Aluno
+                </h2>
                 
-                <button type="submit" id="submitMsgBtn" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-sm transition text-xs flex items-center gap-2 justify-center w-full sm:w-auto">
-                    <i data-lucide="send" class="w-4 h-4"></i> Submeter Pedido
-                </button>
-            </form>
-            <div id="formStatus" class="mt-4 p-3.5 rounded-xl text-xs font-bold hidden"></div>
-        </section>
+                <!-- Perfil Logado (Oculto por defeito) -->
+                <div id="userProfile" class="hidden flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <p id="userName" class="text-xs font-bold text-slate-800"></p>
+                        <p id="userEmail" class="text-[10px] text-slate-500"></p>
+                    </div>
+                    <img id="userPhoto" src="" class="w-8 h-8 rounded-full border border-slate-200">
+                    <button id="logoutBtn" class="p-2 bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-600 rounded-lg transition" title="Sair da Conta">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
 
-        <section>
-            <h2 class="text-lg font-extrabold mb-5 flex items-center gap-2 text-slate-800">
-                <i data-lucide="help-circle" class="text-indigo-primary"></i> Perguntas Frequentes
-            </h2>
-            <div id="faqList" class="space-y-3">
-                <div class="p-6 bg-white border border-slate-smooth rounded-xl text-center text-slate-400 text-xs">
-                    <i class="fas fa-circle-notch fa-spin mr-1"></i> A carregar perguntas frequentes...
+            <div class="p-6">
+                <!-- Estado Não Autenticado -->
+                <div id="authRequired" class="text-center py-8">
+                    <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="shield-check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-800 mb-2">Autenticação Necessária</h3>
+                    <p class="text-xs text-slate-500 mb-6 max-w-md mx-auto">Para enviar mensagens à equipa de suporte e acompanhar a resolução dos seus pedidos, é necessário iniciar sessão com a sua conta escolar (Google).</p>
+                    
+                    <button id="loginGoogleBtn" class="inline-flex items-center justify-center gap-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl shadow-sm transition w-full sm:w-auto">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                        Entrar com o Google
+                    </button>
+                </div>
+
+                <!-- Estado Autenticado: Formulário e Lista de Pedidos -->
+                <div id="supportDashboard" class="hidden space-y-8">
+                    
+                    <!-- Formulário de Envio -->
+                    <div>
+                        <p class="text-xs text-slate-500 mb-4">Escreva a sua dúvida detalhadamente. A nossa equipa responderá para o seu e-mail e atualizará o status abaixo.</p>
+                        <form id="supportForm" class="space-y-4">
+                            <div>
+                                <textarea id="senderMessage" required rows="4" class="w-full border border-slate-smooth rounded-xl p-3 text-sm bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition resize-none" placeholder="Ex: Não consigo aceder ao horário da minha turma..."></textarea>
+                            </div>
+                            <button type="submit" id="submitMsgBtn" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-sm transition text-xs flex items-center gap-2 justify-center w-full sm:w-auto">
+                                <i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem
+                            </button>
+                        </form>
+                        <div id="formStatus" class="mt-4 p-3.5 rounded-xl text-xs font-bold hidden"></div>
+                    </div>
+
+                    <!-- Lista de Tickets (Meus Pedidos) -->
+                    <div class="border-t border-slate-100 pt-6">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-4 text-sm">
+                            <i data-lucide="inbox" class="w-4 h-4 text-indigo-500"></i> Os Meus Pedidos de Suporte
+                        </h3>
+                        
+                        <div id="myTicketsList" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-2">
+                            <div class="text-center py-6 text-slate-400 text-xs">
+                                <i class="fas fa-circle-notch fa-spin mr-1"></i> A carregar os seus pedidos...
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
+        <!-- Downloads -->
         <section id="downloadSection" class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
                 <div class="p-4 bg-indigo-50 text-indigo-primary rounded-xl">
@@ -167,7 +178,7 @@
                 </div>
                 <div>
                     <h3 class="font-bold text-lg text-slate-800">Precisa de instalar o aplicativo?</h3>
-                    <p class="text-xs text-slate-500">Consulte todas as funcionalidades e descarregue o APK na nossa página de download oficial.</p>
+                    <p class="text-xs text-slate-500">Consulte todas as funcionalidades e descarregue o APK na nossa página oficial.</p>
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -175,40 +186,32 @@
                     <i data-lucide="external-link" class="w-4 h-4"></i> Ir para Downloads
                 </a>
                 <button id="termsBtn" class="border border-slate-smooth hover:bg-slate-50 text-slate-600 font-bold px-5 py-3 rounded-xl text-center transition text-xs flex items-center justify-center">
-                    Políticas e Privacidade
+                    Políticas de Uso
                 </button>
             </div>
         </section>
 
     </main>
 
+    <!-- Modal Termos -->
     <div id="termsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl w-full max-w-2xl shadow-xl overflow-hidden flex flex-col max-h-[85vh]">
             <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
-                <h3 class="font-bold flex items-center gap-2 text-sm"><i data-lucide="file-text" class="text-indigo-400"></i> Termos de Uso e Privacidade</h3>
+                <h3 class="font-bold flex items-center gap-2 text-sm"><i data-lucide="file-text" class="text-indigo-400"></i> Termos de Uso</h3>
                 <button id="closeTermsBtn" class="text-white/80 hover:text-white transition"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-            <div id="termsModalContent" class="p-6 overflow-y-auto prose prose-sm max-w-none text-slate-600 text-xs md:text-sm space-y-4">
-                </div>
+            <div id="termsModalContent" class="p-6 overflow-y-auto prose prose-sm max-w-none text-slate-600 text-xs md:text-sm space-y-4"></div>
             <div class="bg-slate-50 p-4 border-t flex justify-end">
                 <button id="acceptTermsModalBtn" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">Compreendido</button>
             </div>
         </div>
     </div>
 
-    <footer class="bg-white border-t border-slate-smooth mt-12 py-8 px-4 text-center text-xs text-slate-400">
-        <div class="max-w-4xl mx-auto space-y-3">
-            <p class="font-semibold text-slate-500">Portal Escolar &bull; Simplificando a rotina de alunos, professores e encarregados de educação.</p>
-            <p>&copy; 2026 &bull; Versão da App Ativa: <span id="appVersionSpan" class="font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-bold">v3.4.0</span></p>
-        </div>
-    </footer>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // Configurações reais da base de dados fornecidas
         const firebaseConfig = {
             apiKey: "AIzaSyDGCjBbqtp_TvFeW7ySpLp0QmKjTsTn2Sw",
             authDomain: "horarios-escolar-danisio.firebaseapp.com",
@@ -220,160 +223,255 @@
             measurementId: "G-D76S27RN3S"
         };
 
-        // Inicializar aplicação Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
         const db = getDatabase(app);
 
-        // Referências do DOM
-        const maintenanceBanner = document.getElementById('maintenanceBanner');
-        const maintenanceText = document.getElementById('maintenanceText');
-        const instabilityContainer = document.getElementById('instabilityContainer');
-        const instabilityTitle = document.getElementById('instabilityTitle');
-        const instabilityText = document.getElementById('instabilityText');
-        const instabilityIcon = document.getElementById('instabilityIcon');
+        // Refs UI Suporte/Autenticação
+        const authRequired = document.getElementById('authRequired');
+        const supportDashboard = document.getElementById('supportDashboard');
+        const loginGoogleBtn = document.getElementById('loginGoogleBtn');
+        const userProfile = document.getElementById('userProfile');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userPhoto = document.getElementById('userPhoto');
+        const logoutBtn = document.getElementById('logoutBtn');
         
-        const muralContainer = document.getElementById('muralContainer');
-        const muralTitle = document.getElementById('muralTitle');
-        const muralContent = document.getElementById('muralContent');
-        const muralImage = document.getElementById('muralImage');
-        const muralImageWrapper = document.getElementById('muralImageWrapper');
+        const supportForm = document.getElementById('supportForm');
+        const formStatus = document.getElementById('formStatus');
+        const myTicketsList = document.getElementById('myTicketsList');
 
+        let currentUser = null;
+        let unsubscribeTickets = null;
+
+        // Monitorização de Autenticação (Google Login)
+        onAuthStateChanged(auth, (user) => {
+            if (user && !user.isAnonymous) {
+                // Utilizador logado com Google
+                currentUser = user;
+                authRequired.classList.add('hidden');
+                supportDashboard.classList.remove('hidden');
+                userProfile.classList.remove('hidden');
+                
+                userName.textContent = user.displayName || 'Aluno';
+                userEmail.textContent = user.email;
+                userPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'A') + '&background=random';
+                
+                // Carregar tickets do utilizador
+                listenToMyTickets(user.email);
+            } else {
+                // Utilizador não logado (ou anónimo)
+                currentUser = null;
+                authRequired.classList.remove('hidden');
+                supportDashboard.classList.add('hidden');
+                userProfile.classList.add('hidden');
+                
+                if (unsubscribeTickets) {
+                    unsubscribeTickets(); // Parar de ouvir tickets anteriores
+                }
+            }
+            lucide.createIcons();
+        });
+
+        // Eventos de Login e Logout
+        loginGoogleBtn.addEventListener('click', async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Erro no login:", error);
+                alert("Falha ao iniciar sessão com o Google. Tente novamente.");
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // Enviar Ticket de Suporte
+        supportForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const submitBtn = document.getElementById('submitMsgBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-1.5 inline-block"></span> A submeter...`;
+
+            const mensagem = document.getElementById('senderMessage').value.trim();
+
+            try {
+                const mensagensRef = ref(db, 'suporte_mensagens');
+                const novaMsgRef = push(mensagensRef);
+                
+                await set(novaMsgRef, {
+                    uid: currentUser.uid,
+                    nome: currentUser.displayName || 'Sem Nome',
+                    email: currentUser.email,
+                    mensagem: mensagem,
+                    dataEnvio: new Date().toISOString(),
+                    status: 'Aguardando Resposta'
+                });
+
+                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+                formStatus.textContent = "Mensagem enviada com sucesso! Acompanhe o estado abaixo.";
+                supportForm.reset();
+                
+                // Ocultar mensagem de sucesso após 5s
+                setTimeout(() => formStatus.classList.add('hidden'), 5000);
+            } catch (err) {
+                console.error("Erro ao guardar pedido:", err);
+                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
+                formStatus.textContent = "Erro ao enviar a mensagem. Verifique a internet e tente de novo.";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem`;
+                lucide.createIcons();
+            }
+        });
+
+        // Ouvir Tickets do Utilizador Logado em Tempo Real
+        function listenToMyTickets(userEmail) {
+            const mensagensRef = ref(db, 'suporte_mensagens');
+            
+            unsubscribeTickets = onValue(mensagensRef, (snapshot) => {
+                myTicketsList.innerHTML = '';
+                const data = snapshot.val();
+                
+                if (!data) {
+                    showNoTicketsMsg();
+                    return;
+                }
+
+                // Filtrar apenas mensagens do email logado (Client-side filtering para evitar erro de Index no Firebase)
+                const myTickets = Object.entries(data)
+                    .filter(([key, msg]) => msg.email === userEmail)
+                    .sort((a, b) => new Date(b[1].dataEnvio) - new Date(a[1].dataEnvio)); // Mais recentes primeiro
+
+                if (myTickets.length === 0) {
+                    showNoTicketsMsg();
+                    return;
+                }
+
+                myTickets.forEach(([key, msg]) => {
+                    const isResolved = msg.status === 'Resolvido';
+                    const dateObj = new Date(msg.dataEnvio);
+                    const formattedDate = dateObj.toLocaleDateString('pt-PT') + ' às ' + dateObj.toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'});
+                    
+                    const ticketDiv = document.createElement('div');
+                    ticketDiv.className = `p-4 rounded-xl border flex flex-col gap-2 transition-all ${isResolved ? 'bg-emerald-50/30 border-emerald-100' : 'bg-white border-slate-200 shadow-sm'}`;
+                    
+                    ticketDiv.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <span class="text-[10px] text-slate-400 font-bold"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formattedDate}</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase flex items-center gap-1 ${isResolved ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200 animate-pulse'}">
+                                ${isResolved ? '<i data-lucide="check-circle-2" class="w-3 h-3"></i> Resolvido' : '<i data-lucide="clock" class="w-3 h-3"></i> Aguardando'}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-600 line-clamp-3 mt-1 leading-relaxed">"${msg.mensagem}"</p>
+                    `;
+                    myTicketsList.appendChild(ticketDiv);
+                });
+                lucide.createIcons();
+            });
+        }
+
+        function showNoTicketsMsg() {
+            myTicketsList.innerHTML = `
+                <div class="text-center py-6 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    <i data-lucide="inbox" class="w-6 h-6 text-slate-300 mx-auto mb-2"></i>
+                    <p class="text-slate-400 text-xs">Ainda não enviou nenhum pedido de suporte.</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // RESTANTE LÓGICA ORIGINAL DA PÁGINA
+        // ==========================================
+
+        const maintenanceBanner = document.getElementById('maintenanceBanner');
+        const instabilityContainer = document.getElementById('instabilityContainer');
+        const muralContainer = document.getElementById('muralContainer');
         const linkWhatsapp = document.getElementById('linkWhatsapp');
         const linkTelegram = document.getElementById('linkTelegram');
         const linkWebsite = document.getElementById('linkWebsite');
         const linkYoutube = document.getElementById('linkYoutube');
-
-        const appVersionSpan = document.getElementById('appVersionSpan');
         const termsBtn = document.getElementById('termsBtn');
         const termsModal = document.getElementById('termsModal');
         const termsModalContent = document.getElementById('termsModalContent');
         const closeTermsBtn = document.getElementById('closeTermsBtn');
         const acceptTermsModalBtn = document.getElementById('acceptTermsModalBtn');
 
-        const supportForm = document.getElementById('supportForm');
-        const formStatus = document.getElementById('formStatus');
-        const faqListContainer = document.getElementById('faqList');
+        let termsContentRaw = "";
 
-        let termsContentRaw = ""; // Armazena os termos originais para renderização em Markdown
-
-        // Sair de qualquer sessão administrativa e autenticar como utilizador anónimo para leitura segura
-        const initializeVisitorSession = async () => {
-            try {
-                await signInAnonymously(auth);
-            } catch (err) {
-                console.error("Falha ao inicializar sessão segura:", err);
-            }
-        };
-        initializeVisitorSession();
-
-        // Escuta em tempo real do nó 'dados_app' do Realtime Database
+        // Escuta em tempo real do nó 'dados_app'
         const appDataRef = ref(db, 'dados_app');
         onValue(appDataRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                renderizarDadosSincronizados(data);
-            }
-        }, (error) => {
-            console.error("Erro na leitura das definições em tempo real:", error);
-        });
-
-        // Função de sincronização e renderização dinâmica das opções
-        const renderizarDadosSincronizados = (data) => {
-            
-            // 1. Manutenção Preventiva (dados_app/maintenance)
-            if (data.maintenance && data.maintenance.enabled) {
-                maintenanceBanner.classList.remove('hidden');
-                if (data.maintenance.title) {
-                    maintenanceText.textContent = `${data.maintenance.title}: ${data.maintenance.message || ''} ${data.maintenance.eta ? `(Previsão: ${data.maintenance.eta})` : ''}`;
+                // 1. Manutenção
+                if (data.maintenance && data.maintenance.enabled) {
+                    maintenanceBanner.classList.remove('hidden');
+                    document.getElementById('maintenanceText').textContent = `${data.maintenance.title}: ${data.maintenance.message || ''}`;
+                } else {
+                    maintenanceBanner.classList.add('hidden');
                 }
-            } else {
-                maintenanceBanner.classList.add('hidden');
-            }
 
-            // 2. Alertas Gerais e Instabilidade (dados_app/messages)
-            if (data.messages && data.messages.enabled) {
-                instabilityTitle.textContent = data.messages.title || 'Alerta Escolar';
-                instabilityText.textContent = data.messages.message || '';
-                
-                // Tratar estilos visuais do banner configurados no painel
-                const style = data.messages.bannerStyle || 'warning';
-                instabilityContainer.className = "border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300";
-                
-                if (style === 'danger') {
-                    instabilityContainer.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-950');
-                    instabilityIcon.innerHTML = '<i data-lucide="alert-octagon" class="text-rose-600 w-6 h-6"></i>';
-                } else if (style === 'success') {
-                    instabilityContainer.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-950');
-                    instabilityIcon.innerHTML = '<i data-lucide="check-circle-2" class="text-emerald-600 w-6 h-6"></i>';
-                } else if (style === 'info') {
-                    instabilityContainer.classList.add('bg-sky-50', 'border-sky-200', 'text-sky-950');
-                    instabilityIcon.innerHTML = '<i data-lucide="info" class="text-sky-600 w-6 h-6"></i>';
-                } else { // default warning
-                    instabilityContainer.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-950');
-                    instabilityIcon.innerHTML = '<i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6 animate-pulse"></i>';
-                }
-                
-                instabilityContainer.classList.remove('hidden');
-            } else {
-                instabilityContainer.classList.add('hidden');
-            }
-
-            // 3. Mural de Avisos (Lido exclusivamente do dados_app/mural)
-            if (data.mural && data.mural.enabled) {
-                const title = data.mural.title || '';
-                const content = data.mural.content || '';
-                const imageUrl = data.mural.imageUrl || '';
-
-                if (title && content) {
-                    muralTitle.textContent = title;
-                    muralContent.textContent = content;
-
-                    if (imageUrl && imageUrl.trim() !== '') {
-                        muralImage.src = imageUrl;
-                        muralImageWrapper.classList.remove('hidden');
+                // 2. Instabilidade (Avisos Globais)
+                if (data.messages && data.messages.enabled) {
+                    document.getElementById('instabilityTitle').textContent = data.messages.title || 'Alerta Escolar';
+                    document.getElementById('instabilityText').textContent = data.messages.message || '';
+                    instabilityContainer.className = "border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300";
+                    const iconBox = document.getElementById('instabilityIcon');
+                    
+                    if (data.messages.bannerStyle === 'danger') {
+                        instabilityContainer.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-950');
+                        iconBox.innerHTML = '<i data-lucide="alert-octagon" class="text-rose-600 w-6 h-6"></i>';
+                    } else if (data.messages.bannerStyle === 'success') {
+                        instabilityContainer.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-950');
+                        iconBox.innerHTML = '<i data-lucide="check-circle-2" class="text-emerald-600 w-6 h-6"></i>';
                     } else {
-                        muralImageWrapper.classList.add('hidden');
+                        instabilityContainer.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-950');
+                        iconBox.innerHTML = '<i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6 animate-pulse"></i>';
+                    }
+                    instabilityContainer.classList.remove('hidden');
+                } else {
+                    instabilityContainer.classList.add('hidden');
+                }
+
+                // 3. Mural
+                if (data.mural && data.mural.enabled) {
+                    document.getElementById('muralTitle').textContent = data.mural.title || '';
+                    document.getElementById('muralContent').textContent = data.mural.content || '';
+                    if (data.mural.imageUrl) {
+                        document.getElementById('muralImage').src = data.mural.imageUrl;
+                        document.getElementById('muralImageWrapper').classList.remove('hidden');
+                    } else {
+                        document.getElementById('muralImageWrapper').classList.add('hidden');
                     }
                     muralContainer.classList.remove('hidden');
                 } else {
                     muralContainer.classList.add('hidden');
                 }
-            } else {
-                muralContainer.classList.add('hidden');
+
+                // 4. Links Sociais (Página web fixa pelo pedido)
+                if (data.links) {
+                    configurarCanalLink(linkWhatsapp, data.links.whatsapp);
+                    configurarCanalLink(linkTelegram, data.links.telegram);
+                    configurarCanalLink(linkYoutube, data.links.youtube);
+                    
+                    // LINK WEB FIXO CONFORME PEDIDO
+                    linkWebsite.href = "https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/";
+                    linkWebsite.classList.remove('opacity-50', 'pointer-events-none');
+                }
+
+                // 5. Termos
+                if (data.terms && data.terms.content) termsContentRaw = data.terms.content;
+                
+                lucide.createIcons();
             }
+        });
 
-            // 4. Configurar Links das Redes e Suporte
-            if (data.links) {
-                configurarCanalLink(linkWhatsapp, data.links.whatsapp);
-                configurarCanalLink(linkTelegram, data.links.telegram);
-                configurarCanalLink(linkWebsite, data.links.website);
-                configurarCanalLink(linkYoutube, data.links.youtube);
-            }
-
-            // 5. Termos de Uso (dados_app/terms/content)
-            if (data.terms && data.terms.content) {
-                termsContentRaw = data.terms.content;
-            }
-
-            // 6. Atualizar apenas o indicador visual da versão do Aplicativo
-            if (data.update) {
-                appVersionSpan.textContent = data.update.versionName || 'v3.4.0';
-            }
-
-            // 7. Renderizar FAQ Dinâmico (dados_app/faq)
-            if (data.faq) {
-                renderizarFaqDinamico(data.faq);
-            } else {
-                // Se ainda não houver FAQs criadas no nó dados_app/faq
-                renderizarFaqFallback();
-            }
-
-            // Atualiza os ícones gerados dinamicamente
-            lucide.createIcons();
-        };
-
-        // Utilitário para configurar links externos
         const configurarCanalLink = (elemento, url) => {
             if (url && url.trim() !== '') {
                 elemento.href = url;
@@ -384,142 +482,15 @@
             }
         };
 
-        // Renderização dinâmica do FAQ proveniente do dados_app/faq
-        const renderizarFaqDinamico = (faqData) => {
-            faqListContainer.innerHTML = '';
-            
-            // Aceita tanto formato de array como de dicionário/objeto chave-valor do Firebase
-            const faqItems = Object.values(faqData);
-
-            if (faqItems.length === 0) {
-                renderFaqFallback();
-                return;
-            }
-
-            faqItems.forEach((item, index) => {
-                const title = item.pergunta || item.question || 'Pergunta';
-                const content = item.resposta || item.answer || 'Resposta indisponível.';
-                
-                const faqItemDiv = document.createElement('div');
-                faqItemDiv.className = "bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm";
-                faqItemDiv.innerHTML = `
-                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
-                        <span>${title}</span>
-                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
-                        ${content}
-                    </div>
-                `;
-
-                // Adiciona o Event Listener direto para evitar problemas de escuta
-                faqItemDiv.querySelector('.toggle-faq').addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    const answer = btn.nextElementSibling;
-                    const icon = btn.querySelector('[data-lucide="chevron-down"]');
-                    answer.classList.toggle('hidden');
-                    
-                    if (answer.classList.contains('hidden')) {
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-
-                faqListContainer.appendChild(faqItemDiv);
-            });
-        };
-
-        const renderizarFaqFallback = () => {
-            faqListContainer.innerHTML = `
-                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
-                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
-                        <span>Como recuperar a minha senha de acesso?</span>
-                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
-                        No ecrã de início de sessão da aplicação móvel, toque na opção "Esqueci-me da senha". Introduza o e-mail oficial que está associado à sua matrícula escolar para receber as instruções seguras de reposição.
-                    </div>
-                </div>
-
-                <div class="bg-white border border-slate-smooth rounded-xl overflow-hidden shadow-sm">
-                    <button class="w-full text-left p-4 font-bold text-slate-700 flex justify-between items-center hover:bg-slate-50 transition toggle-faq text-xs md:text-sm">
-                        <span>Como posso configurar a biometria/impressão digital?</span>
-                        <i data-lucide="chevron-down" class="text-slate-400 transition-transform duration-200"></i>
-                    </button>
-                    <div class="hidden p-5 border-t border-slate-smooth bg-slate-50/50 text-xs text-slate-600 leading-relaxed faq-transition">
-                        Abra o menu lateral esquerdo do Portal Escolar, selecione as "Definições de Perfil" e ative o interruptor "Proteção Biométrica". Certifique-se de que o seu telemóvel já tem uma digital configurada no próprio sistema operativo do aparelho.
-                    </div>
-                </div>
-            `;
-            
-            // Reatribui listeners de clique do fallback
-            document.querySelectorAll('.toggle-faq').forEach(botao => {
-                botao.addEventListener('click', () => {
-                    const resposta = botao.nextElementSibling;
-                    const icon = botao.querySelector('[data-lucide="chevron-down"]');
-                    resposta.classList.toggle('hidden');
-                    if (resposta.classList.contains('hidden')) {
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
-        };
-
-        // Submeter nova mensagem/dúvida direto para suporte_mensagens
-        supportForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitMsgBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-1.5 inline-block"></span> A submeter...`;
-
-            const nome = document.getElementById('senderName').value.trim();
-            const email = document.getElementById('senderEmail').value.trim();
-            const mensagem = document.getElementById('senderMessage').value.trim();
-
-            try {
-                const mensagensRef = ref(db, 'suporte_mensagens');
-                const novaMsgRef = push(mensagensRef);
-                
-                await set(novaMsgRef, {
-                    nome,
-                    email,
-                    mensagem,
-                    dataEnvio: new Date().toISOString(),
-                    status: 'Aguardando Resposta'
-                });
-
-                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
-                formStatus.textContent = "Mensagem submetida com sucesso! A nossa equipa de apoio analisará o seu caso.";
-                supportForm.reset();
-            } catch (err) {
-                console.error("Erro ao guardar pedido de ajuda:", err);
-                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
-                formStatus.textContent = "Erro ao enviar a mensagem. Por favor, tente de novo mais tarde.";
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> Submeter Pedido`;
-                lucide.createIcons();
-            }
-        });
-
-        // Eventos do Modal de Termos de Uso
+        // Modal Termos
         termsBtn.addEventListener('click', () => {
-            if (termsContentRaw && termsContentRaw.trim() !== '') {
-                termsModalContent.innerHTML = marked.parse(termsContentRaw);
-            } else {
-                termsModalContent.innerHTML = `<p class="italic text-slate-400 text-center py-6">As políticas e termos legais não estão disponíveis de momento.</p>`;
-            }
+            termsModalContent.innerHTML = termsContentRaw ? marked.parse(termsContentRaw) : `<p class="italic text-slate-400 text-center">Indisponível de momento.</p>`;
             termsModal.classList.remove('hidden');
         });
-
         const ocultarModal = () => termsModal.classList.add('hidden');
         closeTermsBtn.addEventListener('click', ocultarModal);
         acceptTermsModalBtn.addEventListener('click', ocultarModal);
 
-        // Inicializar ícones iniciais
         lucide.createIcons();
     </script>
 </body>
