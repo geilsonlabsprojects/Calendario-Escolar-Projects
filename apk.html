@@ -494,7 +494,7 @@
                 <a id="footer-insta" href="#" target="_blank" class="hidden hover:-translate-y-1.5 hover:shadow-[0_10px_20px_rgba(244,114,182,0.2)] hover:border-pink-500/50 transition-all duration-300 bg-[#0a0c1a] px-6 py-3.5 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
                     <i class="fab fa-instagram text-pink-400 text-xl"></i> Instagram
                 </a>
-                <a id="footer-site" href="#" target="_blank" class="hidden hover:-translate-y-1.5 hover:shadow-[0_10px_20px_rgba(99,102,241,0.2)] hover:border-indigo-500/50 transition-all duration-300 bg-[#0a0c1a] px-6 py-3.5 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
+                <a id="footer-site" href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/" target="_blank" class="hover:-translate-y-1.5 hover:shadow-[0_10px_20px_rgba(99,102,241,0.2)] hover:border-indigo-500/50 transition-all duration-300 bg-[#0a0c1a] px-6 py-3.5 rounded-xl border border-white/5 text-slate-300 font-bold text-sm flex items-center gap-3">
                     <i class="fas fa-globe text-indigo-400 text-xl"></i> Website
                 </a>
             </div>
@@ -600,11 +600,7 @@
                             btn.href = socialData.instagram;
                             btn.classList.remove('hidden');
                         }
-                        if (socialData.website) {
-                            const btn = document.getElementById('footer-site');
-                            btn.href = socialData.website;
-                            btn.classList.remove('hidden');
-                        }
+                        // Ignorando o socialData.website do Firebase. O link do website está agora fixado no HTML.
                     }
                 }
             }, (error) => {
