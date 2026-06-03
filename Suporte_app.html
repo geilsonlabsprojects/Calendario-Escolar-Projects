@@ -493,9 +493,13 @@
                     return;
                 }
 
-                // Filtro Client-side para e-mail logado
+                // Filtro Client-side robusto para e-mail e UID (garante a exibição de registos antigos/atribuídos)
                 const myTickets = Object.entries(data)
-                    .filter(([key, msg]) => msg.email === userEmail)
+                    .filter(([key, msg]) => {
+                        const matchesEmail = msg.email && userEmail && msg.email.toLowerCase() === userEmail.toLowerCase();
+                        const matchesUid = msg.uid && currentUser && msg.uid === currentUser.uid;
+                        return matchesEmail || matchesUid;
+                    })
                     .sort((a, b) => new Date(b[1].dataEnvio) - new Date(a[1].dataEnvio));
 
                 if (myTickets.length === 0) {
@@ -504,21 +508,22 @@
                 }
 
                 myTickets.forEach(([key, msg]) => {
-                    const isResolved = msg.status === 'Resolvido';
+                    const statusVal = msg.status || 'Aguardando Resposta';
+                    const isResolved = statusVal.toLowerCase() === 'resolvido';
                     const dateObj = new Date(msg.dataEnvio);
                     const formattedDate = dateObj.toLocaleDateString('pt-PT') + ' às ' + dateObj.toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'});
                     
                     const ticketDiv = document.createElement('div');
-                    ticketDiv.className = `p-4 rounded-xl border flex flex-col gap-2 transition-all ${isResolved ? 'bg-emerald-50/30 border-emerald-100' : 'bg-white border-slate-200 shadow-sm'}`;
+                    ticketDiv.className = `p-4 rounded-xl border flex flex-col gap-2 transition-all ${isResolved ? 'bg-emerald-50/30 border-emerald-100/80 shadow-inner' : 'bg-white border-slate-200 shadow-sm'}`;
                     
                     ticketDiv.innerHTML = `
                         <div class="flex justify-between items-start">
                             <span class="text-[10px] text-slate-400 font-bold"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formattedDate}</span>
                             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase flex items-center gap-1 ${isResolved ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200 animate-pulse'}">
-                                ${isResolved ? '<i data-lucide="check-circle-2" class="w-3 h-3"></i> Resolvido' : '<i data-lucide="clock" class="w-3 h-3"></i> Aguardando'}
+                                ${isResolved ? '<i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-650"></i> Resolvido' : '<i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i> Aguardando'}
                             </span>
                         </div>
-                        <p class="text-xs text-slate-600 line-clamp-3 mt-1 leading-relaxed">"${msg.mensagem}"</p>
+                        <p class="text-xs text-slate-600 leading-relaxed font-medium">"${msg.mensagem}"</p>
                     `;
                     myTicketsList.appendChild(ticketDiv);
                 });
