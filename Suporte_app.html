@@ -19,7 +19,7 @@
         .bg-indigo-primary { background-color: #4F46E5; }
         .text-indigo-primary { color: #4F46E5; }
         .border-slate-smooth { border-color: #E2E8F0; }
-        .faq-transition { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -29,6 +29,16 @@
             background: rgba(15, 23, 42, 0.9);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Smooth hover and click microinteractions */
+        .interactive-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+        }
+        .interactive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.08);
+            border-color: #cbd5e1;
         }
     </style>
 </head>
@@ -146,7 +156,7 @@
             </div>
         </div>
 
-        <!-- Mural de Comunicados Avançado (Vários itens do painel admin) -->
+        <!-- Mural de Comunicados Avançado -->
         <section id="multiMuralSection" class="hidden space-y-5">
             <h2 class="text-lg font-extrabold flex items-center gap-2 text-slate-800">
                 <i data-lucide="megaphone" class="text-indigo-primary"></i> Comunicados Ativos do Mural
@@ -162,19 +172,19 @@
                 <i data-lucide="share-2" class="text-indigo-primary"></i> Canais e Redes Sociais
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col items-center text-center group">
+                <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="phone"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">WhatsApp</span>
                 </a>
-                <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col items-center text-center group">
+                <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="send"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">Telegram</span>
                 </a>
-                <a id="linkWebsite" href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/" target="_blank" class="bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition flex flex-col items-center text-center group">
+                <a id="linkWebsite" href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/" target="_blank" class="bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="globe"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">Página Web</span>
                 </a>
-                <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition flex flex-col items-center text-center group">
+                <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="youtube"></i></div>
                     <span class="font-bold mt-3 text-sm text-slate-800">YouTube</span>
                 </a>
@@ -203,17 +213,46 @@
 
             <div class="p-6 bg-white">
                 <!-- Estado Não Autenticado -->
-                <div id="authRequired" class="text-center py-8">
-                    <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div id="authRequired" class="text-center py-8 space-y-6">
+                    <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto">
                         <i data-lucide="shield-check" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="font-bold text-slate-800 mb-2">Autenticação Necessária</h3>
-                    <p class="text-xs text-slate-500 mb-6 max-w-md mx-auto">Para enviar mensagens à equipa de suporte e acompanhar a resolução dos seus pedidos, é necessário iniciar sessão com a sua conta escolar (Google).</p>
+                    <div class="space-y-1">
+                        <h3 class="font-bold text-slate-800">Autenticação Necessária</h3>
+                        <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">Para enviar mensagens à equipa de suporte e acompanhar a resolução dos seus pedidos, é necessário iniciar sessão com a sua conta escolar (Google).</p>
+                    </div>
                     
-                    <button id="loginGoogleBtn" class="inline-flex items-center justify-center gap-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl shadow-sm transition w-full sm:w-auto">
+                    <button id="loginGoogleBtn" class="inline-flex items-center justify-center gap-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3.5 rounded-xl shadow-sm hover:shadow transition w-full sm:w-auto">
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
                         Entrar com o Google
                     </button>
+
+                    <!-- Diagnóstico de Erro de Login (Oculto por padrão, aparece se falhar) -->
+                    <div id="loginErrorPanel" class="hidden max-w-md mx-auto p-4 bg-red-50 border border-red-200 rounded-xl text-left space-y-3">
+                        <div class="flex gap-2 text-red-800 font-bold text-xs items-center">
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-red-600"></i>
+                            <span>Não foi possível conectar com o Google</span>
+                        </div>
+                        <p class="text-[11px] text-red-700 leading-relaxed font-medium">
+                            Isto geralmente acontece se este site estiver a ser visualizado numa janela de testes (Iframe) ou se o domínio atual não estiver registado no painel do programador do Firebase.
+                        </p>
+                        
+                        <div class="bg-white border border-red-100 p-3 rounded-lg space-y-2">
+                            <span class="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">Como o Administrador resolve:</span>
+                            <p class="text-[10px] text-slate-600 leading-relaxed">
+                                Adicione o endereço abaixo à lista de <strong>Domínios Autorizados</strong> no painel Firebase <em>(Authentication -> Settings -> Authorized Domains)</em>:
+                            </p>
+                            <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded border border-slate-200">
+                                <span id="currentDomainText" class="text-[10px] font-mono text-slate-700 select-all truncate flex-1">A carregar domínio...</span>
+                                <button id="copyDomainBtn" class="bg-white border border-slate-250 hover:bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 transition shrink-0">
+                                    <i data-lucide="copy" class="w-3 h-3"></i> Copiar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-red-800/80 font-semibold">
+                            Se estiver a usar o Safari ou modo anónimo, certifique-se de que os cookies de terceiros estão autorizados.
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Aviso de Registro Bloqueado -->
@@ -240,13 +279,18 @@
                     </div>
 
                     <!-- Formulário de Envio -->
-                    <div id="supportFormContainer">
-                        <p class="text-xs text-slate-500 mb-4">Escreva a sua dúvida detalhadamente. A nossa equipa responderá para o seu e-mail e atualizará o status abaixo.</p>
+                    <div id="supportFormContainer" class="bg-slate-50/50 p-6 rounded-2xl border border-slate-100 space-y-4">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                <i data-lucide="message-square-plus" class="text-indigo-primary w-4 h-4"></i> Enviar Nova Mensagem de Suporte
+                            </h3>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Escreva a sua dúvida com o máximo de detalhes possível para que possamos ajudar rápido.</p>
+                        </div>
                         <form id="supportForm" class="space-y-4">
                             <div>
-                                <textarea id="senderMessage" required rows="4" class="w-full border border-slate-smooth rounded-xl p-3 text-sm bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition resize-none" placeholder="Ex: Não consigo aceder ao horário da minha turma..."></textarea>
+                                <textarea id="senderMessage" required rows="4" class="w-full border border-slate-smooth rounded-xl p-3.5 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none leading-relaxed font-medium" placeholder="Ex: Não consigo aceder ao horário da minha turma..."></textarea>
                             </div>
-                            <button type="submit" id="submitMsgBtn" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl shadow-sm transition text-xs flex items-center gap-2 justify-center w-full sm:w-auto">
+                            <button type="submit" id="submitMsgBtn" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-6 py-3.5 rounded-xl shadow-md hover:shadow-lg transition text-xs flex items-center gap-2 justify-center w-full sm:w-auto">
                                 <i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem
                             </button>
                         </form>
@@ -271,7 +315,7 @@
         </section>
 
         <!-- Downloads e Termos -->
-        <section id="downloadSection" class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+        <section id="downloadSection" class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 interactive-card">
             <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
                 <div class="p-4 bg-indigo-50 text-indigo-primary rounded-xl">
                     <i data-lucide="download" class="w-8 h-8"></i>
@@ -307,6 +351,7 @@
         </div>
     </div>
 
+    <!-- Script de Sincronização e Lógica -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -361,6 +406,11 @@
         const acceptTermsModalBtn = document.getElementById('acceptTermsModalBtn');
         const termsModalVersion = document.getElementById('termsModalVersion');
 
+        // Tratamento de Erro de Autenticação
+        const loginErrorPanel = document.getElementById('loginErrorPanel');
+        const currentDomainText = document.getElementById('currentDomainText');
+        const copyDomainBtn = document.getElementById('copyDomainBtn');
+
         // Variáveis de Estado Local
         let currentUser = null;
         let unsubscribeTickets = null;
@@ -369,18 +419,49 @@
         let userConfigurations = {};
         let localUserConfig = {};
 
+        // Definir e preencher o domínio atual no painel de erro
+        const originDomain = window.location.origin;
+        currentDomainText.textContent = originDomain;
+
+        copyDomainBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(originDomain).then(() => {
+                const origHtml = copyDomainBtn.innerHTML;
+                copyDomainBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Copiado!';
+                lucide.createIcons();
+                setTimeout(() => {
+                    copyDomainBtn.innerHTML = origHtml;
+                    lucide.createIcons();
+                }, 2000);
+            }).catch(err => {
+                // Clipboard fallback
+                const el = document.createElement('textarea');
+                el.value = originDomain;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                
+                const origHtml = copyDomainBtn.innerHTML;
+                copyDomainBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Copiado!';
+                lucide.createIcons();
+                setTimeout(() => {
+                    copyDomainBtn.innerHTML = origHtml;
+                    lucide.createIcons();
+                }, 2000);
+            });
+        });
+
         // Monitorização de Autenticação (Google Login)
         onAuthStateChanged(auth, (user) => {
             if (user && !user.isAnonymous) {
                 currentUser = user;
-                
-                // Primeiro verifica se as inscrições estão fechadas e se o utilizador já está autorizado
+                loginErrorPanel.classList.add('hidden'); // Ocultar painel de erros caso logado com sucesso
+
                 const isEmailAdmin = user.email === "geilsomcarlos93@gmail.com";
                 const isAllowRegistration = globalSystemData.system ? globalSystemData.system.allowRegistration !== false : true;
 
                 // Bloqueio de novos utilizadores caso inscrições estejam inativas e não seja admin
                 if (!isAllowRegistration && !isEmailAdmin) {
-                    // Verifica se o utilizador já se encontra no registo de monitorização de utilizadores
                     const userExistsInMonitor = userConfigurations[user.uid] !== undefined;
                     if (!userExistsInMonitor) {
                         signOut(auth);
@@ -421,11 +502,15 @@
 
         // Eventos de Login e Logout
         loginGoogleBtn.addEventListener('click', async () => {
+            loginErrorPanel.classList.add('hidden'); // Reinicia painel ao clicar
             try {
                 await signInWithPopup(auth, provider);
             } catch (error) {
                 console.error("Erro no login:", error);
-                alert("Falha ao iniciar sessão com o Google. Tente novamente.");
+                
+                // Torna o painel de suporte resiliente e explicativo ao invés de usar alert() cru
+                loginErrorPanel.classList.remove('hidden');
+                lucide.createIcons();
             }
         });
 
@@ -758,7 +843,7 @@
                     document.title = `Central de Ajuda e Suporte - ${data.system.appName}`;
                 }
 
-                // 6. Configurações Dinâmicas das Redes Sociais (Exclui linkWebsite para mantê-lo estático e imutável)
+                // 6. Configurações Dinâmicas das Redes Sociais (Mantém link do website imutável na Página Web)
                 if (data.links) {
                     configurarCanalLink(linkWhatsapp, data.links.whatsapp);
                     configurarCanalLink(linkTelegram, data.links.telegram);
