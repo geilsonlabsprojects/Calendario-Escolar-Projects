@@ -24,20 +24,20 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* Glass effect overlayer for maintenance lock */
+        /* Efeito de desfoque para ecrã de bloqueio de manutenção */
         .glass-overlay {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
-        /* Smooth hover and click microinteractions */
+        /* Microinterações suaves de cartões */
         .interactive-card {
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
         }
         .interactive-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.08);
+            box-shadow: 0 12px 24px -6px rgba(79, 70, 229, 0.08);
             border-color: #cbd5e1;
         }
     </style>
@@ -54,7 +54,7 @@
                 <h2 id="maintenanceLockTitle" class="text-2xl font-black text-amber-400">Servidores em Manutenção</h2>
                 <p id="maintenanceLockMessage" class="text-xs text-slate-300 leading-relaxed">Estamos a efetuar melhorias na infraestrutura do portal escolar. O acesso está temporariamente indisponível.</p>
             </div>
-            <div id="maintenanceLockETAContainer" class="bg-slate-950 py-3 px-4 rounded-xl border border-slate-850">
+            <div id="maintenanceLockETAContainer" class="bg-slate-950 py-3 px-4 rounded-xl border border-slate-800">
                 <span class="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Previsão de Retorno (ETA)</span>
                 <span id="maintenanceLockETA" class="text-sm font-extrabold text-amber-400">-</span>
             </div>
@@ -173,19 +173,36 @@
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col items-center text-center group interactive-card">
-                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="phone"></i></div>
+                    <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <!-- Whatsapp SVG Nativo -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.731-1.456L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.488 2.01 14.016 1.01 11.53 1.01 6.098 1.01 1.674 5.38 1.671 10.81c-.001 1.703.447 3.367 1.3 4.837l-1.013 3.7 3.799-.983l.89.528z"/>
+                        </svg>
+                    </div>
                     <span class="font-bold mt-3 text-sm text-slate-800">WhatsApp</span>
                 </a>
                 <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col items-center text-center group interactive-card">
-                    <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="send"></i></div>
+                    <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <!-- Telegram SVG Nativo -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.66-.52.36-1 .54-1.42.53-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.97-.74 3.79-1.65 6.32-2.73 7.57-3.25 3.61-1.48 4.36-1.74 4.85-1.75.11 0 .35.03.51.16.13.1.17.25.19.35.02.12.02.26.01.37z"/>
+                        </svg>
+                    </div>
                     <span class="font-bold mt-3 text-sm text-slate-800">Telegram</span>
                 </a>
                 <a id="linkWebsite" href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/" target="_blank" class="bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-indigo-300 transition flex flex-col items-center text-center group interactive-card">
-                    <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="globe"></i></div>
+                    <div class="p-3 bg-indigo-50 text-indigo-primary rounded-xl group-hover:scale-110 transition-transform">
+                        <i data-lucide="globe" class="w-6 h-6"></i>
+                    </div>
                     <span class="font-bold mt-3 text-sm text-slate-800">Página Web</span>
                 </a>
                 <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition flex flex-col items-center text-center group interactive-card">
-                    <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform"><i data-lucide="youtube"></i></div>
+                    <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform">
+                        <!-- Youtube SVG Nativo -->
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.516 3.5 12 3.5 12 3.5s-7.516 0-9.388.555A3.003 3.003 0 0 0 .502 6.163C0 8.07 0 12 0 12s0 3.93.502 5.837a3.003 3.003 0 0 0 2.11 2.108C4.484 20.5 12 20.5 12 20.5s7.516 0 9.388-.555a3.003 3.003 0 0 0 2.11-2.108C24 15.93 24 12 24 12s0-3.93-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
                     <span class="font-bold mt-3 text-sm text-slate-800">YouTube</span>
                 </a>
             </div>
@@ -198,7 +215,7 @@
                     <i data-lucide="life-buoy" class="text-indigo-primary"></i> Atendimento ao Aluno
                 </h2>
                 
-                <!-- Perfil Logado (Oculto por defeito) -->
+                <!-- Perfil Logado -->
                 <div id="userProfile" class="hidden flex items-center gap-3">
                     <div class="text-right hidden sm:block">
                         <p id="userName" class="text-xs font-bold text-slate-800"></p>
@@ -219,7 +236,7 @@
                     </div>
                     <div class="space-y-1">
                         <h3 class="font-bold text-slate-800">Autenticação Necessária</h3>
-                        <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">Para enviar mensagens à equipa de suporte e acompanhar a resolução dos seus pedidos, é necessário iniciar sessão com a sua conta escolar (Google).</p>
+                        <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">Para enviar mensagens à equipa de suporte e acompanhar a resolução dos seus pedidos antigos ou novos, é necessário iniciar sessão com o Google.</p>
                     </div>
                     
                     <button id="loginGoogleBtn" class="inline-flex items-center justify-center gap-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3.5 rounded-xl shadow-sm hover:shadow transition w-full sm:w-auto">
@@ -227,30 +244,27 @@
                         Entrar com o Google
                     </button>
 
-                    <!-- Diagnóstico de Erro de Login (Oculto por padrão, aparece se falhar) -->
+                    <!-- Diagnóstico Inteligente de Erros no Login -->
                     <div id="loginErrorPanel" class="hidden max-w-md mx-auto p-4 bg-red-50 border border-red-200 rounded-xl text-left space-y-3">
                         <div class="flex gap-2 text-red-800 font-bold text-xs items-center">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-red-600"></i>
                             <span>Não foi possível conectar com o Google</span>
                         </div>
                         <p class="text-[11px] text-red-700 leading-relaxed font-medium">
-                            Isto geralmente acontece se este site estiver a ser visualizado numa janela de testes (Iframe) ou se o domínio atual não estiver registado no painel do programador do Firebase.
+                            Isto ocorre geralmente se o domínio atual não estiver adicionado à lista de domínios fidedignos no Firebase Console ou se estiver no modo de pré-visualização.
                         </p>
                         
                         <div class="bg-white border border-red-100 p-3 rounded-lg space-y-2">
-                            <span class="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">Como o Administrador resolve:</span>
+                            <span class="text-[10px] text-slate-500 block font-bold uppercase tracking-wider">Solução para o Administrador:</span>
                             <p class="text-[10px] text-slate-600 leading-relaxed">
-                                Adicione o endereço abaixo à lista de <strong>Domínios Autorizados</strong> no painel Firebase <em>(Authentication -> Settings -> Authorized Domains)</em>:
+                                Adicione este endereço aos <strong>Domínios Autorizados</strong> no Firebase Console <em>(Authentication ➔ Settings ➔ Authorized Domains)</em>:
                             </p>
                             <div class="flex items-center gap-1.5 bg-slate-50 p-2 rounded border border-slate-200">
-                                <span id="currentDomainText" class="text-[10px] font-mono text-slate-700 select-all truncate flex-1">A carregar domínio...</span>
+                                <span id="currentDomainText" class="text-[10px] font-mono text-slate-700 select-all truncate flex-1">...</span>
                                 <button id="copyDomainBtn" class="bg-white border border-slate-250 hover:bg-slate-100 text-slate-600 px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1 transition shrink-0">
                                     <i data-lucide="copy" class="w-3 h-3"></i> Copiar
                                 </button>
                             </div>
-                        </div>
-                        <div class="text-[10px] text-red-800/80 font-semibold">
-                            Se estiver a usar o Safari ou modo anónimo, certifique-se de que os cookies de terceiros estão autorizados.
                         </div>
                     </div>
                 </div>
@@ -267,14 +281,14 @@
                 <!-- Estado Autenticado: Formulário e Lista de Pedidos -->
                 <div id="supportDashboard" class="hidden space-y-8">
                     
-                    <!-- Alerta de Conta de Aluno Bloqueada Administrativamente -->
+                    <!-- Alerta de Aluno Bloqueado Administrativamente -->
                     <div id="userBlockedPanel" class="hidden bg-red-50 border border-red-200 rounded-2xl p-5 flex gap-4 text-red-900 shadow-sm">
                         <div class="shrink-0">
                             <i data-lucide="user-minus" class="text-red-600 w-6 h-6 animate-pulse"></i>
                         </div>
                         <div class="flex-1 space-y-1">
                             <h4 class="font-bold text-sm">Dispositivo / UID Bloqueado pelo Administrador</h4>
-                            <p class="text-xs leading-relaxed font-medium text-red-800/90">Este utilizador encontra-se restrito ou impedido de enviar mensagens. Entre em contacto direto com a secretaria para averiguar e desbloquear a sua conta.</p>
+                            <p class="text-xs leading-relaxed font-medium text-red-800/90">Este utilizador encontra-se restrito ou impedido de enviar novas mensagens de suporte.</p>
                         </div>
                     </div>
 
@@ -300,7 +314,7 @@
                     <!-- Lista de Tickets (Meus Pedidos) -->
                     <div class="border-t border-slate-100 pt-6">
                         <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-4 text-sm">
-                            <i data-lucide="inbox" class="w-4 h-4 text-indigo-500"></i> Os Meus Pedidos de Suporte
+                            <i data-lucide="inbox" class="w-4 h-4 text-indigo-500"></i> Os Meus Pedidos de Suporte (Atuais e Antigos)
                         </h3>
                         
                         <div id="myTicketsList" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-2">
@@ -373,43 +387,49 @@
         const provider = new GoogleAuthProvider();
         const db = getDatabase(app);
 
-        // Referências do Aluno e Autenticação
-        const authRequired = document.getElementById('authRequired');
-        const supportDashboard = document.getElementById('supportDashboard');
-        const loginGoogleBtn = document.getElementById('loginGoogleBtn');
-        const userProfile = document.getElementById('userProfile');
-        const userName = document.getElementById('userName');
-        const userEmail = document.getElementById('userEmail');
-        const userPhoto = document.getElementById('userPhoto');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const regBlockedMsg = document.getElementById('regBlockedMsg');
+        // Referências do Aluno e Autenticação com Fallback seguro
+        const getEl = (id) => document.getElementById(id);
+        const safeSetText = (id, text) => { const el = getEl(id); if (el) el.textContent = text; };
+        const safeSetHtml = (id, html) => { const el = getEl(id); if (el) el.innerHTML = html; };
+        const safeAddClass = (id, className) => { const el = getEl(id); if (el) el.classList.add(className); };
+        const safeRemoveClass = (id, className) => { const el = getEl(id); if (el) el.classList.remove(className); };
+
+        const authRequired = getEl('authRequired');
+        const supportDashboard = getEl('supportDashboard');
+        const loginGoogleBtn = getEl('loginGoogleBtn');
+        const userProfile = getEl('userProfile');
+        const userName = getEl('userName');
+        const userEmail = getEl('userEmail');
+        const userPhoto = getEl('userPhoto');
+        const logoutBtn = getEl('logoutBtn');
+        const regBlockedMsg = getEl('regBlockedMsg');
         
-        const supportForm = document.getElementById('supportForm');
-        const formStatus = document.getElementById('formStatus');
-        const myTicketsList = document.getElementById('myTicketsList');
-        const supportFormContainer = document.getElementById('supportFormContainer');
-        const userBlockedPanel = document.getElementById('userBlockedPanel');
+        const supportForm = getEl('supportForm');
+        const formStatus = getEl('formStatus');
+        const myTicketsList = getEl('myTicketsList');
+        const supportFormContainer = getEl('supportFormContainer');
+        const userBlockedPanel = getEl('userBlockedPanel');
 
         // Referências Gerais de UI
-        const maintenanceBanner = document.getElementById('maintenanceBanner');
-        const instabilityContainer = document.getElementById('instabilityContainer');
-        const multiMuralSection = document.getElementById('multiMuralSection');
-        const muralGridContainer = document.getElementById('muralGridContainer');
-        const linkWhatsapp = document.getElementById('linkWhatsapp');
-        const linkTelegram = document.getElementById('linkTelegram');
-        const linkWebsite = document.getElementById('linkWebsite');
-        const linkYoutube = document.getElementById('linkYoutube');
-        const termsBtn = document.getElementById('termsBtn');
-        const termsModal = document.getElementById('termsModal');
-        const termsModalContent = document.getElementById('termsModalContent');
-        const closeTermsBtn = document.getElementById('closeTermsBtn');
-        const acceptTermsModalBtn = document.getElementById('acceptTermsModalBtn');
-        const termsModalVersion = document.getElementById('termsModalVersion');
+        const maintenanceBanner = getEl('maintenanceBanner');
+        const instabilityContainer = getEl('instabilityContainer');
+        const multiMuralSection = getEl('multiMuralSection');
+        const muralGridContainer = getEl('muralGridContainer');
+        const linkWhatsapp = getEl('linkWhatsapp');
+        const linkTelegram = getEl('linkTelegram');
+        const linkWebsite = getEl('linkWebsite');
+        const linkYoutube = getEl('linkYoutube');
+        const termsBtn = getEl('termsBtn');
+        const termsModal = getEl('termsModal');
+        const termsModalContent = getEl('termsModalContent');
+        const closeTermsBtn = getEl('closeTermsBtn');
+        const acceptTermsModalBtn = getEl('acceptTermsModalBtn');
+        const termsModalVersion = getEl('termsModalVersion');
 
         // Tratamento de Erro de Autenticação
-        const loginErrorPanel = document.getElementById('loginErrorPanel');
-        const currentDomainText = document.getElementById('currentDomainText');
-        const copyDomainBtn = document.getElementById('copyDomainBtn');
+        const loginErrorPanel = getEl('loginErrorPanel');
+        const currentDomainText = getEl('currentDomainText');
+        const copyDomainBtn = getEl('copyDomainBtn');
 
         // Variáveis de Estado Local
         let currentUser = null;
@@ -419,43 +439,44 @@
         let userConfigurations = {};
         let localUserConfig = {};
 
-        // Definir e preencher o domínio atual no painel de erro
+        // Preencher o domínio atual para diagnóstico fácil
         const originDomain = window.location.origin;
-        currentDomainText.textContent = originDomain;
+        if (currentDomainText) currentDomainText.textContent = originDomain;
 
-        copyDomainBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(originDomain).then(() => {
-                const origHtml = copyDomainBtn.innerHTML;
-                copyDomainBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Copiado!';
-                lucide.createIcons();
-                setTimeout(() => {
-                    copyDomainBtn.innerHTML = origHtml;
+        if (copyDomainBtn) {
+            copyDomainBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(originDomain).then(() => {
+                    const origHtml = copyDomainBtn.innerHTML;
+                    copyDomainBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Copiado!';
                     lucide.createIcons();
-                }, 2000);
-            }).catch(err => {
-                // Clipboard fallback
-                const el = document.createElement('textarea');
-                el.value = originDomain;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                
-                const origHtml = copyDomainBtn.innerHTML;
-                copyDomainBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Copiado!';
-                lucide.createIcons();
-                setTimeout(() => {
-                    copyDomainBtn.innerHTML = origHtml;
+                    setTimeout(() => {
+                        copyDomainBtn.innerHTML = origHtml;
+                        lucide.createIcons();
+                    }, 2000);
+                }).catch(() => {
+                    const el = document.createElement('textarea');
+                    el.value = originDomain;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                    
+                    const origHtml = copyDomainBtn.innerHTML;
+                    copyDomainBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3 text-emerald-500"></i> Copiado!';
                     lucide.createIcons();
-                }, 2000);
+                    setTimeout(() => {
+                        copyDomainBtn.innerHTML = origHtml;
+                        lucide.createIcons();
+                    }, 2000);
+                });
             });
-        });
+        }
 
         // Monitorização de Autenticação (Google Login)
         onAuthStateChanged(auth, (user) => {
             if (user && !user.isAnonymous) {
                 currentUser = user;
-                loginErrorPanel.classList.add('hidden'); // Ocultar painel de erros caso logado com sucesso
+                if (loginErrorPanel) loginErrorPanel.classList.add('hidden');
 
                 const isEmailAdmin = user.email === "geilsomcarlos93@gmail.com";
                 const isAllowRegistration = globalSystemData.system ? globalSystemData.system.allowRegistration !== false : true;
@@ -465,33 +486,33 @@
                     const userExistsInMonitor = userConfigurations[user.uid] !== undefined;
                     if (!userExistsInMonitor) {
                         signOut(auth);
-                        authRequired.classList.add('hidden');
-                        regBlockedMsg.classList.remove('hidden');
+                        if (authRequired) authRequired.classList.add('hidden');
+                        if (regBlockedMsg) regBlockedMsg.classList.remove('hidden');
                         lucide.createIcons();
                         return;
                     }
                 }
 
-                regBlockedMsg.classList.add('hidden');
-                authRequired.classList.add('hidden');
-                supportDashboard.classList.remove('hidden');
-                userProfile.classList.remove('hidden');
+                if (regBlockedMsg) regBlockedMsg.classList.add('hidden');
+                if (authRequired) authRequired.classList.add('hidden');
+                if (supportDashboard) supportDashboard.classList.remove('hidden');
+                if (userProfile) userProfile.classList.remove('hidden');
                 
-                userName.textContent = user.displayName || 'Aluno';
-                userEmail.textContent = user.email;
-                userPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'A') + '&background=random';
+                if (userName) userName.textContent = user.displayName || 'Aluno';
+                if (userEmail) userEmail.textContent = user.email;
+                if (userPhoto) userPhoto.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'A') + '&background=random';
                 
-                // Verifica bloqueio do utilizador pelo painel admin
+                // Verifica bloqueio administrativo do utilizador
                 evaluateUserBlock();
 
-                // Carregar tickets do utilizador
+                // Carregar tickets antigos e novos do utilizador
                 listenToMyTickets(user.email);
             } else {
                 currentUser = null;
-                authRequired.classList.remove('hidden');
-                regBlockedMsg.classList.add('hidden');
-                supportDashboard.classList.add('hidden');
-                userProfile.classList.add('hidden');
+                if (authRequired) authRequired.classList.remove('hidden');
+                if (regBlockedMsg) regBlockedMsg.classList.add('hidden');
+                if (supportDashboard) supportDashboard.classList.add('hidden');
+                if (userProfile) userProfile.classList.add('hidden');
                 
                 if (unsubscribeTickets) {
                     unsubscribeTickets();
@@ -500,76 +521,90 @@
             lucide.createIcons();
         });
 
-        // Eventos de Login e Logout
-        loginGoogleBtn.addEventListener('click', async () => {
-            loginErrorPanel.classList.add('hidden'); // Reinicia painel ao clicar
-            try {
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                console.error("Erro no login:", error);
-                
-                // Torna o painel de suporte resiliente e explicativo ao invés de usar alert() cru
-                loginErrorPanel.classList.remove('hidden');
-                lucide.createIcons();
-            }
-        });
+        // Eventos de Login e Logout com validação de objetos
+        if (loginGoogleBtn) {
+            loginGoogleBtn.addEventListener('click', async () => {
+                if (loginErrorPanel) loginErrorPanel.classList.add('hidden');
+                try {
+                    await signInWithPopup(auth, provider);
+                } catch (error) {
+                    console.error("Erro no login Firebase:", error);
+                    if (loginErrorPanel) loginErrorPanel.classList.remove('hidden');
+                    lucide.createIcons();
+                }
+            });
+        }
 
-        logoutBtn.addEventListener('click', () => {
-            signOut(auth);
-        });
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                signOut(auth);
+            });
+        }
 
         // Enviar Ticket de Suporte
-        supportForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
+        if (supportForm) {
+            supportForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentUser) return;
 
-            // Bloqueio de escrita se o dispositivo estiver restrito administrativo
-            if (localUserConfig && localUserConfig.bloqueado === true) {
-                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
-                formStatus.textContent = "O seu acesso encontra-se suspenso. Impossível enviar mensagens.";
-                return;
-            }
+                if (localUserConfig && localUserConfig.bloqueado === true) {
+                    if (formStatus) {
+                        formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
+                        formStatus.textContent = "O seu acesso encontra-se suspenso. Impossível enviar mensagens.";
+                    }
+                    return;
+                }
 
-            const submitBtn = document.getElementById('submitMsgBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-1.5 inline-block"></span> A submeter...`;
+                const submitBtn = document.getElementById('submitMsgBtn');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = `<span class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-1.5 inline-block"></span> A submeter...`;
+                }
 
-            const mensagem = document.getElementById('senderMessage').value.trim();
+                const mensagem = document.getElementById('senderMessage').value.trim();
 
-            try {
-                const mensagensRef = ref(db, 'suporte_mensagens');
-                const novaMsgRef = push(mensagensRef);
-                
-                await set(novaMsgRef, {
-                    uid: currentUser.uid,
-                    nome: currentUser.displayName || 'Sem Nome',
-                    email: currentUser.email,
-                    mensagem: mensagem,
-                    dataEnvio: new Date().toISOString(),
-                    status: 'Aguardando Resposta'
-                });
+                try {
+                    const mensagensRef = ref(db, 'suporte_mensagens');
+                    const novaMsgRef = push(mensagensRef);
+                    
+                    await set(novaMsgRef, {
+                        uid: currentUser.uid,
+                        nome: currentUser.displayName || 'Sem Nome',
+                        email: currentUser.email,
+                        mensagem: mensagem,
+                        dataEnvio: new Date().toISOString(),
+                        status: 'Aguardando Resposta'
+                    });
 
-                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
-                formStatus.textContent = "Mensagem enviada com sucesso! Acompanhe o estado abaixo.";
-                supportForm.reset();
-                
-                setTimeout(() => formStatus.classList.add('hidden'), 5000);
-            } catch (err) {
-                console.error("Erro ao guardar pedido:", err);
-                formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
-                formStatus.textContent = "Erro ao enviar a mensagem. Verifique a sua ligação e tente novamente.";
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem`;
-                lucide.createIcons();
-            }
-        });
+                    if (formStatus) {
+                        formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+                        formStatus.textContent = "Mensagem enviada com sucesso! Acompanhe o estado abaixo.";
+                    }
+                    supportForm.reset();
+                    
+                    setTimeout(() => { if (formStatus) formStatus.classList.add('hidden'); }, 5000);
+                } catch (err) {
+                    console.error("Erro ao guardar pedido:", err);
+                    if (formStatus) {
+                        formStatus.className = "mt-4 p-4 rounded-xl text-xs font-bold bg-red-50 text-red-800 border border-red-200 block";
+                        formStatus.textContent = "Erro ao enviar a mensagem. Verifique a sua ligação e tente novamente.";
+                    }
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem`;
+                    }
+                    lucide.createIcons();
+                }
+            });
+        }
 
-        // Ouvir Tickets do Aluno Logado em Tempo Real
+        // Ouvir Tickets em Tempo Real (Atuais e Antigos)
         function listenToMyTickets(userEmail) {
             const mensagensRef = ref(db, 'suporte_mensagens');
             
             unsubscribeTickets = onValue(mensagensRef, (snapshot) => {
+                if (!myTicketsList) return;
                 myTicketsList.innerHTML = '';
                 const data = snapshot.val();
                 
@@ -578,7 +613,7 @@
                     return;
                 }
 
-                // Filtro Client-side robusto para e-mail e UID (garante a exibição de registos antigos/atribuídos)
+                // Filtro robusto que procura por e-mail (antigos) ou UID (atuais)
                 const myTickets = Object.entries(data)
                     .filter(([key, msg]) => {
                         const matchesEmail = msg.email && userEmail && msg.email.toLowerCase() === userEmail.toLowerCase();
@@ -605,7 +640,7 @@
                         <div class="flex justify-between items-start">
                             <span class="text-[10px] text-slate-400 font-bold"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${formattedDate}</span>
                             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase flex items-center gap-1 ${isResolved ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200 animate-pulse'}">
-                                ${isResolved ? '<i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-650"></i> Resolvido' : '<i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i> Aguardando'}
+                                ${isResolved ? '<i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Resolvido' : '<i data-lucide="clock" class="w-3.5 h-3.5"></i> Aguardando'}
                             </span>
                         </div>
                         <p class="text-xs text-slate-600 leading-relaxed font-medium">"${msg.mensagem}"</p>
@@ -617,6 +652,7 @@
         }
 
         function showNoTicketsMsg() {
+            if (!myTicketsList) return;
             myTicketsList.innerHTML = `
                 <div class="text-center py-6 bg-slate-50 rounded-xl border border-dashed border-slate-200">
                     <i data-lucide="inbox" class="w-6 h-6 text-slate-300 mx-auto mb-2"></i>
@@ -633,11 +669,13 @@
             localUserConfig = userConfigurations[currentUser.uid] || { bloqueado: false };
             
             if (localUserConfig.bloqueado === true) {
-                userBlockedPanel.classList.remove('hidden');
-                supportFormContainer.classList.add('opacity-40', 'pointer-events-none');
+                safeRemoveClass('userBlockedPanel', 'hidden');
+                safeAddClass('supportFormContainer', 'opacity-40');
+                safeAddClass('supportFormContainer', 'pointer-events-none');
             } else {
-                userBlockedPanel.classList.add('hidden');
-                supportFormContainer.classList.remove('opacity-40', 'pointer-events-none');
+                safeAddClass('userBlockedPanel', 'hidden');
+                safeRemoveClass('supportFormContainer', 'opacity-40');
+                safeRemoveClass('supportFormContainer', 'pointer-events-none');
             }
         }
 
@@ -663,75 +701,80 @@
                     if (mntEnabled) {
                         if (bypassAdmins && isCurrentUserAdmin) {
                             // Admin tem permissão para navegar, exibe apenas o banner superior
-                            maintenanceBanner.classList.remove('hidden');
-                            document.getElementById('maintenanceText').textContent = `[Admin Bypass] ${data.maintenance.title || 'Manutenção Ativa'}: ${data.maintenance.message || ''}`;
-                            document.getElementById('maintenanceLockScreen').classList.add('hidden');
+                            safeRemoveClass('maintenanceBanner', 'hidden');
+                            safeSetText('maintenanceText', `[Admin Bypass] ${data.maintenance.title || 'Manutenção Ativa'}: ${data.maintenance.message || ''}`);
+                            safeAddClass('maintenanceLockScreen', 'hidden');
                         } else {
                             // Bloqueio Total para utilizadores comuns
-                            document.getElementById('maintenanceLockTitle').textContent = data.maintenance.title || 'Manitencão';
-                            document.getElementById('maintenanceLockMessage').textContent = data.maintenance.message || 'O sistema encontra-se indisponível.';
+                            safeSetText('maintenanceLockTitle', data.maintenance.title || 'Manutenção');
+                            safeSetText('maintenanceLockMessage', data.maintenance.message || 'O sistema encontra-se indisponível.');
                             if (data.maintenance.eta) {
-                                document.getElementById('maintenanceLockETA').textContent = data.maintenance.eta;
-                                document.getElementById('maintenanceLockETAContainer').classList.remove('hidden');
+                                safeSetText('maintenanceLockETA', data.maintenance.eta);
+                                safeRemoveClass('maintenanceLockETAContainer', 'hidden');
                             } else {
-                                document.getElementById('maintenanceLockETAContainer').classList.add('hidden');
+                                safeAddClass('maintenanceLockETAContainer', 'hidden');
                             }
-                            document.getElementById('maintenanceLockScreen').classList.remove('hidden');
-                            maintenanceBanner.classList.add('hidden');
+                            safeRemoveClass('maintenanceLockScreen', 'hidden');
+                            safeAddClass('maintenanceBanner', 'hidden');
                         }
                     } else {
-                        document.getElementById('maintenanceLockScreen').classList.add('hidden');
-                        maintenanceBanner.classList.add('hidden');
+                        safeAddClass('maintenanceLockScreen', 'hidden');
+                        safeAddClass('maintenanceBanner', 'hidden');
                     }
                 }
 
                 // 2. Avisos Globais (Banners Flutuantes Customizados)
                 if (data.messages && data.messages.enabled) {
                     const banner = instabilityContainer;
-                    document.getElementById('instabilityTitle').textContent = data.messages.title || 'Aviso Geral';
-                    document.getElementById('instabilityText').textContent = data.messages.message || '';
+                    safeSetText('instabilityTitle', data.messages.title || 'Aviso Geral');
+                    safeSetText('instabilityText', data.messages.message || '');
                     
-                    const iconBox = document.getElementById('instabilityIcon');
-                    banner.className = "border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300 relative overflow-hidden";
-                    
-                    // Tratamento dos estilos de Alerta
-                    if (data.messages.bannerStyle === 'danger') {
-                        banner.classList.add('bg-red-50', 'border-red-200', 'text-red-950');
-                        iconBox.innerHTML = '<i data-lucide="alert-octagon" class="text-red-600 w-6 h-6"></i>';
-                    } else if (data.messages.bannerStyle === 'success') {
-                        banner.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-950');
-                        iconBox.innerHTML = '<i data-lucide="check-circle-2" class="text-emerald-600 w-6 h-6"></i>';
-                    } else if (data.messages.bannerStyle === 'warning') {
-                        banner.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-950');
-                        iconBox.innerHTML = '<i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6 animate-pulse"></i>';
-                    } else {
-                        banner.classList.add('bg-blue-50', 'border-blue-200', 'text-blue-950');
-                        iconBox.innerHTML = '<i data-lucide="info" class="text-blue-600 w-6 h-6"></i>';
+                    const iconBox = getEl('instabilityIcon');
+                    if (banner) {
+                        banner.className = "border rounded-2xl p-5 flex gap-4 shadow-sm transition-all duration-300 relative overflow-hidden";
+                        
+                        if (data.messages.bannerStyle === 'danger') {
+                            banner.classList.add('bg-red-50', 'border-red-200', 'text-red-950');
+                            if (iconBox) iconBox.innerHTML = '<i data-lucide="alert-octagon" class="text-red-600 w-6 h-6"></i>';
+                        } else if (data.messages.bannerStyle === 'success') {
+                            banner.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-950');
+                            if (iconBox) iconBox.innerHTML = '<i data-lucide="check-circle-2" class="text-emerald-600 w-6 h-6"></i>';
+                        } else if (data.messages.bannerStyle === 'warning') {
+                            banner.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-950');
+                            if (iconBox) iconBox.innerHTML = '<i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6 animate-pulse"></i>';
+                        } else {
+                            banner.classList.add('bg-blue-50', 'border-blue-200', 'text-blue-950');
+                            if (iconBox) iconBox.innerHTML = '<i data-lucide="info" class="text-blue-600 w-6 h-6"></i>';
+                        }
                     }
 
                     // Botão fechar (dismissible)
-                    const closeBtn = document.getElementById('closeGlobalBannerBtn');
+                    const closeBtn = getEl('closeGlobalBannerBtn');
                     if (data.messages.dismissible !== false) {
-                        closeBtn.classList.remove('hidden');
-                        closeBtn.onclick = () => banner.classList.add('hidden');
+                        if (closeBtn) {
+                            closeBtn.classList.remove('hidden');
+                            closeBtn.onclick = () => { if (banner) banner.classList.add('hidden'); };
+                        }
                     } else {
-                        closeBtn.classList.add('hidden');
+                        if (closeBtn) closeBtn.classList.add('hidden');
                     }
 
                     // Botão de Redirecionamento (Action Url)
-                    const actionWrapper = document.getElementById('globalBannerActionWrapper');
-                    const actionBtn = document.getElementById('globalBannerActionBtn');
+                    const actionBtn = getEl('globalBannerActionBtn');
                     if (data.messages.actionUrl) {
-                        actionBtn.href = data.messages.actionUrl;
-                        actionBtn.querySelector('span').textContent = data.messages.actionText || 'Ver detalhes';
-                        actionWrapper.classList.remove('hidden');
+                        if (actionBtn) {
+                            actionBtn.href = data.messages.actionUrl;
+                            const spanEl = actionBtn.querySelector('span');
+                            if (spanEl) spanEl.textContent = data.messages.actionText || 'Ver detalhes';
+                        }
+                        safeRemoveClass('globalBannerActionWrapper', 'hidden');
                     } else {
-                        actionWrapper.classList.add('hidden');
+                        safeAddClass('globalBannerActionWrapper', 'hidden');
                     }
 
-                    banner.classList.remove('hidden');
+                    safeRemoveClass('instabilityContainer', 'hidden');
                 } else {
-                    instabilityContainer.classList.add('hidden');
+                    safeAddClass('instabilityContainer', 'hidden');
                 }
 
                 // 3. Atualizações de APK (Deploy)
@@ -740,49 +783,49 @@
                     const forceUpdate = data.update.forceUpdate || false;
                     
                     if (showUpdate) {
-                        const updateModal = document.getElementById('updateModal');
-                        document.getElementById('updateModalTitle').textContent = data.update.title || 'Nova Atualização Requerida';
-                        document.getElementById('updateModalVersion').textContent = 'v' + (data.update.versionName || '0.0');
-                        document.getElementById('updateModalSize').textContent = data.update.apkSize || 'Varia por dispositivo';
-                        document.getElementById('updateModalChangelog').textContent = data.update.description || 'Correções de sistema.';
+                        safeSetText('updateModalTitle', data.update.title || 'Nova Atualização Requerida');
+                        safeSetText('updateModalVersion', 'v' + (data.update.versionName || '0.0'));
+                        safeSetText('updateModalSize', data.update.apkSize || 'Varia por dispositivo');
+                        safeSetText('updateModalChangelog', data.update.description || 'Correções de sistema.');
                         
-                        const actionBtn = document.getElementById('actionUpdateBtn');
-                        actionBtn.href = data.update.apkUrl || '#';
-                        actionBtn.querySelector('span').textContent = data.update.buttonText || 'Descarregar APK';
+                        const actionBtn = getEl('actionUpdateBtn');
+                        if (actionBtn) {
+                            actionBtn.href = data.update.apkUrl || '#';
+                            const spanBtn = actionBtn.querySelector('span');
+                            if (spanBtn) spanBtn.textContent = data.update.buttonText || 'Descarregar APK';
+                        }
 
                         // Wi-Fi Recomendado
-                        const wifiWarning = document.getElementById('updateWifiWarning');
                         if (data.update.requireWifi) {
-                            wifiWarning.classList.remove('hidden');
+                            safeRemoveClass('updateWifiWarning', 'hidden');
                         } else {
-                            wifiWarning.classList.add('hidden');
+                            safeAddClass('updateWifiWarning', 'hidden');
                         }
 
                         // Mínimo SDK Requerido
-                        const minSdk = document.getElementById('updateMinSDK');
                         if (data.update.minSdk) {
-                            document.getElementById('updateMinSDKValue').textContent = data.update.minSdk;
-                            minSdk.classList.remove('hidden');
+                            safeSetText('updateMinSDKValue', data.update.minSdk);
+                            safeRemoveClass('updateMinSDK', 'hidden');
                         } else {
-                            minSdk.classList.add('hidden');
+                            safeAddClass('updateMinSDK', 'hidden');
                         }
 
-                        // Se for forçado (Obrigatório), desativa botão cancelar e fecho externo
-                        const closeBtn = document.getElementById('closeUpdateBtn');
+                        // Forçar atualização bloqueando botão fechar
                         if (forceUpdate) {
-                            closeBtn.classList.add('hidden');
+                            safeAddClass('closeUpdateBtn', 'hidden');
                         } else {
-                            closeBtn.classList.remove('hidden');
-                            closeBtn.onclick = () => updateModal.classList.add('hidden');
+                            safeRemoveClass('closeUpdateBtn', 'hidden');
+                            const closeBtn = getEl('closeUpdateBtn');
+                            if (closeBtn) closeBtn.onclick = () => { safeAddClass('updateModal', 'hidden'); };
                         }
 
-                        updateModal.classList.remove('hidden');
+                        safeRemoveClass('updateModal', 'hidden');
                     }
                 }
 
                 // 4. Mural de Comunicados Múltiplos
                 if (data.mural && data.mural.enabled && data.mural.comunicados) {
-                    muralGridContainer.innerHTML = '';
+                    if (muralGridContainer) muralGridContainer.innerHTML = '';
                     const comunicados = Object.entries(data.mural.comunicados);
                     const activeComunicados = comunicados.filter(([id, item]) => item.active !== false);
 
@@ -827,23 +870,23 @@
                                     ` : ''}
                                 </div>
                             `;
-                            muralGridContainer.appendChild(itemDiv);
+                            if (muralGridContainer) muralGridContainer.appendChild(itemDiv);
                         });
-                        multiMuralSection.classList.remove('hidden');
+                        safeRemoveClass('multiMuralSection', 'hidden');
                     } else {
-                        multiMuralSection.classList.add('hidden');
+                        safeAddClass('multiMuralSection', 'hidden');
                     }
                 } else {
-                    multiMuralSection.classList.add('hidden');
+                    safeAddClass('multiMuralSection', 'hidden');
                 }
 
                 // 5. Configurações de Nome Oficial da Aplicação
                 if (data.system && data.system.appName) {
-                    document.getElementById('appOfficialName').textContent = data.system.appName;
+                    safeSetText('appOfficialName', data.system.appName);
                     document.title = `Central de Ajuda e Suporte - ${data.system.appName}`;
                 }
 
-                // 6. Configurações Dinâmicas das Redes Sociais (Mantém link do website imutável na Página Web)
+                // 6. Configurações Dinâmicas das Redes Sociais
                 if (data.links) {
                     configurarCanalLink(linkWhatsapp, data.links.whatsapp);
                     configurarCanalLink(linkTelegram, data.links.telegram);
@@ -854,10 +897,10 @@
                 if (data.terms) {
                     if (data.terms.content) termsContentRaw = data.terms.content;
                     if (data.terms.version) {
-                        termsModalVersion.textContent = data.terms.version;
+                        safeSetText('termsModalVersion', data.terms.version);
                     }
                     
-                    // Se for para forçar a aceitação a todos na abertura
+                    // Forçar reassinatura se configurado como 'force'
                     if (data.terms.updateAction === 'force') {
                         const hasAcceptedCurrent = localStorage.getItem(`accepted_terms_${data.terms.version}`) === 'true';
                         if (!hasAcceptedCurrent) {
@@ -872,35 +915,45 @@
 
         // Configuração de visibilidade de Links Sociais
         const configurarCanalLink = (elemento, url) => {
-            if (url && url.trim() !== '') {
-                elemento.href = url;
-                elemento.classList.remove('opacity-50', 'pointer-events-none');
-            } else {
-                elemento.href = '#';
-                elemento.classList.add('opacity-50', 'pointer-events-none');
+            if (elemento) {
+                if (url && url.trim() !== '') {
+                    elemento.href = url;
+                    elemento.classList.remove('opacity-50', 'pointer-events-none');
+                } else {
+                    elemento.href = '#';
+                    elemento.classList.add('opacity-50', 'pointer-events-none');
+                }
             }
         };
 
         // Modal Termos de Uso
-        termsBtn.addEventListener('click', () => {
-            termsModalContent.innerHTML = termsContentRaw ? marked.parse(termsContentRaw) : `<p class="italic text-slate-400 text-center">Termos temporariamente indisponíveis.</p>`;
-            termsModal.classList.remove('hidden');
-        });
+        if (termsBtn) {
+            termsBtn.addEventListener('click', () => {
+                if (termsModalContent) {
+                    termsModalContent.innerHTML = termsContentRaw ? marked.parse(termsContentRaw) : `<p class="italic text-slate-400 text-center">Termos temporariamente indisponíveis.</p>`;
+                }
+                safeRemoveClass('termsModal', 'hidden');
+            });
+        }
 
         const openTermsAutomatically = (version) => {
-            termsModalContent.innerHTML = termsContentRaw ? marked.parse(termsContentRaw) : `<p class="italic text-slate-400 text-center">Termos temporariamente indisponíveis.</p>`;
-            termsModal.classList.remove('hidden');
+            if (termsModalContent) {
+                termsModalContent.innerHTML = termsContentRaw ? marked.parse(termsContentRaw) : `<p class="italic text-slate-400 text-center">Termos temporariamente indisponíveis.</p>`;
+            }
+            safeRemoveClass('termsModal', 'hidden');
             
-            // Força a aceitação gravando localmente ao clicar em "Compreendido"
-            acceptTermsModalBtn.onclick = () => {
-                localStorage.setItem(`accepted_terms_${version}`, 'true');
-                termsModal.classList.add('hidden');
-            };
+            // Gravar consentimento localmente ao clicar
+            if (acceptTermsModalBtn) {
+                acceptTermsModalBtn.onclick = () => {
+                    localStorage.setItem(`accepted_terms_${version}`, 'true');
+                    safeAddClass('termsModal', 'hidden');
+                };
+            }
         };
 
-        const ocultarModal = () => termsModal.classList.add('hidden');
-        closeTermsBtn.addEventListener('click', ocultarModal);
-        acceptTermsModalBtn.addEventListener('click', ocultarModal);
+        const ocultarModal = () => safeAddClass('termsModal', 'hidden');
+        if (closeTermsBtn) closeTermsBtn.addEventListener('click', ocultarModal);
+        if (acceptTermsModalBtn) acceptTermsModalBtn.addEventListener('click', ocultarModal);
 
         lucide.createIcons();
     </script>
