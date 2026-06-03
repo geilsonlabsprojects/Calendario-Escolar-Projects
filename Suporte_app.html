@@ -190,14 +190,19 @@
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
                         Entrar com o Google
                     </button>
+                    
+                    <button id="loginRedirectBtn" class="hidden inline-flex items-center justify-center gap-3 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 text-indigo-700 font-bold px-6 py-3.5 rounded-xl shadow-sm hover:shadow transition w-full sm:w-auto mt-2">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                        Alternativa: Entrar por Redirecionamento
+                    </button>
 
                     <!-- Diagnóstico Inteligente de Erros no Login -->
-                    <div id="loginErrorPanel" class="hidden max-w-md mx-auto p-4 bg-red-50/70 border border-red-200 rounded-xl text-left space-y-3">
+                    <div id="loginErrorPanel" class="hidden max-w-md mx-auto p-4 bg-red-50/70 border border-red-200 rounded-xl text-left space-y-3 mt-4">
                         <div class="flex gap-2 text-red-800 font-bold text-xs items-center">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-red-600"></i>
-                            <span>Não foi possível conectar com o Google</span>
+                            <span id="loginErrorTitle">Não foi possível conectar com o Google</span>
                         </div>
-                        <p class="text-[11px] text-red-700 leading-relaxed font-medium">
+                        <p id="loginErrorMessage" class="text-[11px] text-red-700 leading-relaxed font-medium">
                             Isto ocorre geralmente se o domínio atual não estiver adicionado à lista de domínios fidedignos no Firebase Console ou se estiver no modo de pré-visualização.
                         </p>
                         
@@ -312,7 +317,7 @@
     <!-- Script de Sincronização e Lógica -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         const firebaseConfig = {
@@ -469,12 +474,42 @@
         if (loginGoogleBtn) {
             loginGoogleBtn.addEventListener('click', async () => {
                 if (loginErrorPanel) loginErrorPanel.classList.add('hidden');
+                
+                // Mostrar a alternativa caso o popup fique pendurado indefinidamente devido ao COOP
+                const loginRedirectBtn = document.getElementById('loginRedirectBtn');
+                if (loginRedirectBtn) loginRedirectBtn.classList.remove('hidden');
+
                 try {
                     await signInWithPopup(auth, provider);
                 } catch (error) {
                     console.error("Erro no login Firebase:", error);
-                    if (loginErrorPanel) loginErrorPanel.classList.remove('hidden');
+                    if (loginErrorPanel) {
+                        loginErrorPanel.classList.remove('hidden');
+                        
+                        const errorTitle = document.getElementById('loginErrorTitle');
+                        const errorMessage = document.getElementById('loginErrorMessage');
+                        
+                        if (error.message.includes('Cross-Origin') || error.code === 'auth/popup-blocked') {
+                            if (errorTitle) errorTitle.textContent = "Pop-up de Login Bloqueado (COOP)";
+                            if (errorMessage) errorMessage.innerHTML = "O seu navegador ou servidor bloqueou a janela pop-up devido às políticas de segurança <strong>Cross-Origin-Opener-Policy</strong>.<br><br>Por favor, clique no botão <strong>'Entrar por Redirecionamento'</strong> para prosseguir com o login na mesma janela.";
+                        } else {
+                            if (errorTitle) errorTitle.textContent = "Não foi possível conectar com o Google";
+                            if (errorMessage) errorMessage.textContent = "Isto ocorre geralmente se o domínio atual não estiver adicionado à lista de domínios fidedignos no Firebase Console ou se estiver no modo de pré-visualização.";
+                        }
+                    }
                     lucide.createIcons();
+                }
+            });
+        }
+
+        const loginRedirectBtn = document.getElementById('loginRedirectBtn');
+        if (loginRedirectBtn) {
+            loginRedirectBtn.addEventListener('click', async () => {
+                if (loginErrorPanel) loginErrorPanel.classList.add('hidden');
+                try {
+                    await signInWithRedirect(auth, provider);
+                } catch (error) {
+                    console.error("Erro no login por redirecionamento:", error);
                 }
             });
         }
