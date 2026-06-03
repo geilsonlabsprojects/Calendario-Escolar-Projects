@@ -16,13 +16,15 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             transition: background-color 0.3s ease;
         }
+        
         .bg-indigo-primary { background-color: #4F46E5; }
         .text-indigo-primary { color: #4F46E5; }
         .border-slate-smooth { border-color: #E2E8F0; }
         
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
         /* Efeito de desfoque para ecrã de bloqueio de manutenção */
         .glass-overlay {
@@ -33,11 +35,11 @@
 
         /* Microinterações suaves de cartões */
         .interactive-card {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s;
         }
         .interactive-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px -6px rgba(79, 70, 229, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px -8px rgba(79, 70, 229, 0.12);
             border-color: #cbd5e1;
         }
     </style>
@@ -70,70 +72,18 @@
         </div>
     </div>
 
-    <!-- Modal de Alerta de Atualização de Software (APK) -->
-    <div id="updateModal" class="fixed inset-0 z-[90] bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden border border-slate-100 flex flex-col">
-            <div class="bg-indigo-primary text-white p-6 relative">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full filter blur-lg pointer-events-none"></div>
-                <div class="flex items-center gap-4">
-                    <div class="p-3.5 bg-white/15 rounded-xl border border-white/20">
-                        <i data-lucide="cloud-lightning" class="w-8 h-8 text-white"></i>
-                    </div>
-                    <div>
-                        <span class="text-[9px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Nova Versão Disponível</span>
-                        <h3 id="updateModalTitle" class="font-extrabold text-lg mt-0.5">Atualização de Segurança</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6 space-y-4">
-                <div class="grid grid-cols-2 gap-3 text-center bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <div>
-                        <span class="text-[10px] text-slate-400 font-bold block">VERSÃO ATIVA</span>
-                        <span id="updateModalVersion" class="text-sm font-extrabold text-slate-800">-</span>
-                    </div>
-                    <div>
-                        <span class="text-[10px] text-slate-400 font-bold block">TAMANHO DO ARQUIVO</span>
-                        <span id="updateModalSize" class="text-sm font-extrabold text-slate-800">-</span>
-                    </div>
-                </div>
-                
-                <div class="space-y-1">
-                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Changelog & Novidades:</span>
-                    <div id="updateModalChangelog" class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100 max-h-32 overflow-y-auto whitespace-pre-line leading-relaxed font-medium">
-                        • Correções de bugs e estabilização de rede.
-                    </div>
-                </div>
-
-                <div id="updateWifiWarning" class="hidden flex items-center gap-2 p-2.5 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl text-[10px] font-bold">
-                    <i data-lucide="wifi" class="w-4 h-4 text-blue-600 shrink-0"></i>
-                    Recomendamos descarregar este arquivo APK através de uma ligação de rede Wi-Fi para poupar dados.
-                </div>
-
-                <div id="updateMinSDK" class="text-[10px] text-slate-400 text-center font-semibold">
-                    Mínimo Requerido: <span id="updateMinSDKValue">-</span>
-                </div>
-            </div>
-            <div class="bg-slate-50 p-4 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
-                <button id="closeUpdateBtn" class="flex-1 border border-slate-200 hover:bg-slate-100 text-slate-600 py-3 rounded-xl text-xs font-bold transition">Atualizar Mais Tarde</button>
-                <a id="actionUpdateBtn" href="#" target="_blank" class="flex-1 bg-indigo-primary hover:bg-indigo-700 text-white py-3 rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-md">
-                    <i data-lucide="download" class="w-4 h-4"></i> Descarregar APK
-                </a>
-            </div>
-        </div>
-    </div>
-
     <!-- Header -->
-    <header class="bg-indigo-primary text-white py-14 px-4 text-center shadow-lg relative overflow-hidden">
+    <header class="bg-indigo-primary text-white py-16 px-4 text-center shadow-lg relative overflow-hidden">
         <div class="absolute top-0 left-0 w-32 h-32 bg-white/5 rounded-full filter blur-xl pointer-events-none"></div>
         <div class="absolute bottom-0 right-0 w-48 h-48 bg-indigo-500/20 rounded-full filter blur-2xl pointer-events-none"></div>
         
         <div class="max-w-4xl mx-auto flex flex-col items-center relative z-10">
-            <div class="bg-white p-3.5 rounded-full shadow-md mb-4 flex items-center justify-center hover:scale-105 transition-transform duration-300">
+            <div class="bg-white p-3.5 rounded-2xl shadow-lg mb-5 flex items-center justify-center hover:scale-105 transition-transform duration-300">
                 <i data-lucide="graduation-cap" class="text-[#4F46E5] w-10 h-10"></i>
             </div>
             <h1 id="appOfficialName" class="text-3xl md:text-4xl font-extrabold tracking-tight">Portal Escolar</h1>
             <p class="text-xl font-semibold mt-2 text-indigo-100">Central de Ajuda e Suporte</p>
-            <p class="text-sm md:text-base mt-1.5 text-indigo-200/90 max-w-lg">Esclareça as suas dúvidas com a nossa equipa ou consulte o mural informativo.</p>
+            <p class="text-sm md:text-base mt-1.5 text-indigo-200/95 max-w-lg">Esclareça as suas dúvidas com a nossa equipa ou consulte o mural informativo.</p>
         </div>
     </header>
 
@@ -144,7 +94,7 @@
             <button id="closeGlobalBannerBtn" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 transition hidden">
                 <i data-lucide="x" class="w-4.5 h-4.5"></i>
             </button>
-            <div id="instabilityIcon" class="shrink-0"></div>
+            <div id="instabilityIcon" class="shrink-0 flex items-center"></div>
             <div class="flex-1 space-y-2">
                 <h4 id="instabilityTitle" class="font-bold text-sm"></h4>
                 <p id="instabilityText" class="text-xs leading-relaxed whitespace-pre-line font-medium"></p>
@@ -174,7 +124,6 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <a id="linkWhatsapp" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <!-- Whatsapp SVG Nativo -->
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.731-1.456L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.488 2.01 14.016 1.01 11.53 1.01 6.098 1.01 1.674 5.38 1.671 10.81c-.001 1.703.447 3.367 1.3 4.837l-1.013 3.7 3.799-.983l.89.528z"/>
                         </svg>
@@ -183,7 +132,6 @@
                 </a>
                 <a id="linkTelegram" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-sky-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-sky-50 text-sky-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <!-- Telegram SVG Nativo -->
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.66-.52.36-1 .54-1.42.53-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.97-.74 3.79-1.65 6.32-2.73 7.57-3.25 3.61-1.48 4.36-1.74 4.85-1.75.11 0 .35.03.51.16.13.1.17.25.19.35.02.12.02.26.01.37z"/>
                         </svg>
@@ -198,7 +146,6 @@
                 </a>
                 <a id="linkYoutube" href="#" target="_blank" class="opacity-50 pointer-events-none bg-white p-5 rounded-2xl border border-slate-smooth shadow-sm hover:shadow-md hover:border-red-300 transition flex flex-col items-center text-center group interactive-card">
                     <div class="p-3 bg-red-50 text-red-600 rounded-xl group-hover:scale-110 transition-transform">
-                        <!-- Youtube SVG Nativo -->
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.516 3.5 12 3.5 12 3.5s-7.516 0-9.388.555A3.003 3.003 0 0 0 .502 6.163C0 8.07 0 12 0 12s0 3.93.502 5.837a3.003 3.003 0 0 0 2.11 2.108C4.484 20.5 12 20.5 12 20.5s7.516 0 9.388-.555a3.003 3.003 0 0 0 2.11-2.108C24 15.93 24 12 24 12s0-3.93-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                         </svg>
@@ -221,8 +168,8 @@
                         <p id="userName" class="text-xs font-bold text-slate-800"></p>
                         <p id="userEmail" class="text-[10px] text-slate-500"></p>
                     </div>
-                    <img id="userPhoto" src="" class="w-8 h-8 rounded-full border border-slate-200">
-                    <button id="logoutBtn" class="p-2 bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-600 rounded-lg transition" title="Sair da Conta">
+                    <img id="userPhoto" src="" class="w-8 h-8 rounded-full border border-slate-200 object-cover">
+                    <button id="logoutBtn" class="p-2 bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-600 rounded-lg transition-all" title="Sair da Conta">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -231,7 +178,7 @@
             <div class="p-6 bg-white">
                 <!-- Estado Não Autenticado -->
                 <div id="authRequired" class="text-center py-8 space-y-6">
-                    <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto">
+                    <div class="w-16 h-16 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center mx-auto shadow-inner">
                         <i data-lucide="shield-check" class="w-8 h-8"></i>
                     </div>
                     <div class="space-y-1">
@@ -245,7 +192,7 @@
                     </button>
 
                     <!-- Diagnóstico Inteligente de Erros no Login -->
-                    <div id="loginErrorPanel" class="hidden max-w-md mx-auto p-4 bg-red-50 border border-red-200 rounded-xl text-left space-y-3">
+                    <div id="loginErrorPanel" class="hidden max-w-md mx-auto p-4 bg-red-50/70 border border-red-200 rounded-xl text-left space-y-3">
                         <div class="flex gap-2 text-red-800 font-bold text-xs items-center">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-red-600"></i>
                             <span>Não foi possível conectar com o Google</span>
@@ -319,7 +266,7 @@
                         
                         <div id="myTicketsList" class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-2">
                             <div class="text-center py-6 text-slate-400 text-xs">
-                                <i class="fas fa-circle-notch fa-spin mr-1"></i> A carregar os seus pedidos...
+                                <span class="animate-spin border-2 border-slate-300 border-t-indigo-600 rounded-full w-5 h-5 mr-1.5 inline-block align-middle"></span> A carregar os seus pedidos...
                             </div>
                         </div>
                     </div>
@@ -328,23 +275,20 @@
             </div>
         </section>
 
-        <!-- Versão App Nativa (Download e Termos) -->
+        <!-- Seção Informativa de Uso -->
         <section id="downloadSection" class="bg-white border border-slate-smooth rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 interactive-card">
             <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
                 <div class="p-4 bg-indigo-50 text-indigo-primary rounded-xl">
-                    <i data-lucide="download" class="w-8 h-8"></i>
+                    <i data-lucide="file-text" class="w-8 h-8"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg text-slate-800">Precisa de instalar o aplicativo?</h3>
-                    <p class="text-xs text-slate-500">Consulte todas as funcionalidades e descarregue o APK na nossa página oficial.</p>
+                    <h3 class="font-bold text-lg text-slate-800">Conheça as nossas políticas</h3>
+                    <p class="text-xs text-slate-500">Consulte as diretrizes e termos legais de utilização do Portal Escolar.</p>
                 </div>
             </div>
-            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                <a id="apkDownloadBtn" href="https://geilsonlabsprojects.github.io/Calendario-Escolar-Projects/apk.html#features" target="_blank" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-5 py-3 rounded-xl shadow-sm text-center transition flex items-center justify-center gap-2 text-xs">
-                    <i data-lucide="external-link" class="w-4 h-4"></i> Ir para Downloads
-                </a>
-                <button id="termsBtn" class="border border-slate-smooth hover:bg-slate-50 text-slate-600 font-bold px-5 py-3 rounded-xl text-center transition text-xs flex items-center justify-center">
-                    Políticas de Uso
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+                <button id="termsBtn" class="bg-indigo-primary hover:bg-indigo-700 text-white font-bold px-6 py-3 rounded-xl text-center transition text-xs flex items-center justify-center gap-2 shadow-sm">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i> Políticas de Uso
                 </button>
             </div>
         </section>
@@ -613,7 +557,7 @@
                     return;
                 }
 
-                // Filtro robusto que procura por e-mail (antigos) ou UID (atuais)
+                // Filtro que procura por e-mail (antigos) ou UID (atuais)
                 const myTickets = Object.entries(data)
                     .filter(([key, msg]) => {
                         const matchesEmail = msg.email && userEmail && msg.email.toLowerCase() === userEmail.toLowerCase();
@@ -777,53 +721,7 @@
                     safeAddClass('instabilityContainer', 'hidden');
                 }
 
-                // 3. Atualizações de APK (Deploy)
-                if (data.update) {
-                    const showUpdate = data.update.showUpdate || false;
-                    const forceUpdate = data.update.forceUpdate || false;
-                    
-                    if (showUpdate) {
-                        safeSetText('updateModalTitle', data.update.title || 'Nova Atualização Requerida');
-                        safeSetText('updateModalVersion', 'v' + (data.update.versionName || '0.0'));
-                        safeSetText('updateModalSize', data.update.apkSize || 'Varia por dispositivo');
-                        safeSetText('updateModalChangelog', data.update.description || 'Correções de sistema.');
-                        
-                        const actionBtn = getEl('actionUpdateBtn');
-                        if (actionBtn) {
-                            actionBtn.href = data.update.apkUrl || '#';
-                            const spanBtn = actionBtn.querySelector('span');
-                            if (spanBtn) spanBtn.textContent = data.update.buttonText || 'Descarregar APK';
-                        }
-
-                        // Wi-Fi Recomendado
-                        if (data.update.requireWifi) {
-                            safeRemoveClass('updateWifiWarning', 'hidden');
-                        } else {
-                            safeAddClass('updateWifiWarning', 'hidden');
-                        }
-
-                        // Mínimo SDK Requerido
-                        if (data.update.minSdk) {
-                            safeSetText('updateMinSDKValue', data.update.minSdk);
-                            safeRemoveClass('updateMinSDK', 'hidden');
-                        } else {
-                            safeAddClass('updateMinSDK', 'hidden');
-                        }
-
-                        // Forçar atualização bloqueando botão fechar
-                        if (forceUpdate) {
-                            safeAddClass('closeUpdateBtn', 'hidden');
-                        } else {
-                            safeRemoveClass('closeUpdateBtn', 'hidden');
-                            const closeBtn = getEl('closeUpdateBtn');
-                            if (closeBtn) closeBtn.onclick = () => { safeAddClass('updateModal', 'hidden'); };
-                        }
-
-                        safeRemoveClass('updateModal', 'hidden');
-                    }
-                }
-
-                // 4. Mural de Comunicados Múltiplos (Quadro de Avisos com Imagem Completa)
+                // 3. Mural de Comunicados Múltiplos (Quadro de Avisos com Imagem Completa)
                 if (data.mural && data.mural.enabled && data.mural.comunicados) {
                     if (muralGridContainer) muralGridContainer.innerHTML = '';
                     const comunicados = Object.entries(data.mural.comunicados);
@@ -843,7 +741,6 @@
                             const itemDiv = document.createElement('div');
                             itemDiv.className = "bg-white border border-slate-smooth rounded-2xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition duration-300";
                             
-                            // Ajustado para manter a proporção original de qualquer imagem carregada (evitando cortes bruscos)
                             itemDiv.innerHTML = `
                                 ${item.imageUrl ? `
                                 <div class="h-48 w-full bg-slate-900 flex items-center justify-center overflow-hidden relative border-b border-slate-100">
@@ -881,20 +778,20 @@
                     safeAddClass('multiMuralSection', 'hidden');
                 }
 
-                // 5. Configurações de Nome Oficial da Aplicação
+                // 4. Configurações de Nome Oficial da Aplicação
                 if (data.system && data.system.appName) {
                     safeSetText('appOfficialName', data.system.appName);
                     document.title = `Central de Ajuda e Suporte - ${data.system.appName}`;
                 }
 
-                // 6. Configurações Dinâmicas das Redes Sociais
+                // 5. Configurações Dinâmicas das Redes Sociais
                 if (data.links) {
                     configurarCanalLink(linkWhatsapp, data.links.whatsapp);
                     configurarCanalLink(linkTelegram, data.links.telegram);
                     configurarCanalLink(linkYoutube, data.links.youtube);
                 }
 
-                // 7. Termos Legais & Políticas de Uso
+                // 6. Termos Legais & Políticas de Uso
                 if (data.terms) {
                     if (data.terms.content) termsContentRaw = data.terms.content;
                     if (data.terms.version) {
