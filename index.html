@@ -129,6 +129,61 @@
         const QrCodeIcon = (p) => <IconBase {...p}><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></IconBase>;
         const Download = (p) => <IconBase {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></IconBase>;
 
+        // --- DADOS DE FALLBACK (Evita a tela branca se o arquivo JSON não for carregado) ---
+        const DADOS_PADRAO = {
+            "schools": [
+                { "id": "demo-escola", "name": "Escola Demonstração" }
+            ],
+            "shifts": [
+                { "id": "manha", "label": "Manhã" },
+                { "id": "tarde", "label": "Tarde" }
+            ],
+            "classesByShift": {
+                "manha": [
+                    { "id": "1A", "label": "1º Ano A" },
+                    { "id": "2A", "label": "2º Ano A" }
+                ],
+                "tarde": [
+                    { "id": "1B", "label": "1º Ano B" }
+                ]
+            },
+            "timeSlots": {
+                "manha": { "T1": "07:00 - 07:50", "T2": "07:50 - 08:40", "T3": "08:40 - 09:30", "INT": "09:30 - 09:50", "T4": "09:50 - 10:40", "T5": "10:40 - 11:30" },
+                "tarde": { "T1": "13:00 - 13:50", "T2": "13:50 - 14:40", "T3": "14:40 - 15:30", "INT": "15:30 - 15:50", "T4": "15:50 - 16:40", "T5": "16:40 - 17:30" }
+            },
+            "schedule": {
+                "manha": {
+                    "1A": {
+                        "segunda": [
+                            { "tc": "T1", "sub": "Matemática", "tea": "Prof. Silva" },
+                            { "tc": "T2", "sub": "Física", "tea": "Prof. Costa" },
+                            { "tc": "INT", "sub": "Intervalo", "tea": "---" },
+                            { "tc": "T3", "sub": "Química", "tea": "Profa. Ana" }
+                        ],
+                        "terca": [
+                            { "tc": "T1", "sub": "História", "tea": "Prof. Roberto" }
+                        ]
+                    }
+                },
+                "tarde": {
+                    "1B": {
+                        "segunda": [
+                            { "tc": "T1", "sub": "Biologia", "tea": "Profa. Julia" },
+                            { "tc": "INT", "sub": "Intervalo", "tea": "---" }
+                        ]
+                    }
+                }
+            },
+            "news": [
+                {
+                    "id": 999,
+                    "date": "Aviso do Sistema",
+                    "title": "Modo de Demonstração Ativo",
+                    "content": "Não foi possível carregar o arquivo dados.json, então carregamos dados de exemplo para que o sistema funcione. Certifique-se de que o arquivo JSON existe na mesma pasta caso deseje ver seus dados originais."
+                }
+            ]
+        };
+
         // --- CORES INTELIGENTES ---
         const TAILWIND_COLORS = [
             "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800/50 print:bg-blue-50 print:text-blue-800 print:border-blue-200",
@@ -338,49 +393,58 @@
 
             // 1. Carrega os Dados e Lê Parâmetros da URL
             useEffect(() => {
+                const inicializarDados = (parsed) => {
+                    setData(parsed);
+                    processNews(parsed.news || []);
+
+                    // --- LEITURA DA URL (QR CODE) ---
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const urlEscola = urlParams.get('escola');
+                    const urlTurno = urlParams.get('turno');
+                    const urlTurma = urlParams.get('turma');
+
+                    // Validação: Checa se os parâmetros fornecidos existem nos dados
+                    let validEscola = parsed.schools?.some(s => s.id === urlEscola) ? urlEscola : null;
+                    let validTurno = parsed.shifts?.some(s => s.id === urlTurno) ? urlTurno : null;
+                    let validTurma = (validTurno && parsed.classesByShift[validTurno]?.some(c => c.id === urlTurma)) ? urlTurma : null;
+
+                    // Limpa a URL do navegador removendo as tags para um visual mais limpo
+                    if (urlEscola || urlTurno || urlTurma) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+
+                    // Se os 3 parâmetros foram passados e são válidos, fazemos o "Login Automático"
+                    if (validEscola && validTurno && validTurma) {
+                        const newPrefs = { school: validEscola, shift: validTurno, classId: validTurma };
+                        setPreferences(newPrefs);
+                        localStorage.setItem('schoolAppPrefs_v4', JSON.stringify(newPrefs));
+                    } 
+                    // Se houver pelo menos 1 parâmetro válido (ex: apenas a escola), preenchemos a tela Setup
+                    else if (validEscola || validTurno || validTurma) {
+                        setUrlInitialParams({
+                            school: validEscola,
+                            shift: validTurno,
+                            classId: validTurma
+                        });
+                    } 
+                    // Se não tem URL e não preencheu parcialmente, busca do LocalStorage normalmente
+                    else {
+                        const saved = localStorage.getItem('schoolAppPrefs_v4');
+                        if (saved) setPreferences(JSON.parse(saved));
+                    }
+                };
+
+                // Tenta buscar o arquivo, se falhar ou a resposta não for OK, usa o DADOS_PADRAO
                 fetch('dados.json')
-                    .then(response => response.json())
-                    .then(parsed => {
-                        setData(parsed);
-                        processNews(parsed.news || []);
-
-                        // --- LEITURA DA URL (QR CODE) ---
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const urlEscola = urlParams.get('escola');
-                        const urlTurno = urlParams.get('turno');
-                        const urlTurma = urlParams.get('turma');
-
-                        // Validação: Checa se os parâmetros fornecidos existem nos dados
-                        let validEscola = parsed.schools.some(s => s.id === urlEscola) ? urlEscola : null;
-                        let validTurno = parsed.shifts.some(s => s.id === urlTurno) ? urlTurno : null;
-                        let validTurma = (validTurno && parsed.classesByShift[validTurno]?.some(c => c.id === urlTurma)) ? urlTurma : null;
-
-                        // Limpa a URL do navegador removendo as tags para um visual mais limpo
-                        if (urlEscola || urlTurno || urlTurma) {
-                            window.history.replaceState({}, document.title, window.location.pathname);
-                        }
-
-                        // Se os 3 parâmetros foram passados e são válidos, fazemos o "Login Automático"
-                        if (validEscola && validTurno && validTurma) {
-                            const newPrefs = { school: validEscola, shift: validTurno, classId: validTurma };
-                            setPreferences(newPrefs);
-                            localStorage.setItem('schoolAppPrefs_v4', JSON.stringify(newPrefs));
-                        } 
-                        // Se houver pelo menos 1 parâmetro válido (ex: apenas a escola), preenchemos a tela Setup
-                        else if (validEscola || validTurno || validTurma) {
-                            setUrlInitialParams({
-                                school: validEscola,
-                                shift: validTurno,
-                                classId: validTurma
-                            });
-                        } 
-                        // Se não tem URL e não preencheu parcialmente, busca do LocalStorage normalmente
-                        else {
-                            const saved = localStorage.getItem('schoolAppPrefs_v4');
-                            if (saved) setPreferences(JSON.parse(saved));
-                        }
+                    .then(response => {
+                        if (!response.ok) throw new Error("Arquivo não encontrado");
+                        return response.json();
                     })
-                    .catch(e => console.error("Erro ao carregar JSON externo:", e));
+                    .then(parsed => inicializarDados(parsed))
+                    .catch(e => {
+                        console.warn("Aviso: Falha ao tentar ler 'dados.json'. Carregando dados de fallback integrados. Erro:", e);
+                        inicializarDados(DADOS_PADRAO);
+                    });
             }, []);
 
             // Função separada para processar novidades
